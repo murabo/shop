@@ -1,0 +1,490 @@
+@charset "utf-8";
+/*================================================
+ * 1. Default Style
+ ================================================*/
+html {
+   overflow-y:scroll;
+}
+body {
+   color:#000;
+   font-size: 14px;
+   font-family:"ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro", "メイリオ", Meiryo, Osaka, "ＭＳ Ｐゴシック", "MS PGothic", sans-serif;
+}
+img {
+   vertical-align:bottom;
+}
+
+/*================================================
+ * Link Style
+ ================================================*/
+a {
+  text-decoration: none;
+  color:inherit;
+}
+a:link,
+a:visited,
+a:hover,
+a:forcus{
+   color:inherit;
+}
+
+/*================================================
+ * 汎用クラス
+ ================================================*/
+/*clearfix*/
+.clrF:before,
+.clrF:after {
+    content: " ";
+    display: table;
+}
+.clrF:after {
+    clear: both;
+}
+.clrF {
+    *zoom: 1;
+}
+
+/*linkCol*/
+.linkCol{
+   color:#3303f7;
+}
+
+/*================================================
+ * header
+ ================================================*/
+.header li{
+   float:left;
+}
+
+/*================================================
+ * footer
+ ================================================*/
+.footer{
+    background: #f2f2f2;
+    text-align: center;
+    padding: 8px;
+    margin-top: 10px;
+}
+
+/*================================================
+ * common module
+ ================================================*/
+ .wrapper{
+   width:1000px;
+   margin:0 auto;
+}
+/* 検索窓 */
+.searchBar{
+    padding: 10px;
+    height: 34px;
+    background: #ff3300;
+    margin-top: 10px;
+}
+.searchBar input[type="text"]{
+    width: 600px;
+    height: 30px;
+}
+.searchBar .btn{
+    width: 100px;
+    height: 30px;
+}
+/* 関連ワード */
+.relatedWords{
+    background: #fafafa;
+    padding: 8px;
+}
+.relatedWords > span {
+   display: inline-block;
+   font-weight: bold;
+   float:left;
+}
+.relatedWords li {
+   display: inline-block;
+   margin-left: 10px;
+   float:left;
+}
+
+/* タイトル */
+.blockTitle{
+    margin-top: 10px;
+    display: block;
+}
+.blockTitle p{
+    color: #333;
+    font-size: 20px;
+}
+
+/* タグ */
+.tag{
+    display: inline-block;
+    color: #fff;
+    font-weight: bold;
+    padding: 5px 5px;
+    line-height: 15px;
+}
+/* ポイント */
+.tag.point{
+    background: #fe0032;
+}
+/* 送料 */
+.tag.postage{
+    background: #00cd66;
+}
+/* カード */
+.tag.card{
+    background: #ff6501;
+}
+
+/*================================================
+ * block lowestPriceBlock
+ ================================================*/
+.lowestPriceBlock table{
+    text-align: center;
+    margin-top: 10px;
+    float: left;
+}
+.lowestPriceBlock table img{
+    text-align: center;
+}
+.lowestPriceBlock td{
+    padding: 10px 18px;
+    vertical-align: top;
+}
+.lowestPriceBlock table a{
+    display: block;
+}
+.lowestPriceBlock table p{
+    width: 200px;
+    text-align: center;
+}
+.lowestPriceBlock table .point{
+    width: 200px;
+    color: #fff;
+    background: #fe0032;
+    margin-top: 5px;
+}
+.lowestPriceBlock table .text{
+    color:#3303f7;
+    font-size: 16px;
+    text-decoration: underline;
+    margin-top: 5px;
+}
+.lowestPriceBlock table .etc{
+    color: #999;
+    font-size: 12px;
+    text-decoration: underline;
+}
+.lowestPriceBlock table .card{
+    color:#3303f7;
+}
+.lowestPriceBlock .itemImg{
+    text-align: center;
+    border: 10px solid #fafafa;
+    padding: 15px;
+    float: right;
+    margin-top: 10px;
+}
+.lowestPriceBlock .itemImg p{
+    font-size: 11px;
+    margin-top: 10px;
+}
+
+/*================================================
+ * block rankingBlock
+ ================================================*/
+ /* 検索窓 */
+ .rankingBlock .form{
+    margin-top: 10px;
+}
+.rankingBlock .form input[type="text"]{
+    width: 300px;
+    height: 20px;
+}
+/* 関連ワード */
+.rankingBlock .relatedWords{
+    margin-top: 10px;
+}
+ /* 商品一覧 */
+.rankingBlock .itemTable{
+    width: 100%;
+    margin-top: 10px;
+}
+.rankingBlock .itemTable td{
+    position: relative;
+    width: 20%;
+    text-align: center;
+    padding: 20px 5px 10px 5px;
+    vertical-align: top;
+    border: 1px solid #999;
+}
+.rankingBlock .itemTable .itemName{
+    display: block;
+    margin-top: 10px;
+    color:#2388b4;
+    font-size: 15px;
+    text-align: left;
+}
+.rankingBlock .itemTable .link{
+    height: 25px;
+    width: 190px;
+    line-height: 25px;
+    color: #fff;
+    background: #fe0032;
+    position: absolute;
+    bottom: 5px;
+    left:5px;
+}
+
+/* 値段-リスト */
+.rankingBlock .priceBlock{
+    margin-top: 10px;
+    float: left;
+    width: 430px;
+    border: 10px solid #fafafa;
+    padding: 10px;
+}
+.rankingBlock .priceBlock .title{
+    text-align: center;
+    margin-bottom: 5px;
+}
+.rankingBlock .itemImg{
+    text-align: center;
+    float: left;
+}
+.rankingBlock .itemImg p{
+    font-size: 11px;
+    margin-top: 10px;
+}
+.rankingBlock .priceTable tr{
+    margin-top: 5px;
+    text-decoration: underline;
+    color:#3303f7;
+    text-align: center;
+}
+.rankingBlock .itembody td{
+    vertical-align: top;
+}
+/* 最安値 */
+.rankingBlock .lowestPrice{
+    margin-top: 40px;
+    text-align: center;
+    padding: 15px 5px;
+    font-size: 22px;
+    font-weight: bold;
+}
+.rankingBlock .lowestPrice .text{
+    display: inline-block;
+    padding: 5px 10px;
+    color: #fff;
+    background: red;
+}
+.rankingBlock .lowestPrice .price{
+    display: inline-block;
+    text-decoration: underline;
+    margin-left: 10px;
+    font-size: 25px;
+}
+
+/* 値段-ランキング */
+.rankingBlock .priceRanking{
+    margin-top: 10px;
+    float: right;
+    width: 50%;
+    font-size: 12px;
+}
+.rankingBlock .tankingTable {
+    border: 1px solid #999;
+    width: 100%;
+}
+.rankingBlock .tankingTable th,
+.rankingBlock .tankingTable td {
+    text-align: center;
+    border: solid 1px;
+    padding: 3px;
+}
+
+
+/*================================================
+ * block itemPriceBlock
+ ================================================*/
+ /* 検索オプション */
+.itemPriceBlock table.options{
+    width: 100%;
+    margin-top: 10px;
+}
+.itemPriceBlock table.options td{
+    vertical-align: top;
+    padding-left:10px;
+}
+.itemPriceBlock table.options td:first-child{
+    padding-left:0px;
+}
+.itemPriceBlock .options td{
+    font-size: 12px;
+}
+.itemPriceBlock .options .frame{
+    padding:10px 15px;
+    background: #fafafa;
+}
+.itemPriceBlock .options p,
+.itemPriceBlock .options caption{
+    text-align: center;
+    font-weight: bold;
+}
+.itemPriceBlock .options p{
+    padding-top: 15px;
+}
+.itemPriceBlock .options .btn{
+    text-align: center;
+}
+.itemPriceBlock .priceInputbox{
+    width: 650px;
+}
+.itemPriceBlock .options .priceInput{
+    float: left;
+    margin-right: 10px;
+}
+.itemPriceBlock .options ul.priceLink{
+    padding-left: 15px;
+}
+.itemPriceBlock .options ul.priceLink >li{
+    display: inline-block;
+    padding-left: 10px;
+    color:#3303f7;
+}
+
+/* 検索窓 */
+.itemPriceBlock .form{
+    margin-top: 10px;
+    float: left;
+}
+.itemPriceBlock .form input[type="text"]{
+    width: 300px;
+    height: 20px;
+}
+/* ソート */
+.itemPriceBlock .sort{
+    font-weight: bold;
+    line-height: 2;
+    font-size: 16px;
+    float: right;
+    margin-top: 10px;
+}
+.itemPriceBlock .sort a{
+    color:#3f40fd;
+}
+.itemPriceBlock .sort .active{
+    color:#831b94;
+    background:#fd9999;
+}
+  /* 検索窓 */
+.itemPriceBlock .relatedWords{
+    margin-top: 10px;
+}
+ /* 検索結果 header footer */
+.itemPriceBlock .resultHeader,
+.itemPriceBlock .resultFooter{
+    display:table;
+    width: 100%;
+    border:1px solid #ccc;
+}
+.itemPriceBlock .resultHeader > li,
+.itemPriceBlock .resultFooter > li{
+    display:table-cell;
+    vertical-align: middle;
+    width: 20%;
+    text-align: center;
+    border-left:1px solid #ccc;
+}
+.itemPriceBlock .resultHeader >li:first-child,
+.itemPriceBlock .resultFooter >li:first-child{
+    border-left: none;
+}
+.itemPriceBlock .resultHeader .logo,
+.itemPriceBlock .resultFooter .logo{
+    height: 30px;
+}
+.itemPriceBlock .resultHeader{
+    margin-top: 10px;
+}
+.itemPriceBlock .resultHeader  p{
+    border-top:1px solid #ccc;
+    line-height: 2;
+}
+.itemPriceBlock .resultFooter{
+    margin-top: 10px;
+}
+.itemPriceBlock .resultFooter  p{
+    border-bottom:1px solid #ccc;
+    line-height: 2;
+}
+
+/* contetnt */
+.itemPriceBlock .resultItems{
+    font-size: 12px;
+    margin-top: 10px;
+    width: 100%;
+    text-align: center;
+    border: 1px solid #ccc;
+}
+.itemPriceBlock .resultItems td{
+    display:table-cell;
+    width: 20%;
+    border-left: 1px solid #ccc;
+}
+.itemPriceBlock .resultItems .item{
+    overflow: hidden;
+    padding: 10px;
+}
+.itemPriceBlock .resultItems .img{
+    float: left;
+}
+.itemPriceBlock .resultItems .body{
+    padding: 2px 0 2px 5px;
+    overflow: hidden;
+    word-break: break-all;
+    color:#3303f7;
+}
+.itemPriceBlock .resultItems .link{
+    color:#4040ff;
+    text-decoration: underline;
+}
+.itemPriceBlock .resultItems .point{
+    background: #fe0032;
+    color: #fff;
+}
+.itemPriceBlock .resultItems .prBx{
+    padding: 5px;
+}
+.itemPriceBlock .resultItems .pr{
+    background: #f2f2f2;
+}
+.itemPriceBlock .resultItems .pr span{
+    font-weight: bold;
+}
+.itemPriceBlock .resultItems .pr span{
+    color: #2d2dfd;
+}
+.itemPriceBlock .resultItems .pr em{
+    color: #fe0032;
+}
+.itemPriceBlock .resultItems .pr em{
+    color: #fe0032;
+}
+.itemPriceBlock .resultItems .option{
+    border-top: 1px dotted #ccc;
+    border-bottom: 1px dotted #ccc;
+    padding: 2px;
+}
+.itemPriceBlock .resultItems .option li{
+    float: left;
+}
+
+
+
+
+
+
+
+
+
