@@ -20,6 +20,8 @@ class BridgeApi(object):
 
     YAHOO_S_URL = "http://shopping.yahooapis.jp/ShoppingWebService/V1/json/itemSearch?"
     YAHOO_A_URL = "http://auctions.yahooapis.jp/AuctionWebService/V2/search?"
+    
+    VC_Y_A_URL = "http://ck.jp.ap.valuecommerce.com/servlet/referral?sid=3161331&pid=882992162&"
 
     EC_CODE_A = '038p6'
     EC_CODE_P = '0vbnk'
@@ -66,13 +68,15 @@ class BridgeApi(object):
                     cls.JAN_DATA.append({"jan":[data['jan']],
                                          "imageUrl": data['imageUrl'],
                                         "itemName": data['itemName']})
+        print cls.JAN_DATA
 
         
     @classmethod
     def getLowPrice(cls):
         print "AMA",len(cls.amazon_data)
         for data in cls.amazon_data:
-            print data['janCode']
+            # print data['janCode']
+            continue
 
 
 
@@ -80,6 +84,7 @@ class BridgeApi(object):
     def exchangeVC(cls, datas):
         results = []
         for data in datas:
+            print data['merchantName'],data['janCode']
             results.append({"itemName":data['title'],
                        "itemPrice":data['price'],
                        "itemUrl":data['link'],
@@ -90,6 +95,7 @@ class BridgeApi(object):
     def exchangeYahooS(cls, datas):
         results = []
         for data in datas:
+            #print data
             results.append({"itemName":data['Name'],
                            "itemPrice":data['Price']['_value'],
                            "itemUrl":data['Url'],
@@ -103,9 +109,16 @@ class BridgeApi(object):
     @classmethod
     def exchangeYahooA(cls, datas):
         results = []
+        
+
         for data in datas:
+            param = urllib.urlencode(
+                                     {
+                                     'vc_url': data['AuctionItemUrl'],
+                                     })
+            print "YA:",
             results.append({"itemName":data['Title'],
-                           "itemUrl":data['AuctionItemUrl'],
+                           "itemUrl":cls.VC_Y_A_URL + param,
                            "imageUrl":data['Image'],
                        })
         return results
@@ -123,25 +136,22 @@ class BridgeApi(object):
         )
 
         datas = Cache.getCacheData(api_name, ctxt['cache_keys'])
-        #print datas
         if not datas:
             print "キャッシュなし"
             datas = urllib.urlopen(cls.RAKUTEN_API_URL + param)
             datas = datas.read()
-            print type(datas)
-            print type(json.loads(datas))
             datas = json.loads(datas)
             Cache.setCacheData(api_name, ctxt['cache_keys'], datas)
         else:
             print "キャッシュあり"
 
-        print datas
         # 必要なデータだけに生成
         return cls.exchangeRakuten(datas['Items'])
 
 
     @classmethod
     def getYahooS(cls, ctxt, sort=0):
+        api_name = 'yahoo_shopping'
         param = urllib.urlencode(
                              {
                                  'query': ctxt['kwd'],
@@ -157,21 +167,34 @@ class BridgeApi(object):
                                   #'sort':'',
                                   # 'shipping': ctxt['shipping'], # 1：送料無料 デフォルトはなし
                              })
-        res = urllib.urlopen(cls.YAHOO_S_URL + param)
+        datas = Cache.getCacheData(api_name, ctxt['cache_keys'])
+        result_datas = []
 
-        data = res.read()
-        data = json.loads(data)['ResultSet']
-        datas = []
+        if not datas:
+            print "キャッシュなし"
+            datas = urllib.urlopen(cls.YAHOO_S_URL + param)
 
-        if 0 < data['totalResultsReturned'] and 'totalResultsReturned' in data:
-            for i in xrange(0, int(data['totalResultsReturned'])):
-                datas.append(data[u'0']['Result'][u'%s' % i])
-                if data[u'0']['Result'][u'%s' % i]['JanCode'] and len(cls.JANCODE_LIST) <= 5:
-                    cls.JANCODE_LIST.append(data[u'0']['Result'][u'%s' % i]['JanCode'])
-        cls.JANCODE_LIST = list(set(cls.JANCODE_LIST))[:5]
-        print cls.JANCODE_LIST[:5]
-        
-        
+            datas = datas.read()
+            datas = json.loads(datas)['ResultSet']
+            if 0 < datas['totalResultsReturned'] and 'totalResultsReturned' in datas:
+                for i in xrange(0, int(datas['totalResultsReturned'])):
+                    result_datas.append(datas[u'0']['Result'][u'%s' % i])
+
+            Cache.setCacheData(api_name, ctxt['cache_keys'], result_datas)
+            datas = result_datas
+
+        else:
+            print "キャッシュありS",datas[0]
+
+        for data, index in enumerate(datas):
+            if index == 0:
+                print "data 1",data
+#        if datas[u'0']['Result'][u'%s' % i]['JanCode'] and len(cls.JANCODE_LIST) <= 5:
+#            cls.JANCODE_LIST.append(datas[u'0']['Result'][u'%s' % i]['JanCode'])
+
+#        cls.JANCODE_LIST = list(set(cls.JANCODE_LIST))[:5]
+
+        print len(result_datas)
         cls.YAHOO_DATA = cls.exchangeYahooS(datas)
         cls.createJanImgMap()
         # 必要なデータだけに生成
@@ -180,6 +203,7 @@ class BridgeApi(object):
 
     @classmethod
     def getYahooA(cls, ctxt, sort=0):
+        api_name = 'yahoo_auctions'
         param = urllib.urlencode(
                              {
                              'query': ctxt['kwd'],
@@ -192,11 +216,22 @@ class BridgeApi(object):
                              'sort':'affiliate',
                              # 'shipping': ctxt['shipping'], # 1：送料無料 デフォルトはなし
                              })
-        res = urllib.urlopen(cls.YAHOO_A_URL + param)
-        print cls.YAHOO_A_URL + param
-        data = res.read()
-        data = json.loads(data.replace('loaded(',"")[:-1])['ResultSet']
+
+
+
+
+        data = Cache.getCacheData(api_name, ctxt['cache_keys'])
+        
         datas = []
+        if not data:
+            print "キャッシュなしYA!"
+            data = urllib.urlopen(cls.YAHOO_A_URL + param)
+            data = data.read()
+            data = json.loads(data.replace('loaded(',"")[:-1])['ResultSet']
+
+            Cache.setCacheData(api_name, ctxt['cache_keys'], data)
+        else:
+            print "キャッシュありYA!"
 
         if 'UnitsWord' in data[u'Result'] and type(data['Result']['UnitsWord']) == list:
             ctxt.update({"suggest": data['Result']['UnitsWord']})
@@ -214,6 +249,7 @@ class BridgeApi(object):
 
     @classmethod
     def createVC(cls, ctxt, sort=0):
+        api_name = 'vc'
         cls.amazon_data = []
         cls.ponpare_data = []
         keyword = urllib.quote(ctxt['kwd'])
@@ -227,10 +263,17 @@ class BridgeApi(object):
                                  'sort_order':'',
                                  'format':'json',
                                  'results_per_page':50})
-
-        res = urllib.urlopen(cls.VALUE_API_URL + param)
-        datas = res.read()
-        datas = json.loads(datas)
+        
+        
+        datas = Cache.getCacheData(api_name, ctxt['cache_keys'])
+        if not datas:
+            print "キャッシュなしVC"
+            datas = urllib.urlopen(cls.VALUE_API_URL + param)
+            datas = datas.read()
+            datas = json.loads(datas)
+            Cache.setCacheData(api_name, ctxt['cache_keys'], datas)
+        else:
+            print "キャッシュありVC"
 
         if datas['resultCount']:
             for data in datas['items']:
@@ -261,13 +304,33 @@ class BridgeApi(object):
                 'yahoo_a': cls.getYahooA(ctxt),
                 'amazon' : cls.getAmazon(),
                 'ponpare': cls.getPonpare(),
-                'jandata' : cls.JAN_DATA
+                'jandata': cls.JAN_DATA
                 }
 
     @classmethod
     def imgUrlFilter(cls, url):
         # ドメインでチェック
         return
+
+
+
+
+
+
+
+
+
+
+class PriceCheck(object):
+    def test():
+        return
+
+
+
+
+
+
+
 
 
 class Cache(object):
