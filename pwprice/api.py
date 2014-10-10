@@ -84,7 +84,7 @@ class BridgeApi(object):
     def exchangeVC(cls, datas):
         results = []
         for data in datas:
-            print data['merchantName'],data['janCode']
+#            print data['merchantName'],data['janCode']
             results.append({"itemName":data['title'],
                        "itemPrice":data['price'],
                        "itemUrl":data['link'],
