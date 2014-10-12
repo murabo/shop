@@ -11,17 +11,77 @@ import redis
 import time
 import msgpack
 
-class BridgeApi(object):
-    RAKUTEN_API_URL = "https://app.rakuten.co.jp/services/api/IchibaItem/Search/20140222?"
-    VALUE_API_URL   = "http://webservice.valuecommerce.ne.jp/productdb/search?"
+class ApiUtill(object):
+    @staticmethod
+    def callAPI(url, param):
+        
+        print "callAPI:",url + param
+        datas = urllib.urlopen(url + param)
+        
+        datas = datas.read()
+        return datas
 
-    MOSHIMO_A_ID = 431508
-    MOSHIMO_URL = "http://c.af.moshimo.com/af/c/click?a_id=%s&p_id=54&pc_id=54&pl_id=616" % MOSHIMO_A_ID
+    @staticmethod
+    def exchangeRakuten(datas):
+        results = []
 
-    YAHOO_S_URL = "http://shopping.yahooapis.jp/ShoppingWebService/V1/json/itemSearch?"
-    YAHOO_A_URL = "http://auctions.yahooapis.jp/AuctionWebService/V2/search?"
+        for data in datas:
+            data = data['Item']
+            res = {"itemName":data['itemName'],
+                "itemPrice":data['itemPrice'],
+                "pointRate":data['pointRate'],
+                "postageFlag":data['postageFlag'],
+                "asurakuFlag":data['asurakuFlag'],
+                "reviewAverage":data['reviewAverage'],
+                "reviewCount":data['reviewCount'],
+                "itemUrl":data['itemUrl'],}
+            if data['mediumImageUrls']:
+                res["imageUrl"] = data['mediumImageUrls'][0]['imageUrl']
+            
+            results.append(res)
+        
+        return results
+
+    @classmethod
+    def exchangeVC(cls, datas):
+        results = []
+        for data in datas:
+            results.append({"itemName":data['title'],
+                           "itemPrice":data['price'],
+                           "itemUrl":data['link'],
+                           "imageUrl":data['imageFree']['url']})
+        return results
+
+    @classmethod
+    def exchangeYahooS(cls, datas):
+        results = []
+        for data in datas:
+            results.append({"itemName":data['Name'],
+                           "itemPrice":data['Price']['_value'],
+                           "itemUrl":data['Url'],
+                           "imageUrl":data['ExImage']['Url'],
+                           "jan": data['JanCode']
+                           })
+        return results
+
+    @classmethod
+    def exchangeYahooA(cls, datas):
+        results = []
     
-    VC_Y_A_URL = "http://ck.jp.ap.valuecommerce.com/servlet/referral?sid=3161331&pid=882992162&"
+        for data in datas:
+            param = urllib.urlencode({
+                                     'vc_url': data['AuctionItemUrl'],
+                                     })
+
+            results.append({"itemName":data['Title'],
+                            "itemUrl": settings.VC_Y_A_URL + param,
+                            "imageUrl":data['Image'],
+                            })
+        return results
+
+
+
+class BridgeApi(object):
 
     EC_CODE_A = '038p6'
     EC_CODE_P = '0vbnk'
@@ -35,28 +95,6 @@ class BridgeApi(object):
     amazon_data = []
 
     @classmethod
-    def exchangeRakuten(cls, datas):
-        results = []
-        for data in datas:
-
-            data = data['Item']
-            res = {"itemName":data['itemName'],
-                  "itemPrice":data['itemPrice'],
-                  "pointRate":data['pointRate'],
-                  "postageFlag":data['postageFlag'],
-                  "asurakuFlag":data['asurakuFlag'],
-                  "reviewAverage":data['reviewAverage'],
-                  "reviewCount":data['reviewCount'],
-                  "itemUrl":data['itemUrl'],}
-            if data['mediumImageUrls']:
-                res["imageUrl"] = data['mediumImageUrls'][0]['imageUrl']
-
-            results.append(res)
-
-        return results
-
-
-    @classmethod
     def createJanImgMap(cls):
         tmp = []
         cls.JAN_DATA = []
@@ -68,7 +106,7 @@ class BridgeApi(object):
                     cls.JAN_DATA.append({"jan":[data['jan']],
                                          "imageUrl": data['imageUrl'],
                                         "itemName": data['itemName']})
-        print cls.JAN_DATA
+#print cls.JAN_DATA
 
         
     @classmethod
@@ -80,51 +118,9 @@ class BridgeApi(object):
 
 
 
-    @classmethod
-    def exchangeVC(cls, datas):
-        results = []
-        for data in datas:
-#            print data['merchantName'],data['janCode']
-            results.append({"itemName":data['title'],
-                       "itemPrice":data['price'],
-                       "itemUrl":data['link'],
-                       "imageUrl":data['imageFree']['url']})
-        return results
 
     @classmethod
-    def exchangeYahooS(cls, datas):
-        results = []
-        for data in datas:
-            #print data
-            results.append({"itemName":data['Name'],
-                           "itemPrice":data['Price']['_value'],
-                           "itemUrl":data['Url'],
-                           "imageUrl":data['ExImage']['Url'],
-                           "jan": data['JanCode']
-                           })
-        return results
-
-
-
-    @classmethod
-    def exchangeYahooA(cls, datas):
-        results = []
-        
-
-        for data in datas:
-            param = urllib.urlencode(
-                                     {
-                                     'vc_url': data['AuctionItemUrl'],
-                                     })
-            print "YA:",
-            results.append({"itemName":data['Title'],
-                           "itemUrl":cls.VC_Y_A_URL + param,
-                           "imageUrl":data['Image'],
-                       })
-        return results
-
-    @classmethod
-    def getRakten(cls, ctxt, sort=0):
+    def getRakten(cls, ctxt, nocache=0, sort='', hits=30):
         api_name = 'rakuten'
         param = urllib.urlencode(
                         {'format': 'json',
@@ -132,101 +128,97 @@ class BridgeApi(object):
                          'applicationId': settings.RAKUTEN_APP_ID,
                          'minPrice': ctxt['minPrice'],
                          'maxPrice': ctxt['maxPrice'],
-                         'imageFlag': '1'}
+                         'imageFlag': '1',
+                         'hits':hits,
+                         'sort': sort}
         )
 
         datas = Cache.getCacheData(api_name, ctxt['cache_keys'])
-        if not datas:
-            print "キャッシュなし"
-            datas = urllib.urlopen(cls.RAKUTEN_API_URL + param)
-            datas = datas.read()
+        if not datas or nocache:
+            print "キャッシュなしR"
+            datas = ApiUtill.callAPI(settings.RAKUTEN_API_URL, param)
             datas = json.loads(datas)
             Cache.setCacheData(api_name, ctxt['cache_keys'], datas)
         else:
-            print "キャッシュあり"
+            print "キャッシュありR"
 
         # 必要なデータだけに生成
-        return cls.exchangeRakuten(datas['Items'])
+        return ApiUtill.exchangeRakuten(datas['Items'])
+
+
 
 
     @classmethod
-    def getYahooS(cls, ctxt, sort=0):
+    def getYahooS(cls, ctxt, nocache=0, sort='', hits=50):
         api_name = 'yahoo_shopping'
         param = urllib.urlencode(
                              {
-                                 'query': ctxt['kwd'],
+                                 'query': ctxt['kwd'] if not ctxt['jan'] else ctxt['jan'],
                                  'appid': settings.YAHOO_S_ID,
                                  'affiliate_type':'vc',
                                  'affiliate_id': settings.YAHOO_S_AF_ID,
-                                 'jan':'',
+                                 'jan': ctxt['jan'] if ctxt['jan'] else '',
                                  'image_size':76,
                                  'category_id':'',
                                  'price_from': ctxt['minPrice'],
                                  'price_to': ctxt['maxPrice'],
-                                 'hits':50
-                                  #'sort':'',
+                                 'hits':hits,
+                                 'sort':sort,
                                   # 'shipping': ctxt['shipping'], # 1：送料無料 デフォルトはなし
                              })
+
         datas = Cache.getCacheData(api_name, ctxt['cache_keys'])
         result_datas = []
 
-        if not datas:
-            print "キャッシュなし"
-            datas = urllib.urlopen(cls.YAHOO_S_URL + param)
+        print "getYAHOO!S!"
 
-            datas = datas.read()
+        if not datas or nocache:
+            print "キャッシュなしorJAN検索"
+
+            datas = ApiUtill.callAPI(settings.YAHOO_S_URL, param)
             datas = json.loads(datas)['ResultSet']
             if 0 < datas['totalResultsReturned'] and 'totalResultsReturned' in datas:
                 for i in xrange(0, int(datas['totalResultsReturned'])):
                     result_datas.append(datas[u'0']['Result'][u'%s' % i])
 
-            Cache.setCacheData(api_name, ctxt['cache_keys'], result_datas)
+            # jan検索はキャッシュしない。
+            if not ctxt['jan']:
+                Cache.setCacheData(api_name, ctxt['cache_keys'], result_datas)
             datas = result_datas
 
         else:
-            print "キャッシュありS",datas[0]
-
-        for data, index in enumerate(datas):
-            if index == 0:
-                print "data 1",data
-#        if datas[u'0']['Result'][u'%s' % i]['JanCode'] and len(cls.JANCODE_LIST) <= 5:
-#            cls.JANCODE_LIST.append(datas[u'0']['Result'][u'%s' % i]['JanCode'])
-
-#        cls.JANCODE_LIST = list(set(cls.JANCODE_LIST))[:5]
+            print "キャッシュありS",
 
         print len(result_datas)
-        cls.YAHOO_DATA = cls.exchangeYahooS(datas)
+        cls.YAHOO_DATA = ApiUtill.exchangeYahooS(datas)
         cls.createJanImgMap()
         # 必要なデータだけに生成
-        return cls.exchangeYahooS(datas)
+        return ApiUtill.exchangeYahooS(datas)
 
 
     @classmethod
-    def getYahooA(cls, ctxt, sort=0):
+    def getYahooA(cls, ctxt, nocache=0, sort=''):
         api_name = 'yahoo_auctions'
         param = urllib.urlencode(
                              {
-                             'query': ctxt['kwd'],
+                             'query': ctxt['kwd'] if not ctxt['jan'] else ctxt['jan'],
                              'appid': settings.YAHOO_A_ID,
                              'output':'json',
                              'category_id':'',
                              'aucminprice': ctxt['minPrice'],
                              'aucmaxprice': ctxt['maxPrice'],
                              'item_status':0, #0 ：指定なし,1 ：新品
-                             'sort':'affiliate',
+                             'sort':sort,
                              # 'shipping': ctxt['shipping'], # 1：送料無料 デフォルトはなし
                              })
-
-
 
 
         data = Cache.getCacheData(api_name, ctxt['cache_keys'])
         
         datas = []
-        if not data:
+        if not data or nocache:
             print "キャッシュなしYA!"
-            data = urllib.urlopen(cls.YAHOO_A_URL + param)
-            data = data.read()
+            data = ApiUtill.callAPI(settings.YAHOO_A_URL, param)
             data = json.loads(data.replace('loaded(',"")[:-1])['ResultSet']
 
             Cache.setCacheData(api_name, ctxt['cache_keys'], data)
@@ -243,12 +235,12 @@ class BridgeApi(object):
             datas.append(data['Result']['Item'][i])
                              
         # 必要なデータだけに生成
-        return cls.exchangeYahooA(datas)
+        return ApiUtill.exchangeYahooA(datas)
 
 
 
     @classmethod
-    def createVC(cls, ctxt, sort=0):
+    def createVC(cls, ctxt, nocache=0, sort='', sort_order='', hits=50):
         api_name = 'vc'
         cls.amazon_data = []
         cls.ponpare_data = []
@@ -258,18 +250,16 @@ class BridgeApi(object):
                                  'keyword': ctxt['kwd'],
                                  'category':'',
                                  'ec_code': cls.EC_CODE,
-
-                                 'sort_by':'',
-                                 'sort_order':'',
+                                 'sort_by':sort,
+                                 'sort_order':sort_order,
                                  'format':'json',
-                                 'results_per_page':50})
+                                 'results_per_page':hits})
         
         
         datas = Cache.getCacheData(api_name, ctxt['cache_keys'])
-        if not datas:
+        if not datas or nocache:
             print "キャッシュなしVC"
-            datas = urllib.urlopen(cls.VALUE_API_URL + param)
-            datas = datas.read()
+            datas = ApiUtill.callAPI(settings.VALUE_API_URL, param)
             datas = json.loads(datas)
             Cache.setCacheData(api_name, ctxt['cache_keys'], datas)
         else:
@@ -287,25 +277,39 @@ class BridgeApi(object):
 
     @classmethod
     def getPonpare(cls):
-        return cls.exchangeVC(cls.ponpare_data)
+        return ApiUtill.exchangeVC(cls.ponpare_data)
     
     @classmethod
     def getAmazon(cls):
-        return cls.exchangeVC(cls.amazon_data)
+        return ApiUtill.exchangeVC(cls.amazon_data)
 
 
     @classmethod
     def getAll(cls, ctxt):
 
         cls.createVC(ctxt)
-
-        return {'rakuten': cls.getRakten(ctxt),
+        
+        print cls.getPriceCheckData(ctxt)['rakuten_p'][0]
+        return {'rakuten': cls.getRakten(ctxt, sort='standard'),
                 'yahoo_s': cls.getYahooS(ctxt),
                 'yahoo_a': cls.getYahooA(ctxt),
                 'amazon' : cls.getAmazon(),
                 'ponpare': cls.getPonpare(),
                 'jandata': cls.JAN_DATA
                 }
+
+    @classmethod
+    def getPriceCheckData(cls, ctxt):
+        cls.createVC(ctxt, sort='price', nocache=1, sort_order='asc', hits=10)
+        return {'rakuten_p': cls.getRakten(ctxt, nocache=1, sort='+itemPrice', hits=10),
+                'yahoo_s_p': cls.getYahooS(ctxt, nocache=1, sort='+price', hits=10),
+                'yahoo_a_p': cls.getYahooA(ctxt, nocache=1, sort='cbids'),
+                'amazon_p' : cls.getAmazon(),
+                'ponpare_p': cls.getPonpare(),
+                'jandata_p': cls.JAN_DATA
+        }
+    
+    
 
     @classmethod
     def imgUrlFilter(cls, url):
@@ -322,10 +326,21 @@ class BridgeApi(object):
 
 
 class PriceCheck(object):
-    def test():
+    @classmethod
+    def test(cls,ctxt):
+        #print "jan ys 検索：", BridgeApi.getYahooS(ctxt, sort='+price',hits=10)
         return
 
-
+    @classmethod
+    def getAll(cls, ctxt):
+        # 全APIから価格順で10件ずつ取得
+        # YAHOOS 10件取得
+        # YAHOOA 10件取得
+        # 楽天    10件取得
+        # VC(ama&pon)10件取得
+        # 上記の各サービス毎の1件目を最安値とする。
+        # 上記を一つにし、価格でソートして10件をランキングとする。
+        return
 
 
 
@@ -358,9 +373,9 @@ class Cache(object):
         str = ''
         for key in keys:
             str += key
-        print "キーのはず！",'%s:%s' % (name, str)
+
         result = r.setex('%s:%s' % (name, str), 36000, msgpack.packb(data))
-        print "setしたよ！", result
+
 
     @classmethod
     def getCacheData(cls, name, keys):

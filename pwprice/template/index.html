@@ -13,6 +13,7 @@
     <title>サイトタイトル</title>
 </head>
 <body>
+    {{ request }}
 <div class="wrapper">
 
         <div class="header clrF">
@@ -25,19 +26,13 @@
 
         <div class="searchBar clrF">
             <form method="get" action="{% url 'home' %}">
-                <select name="xxx">
-                    <option>ジャンルで絞り込む</option>
-                    <option value="xxx">テキスト1</option>
-                    <option value="xxx">テキスト2</option>
-                    <option value="xxx">テキスト3</option>
-                </select>
                 <input type="text" name="kwd" value="{{kwd}}" >
                 <input type="hidden" name="minPrice" value="{{minPrice}}">
                 <input type="hidden" name="maxPrice" value="{{maxPrice}}">
                 <input type="submit" value="検索" class="btn">
             </form>
         </div><!-- /.searchBar -->
-
+        {% if results %}
         {% if suggest %}
         <div class="relatedWords clrF">
             <span>関連ワード :</span>
@@ -245,23 +240,17 @@
                 <tr>
                     <td>
                         <div class="frame">
-                            <table>
-                                <caption>ショッピンング条件</caption>
-                                <tr>
-                                    <td><input type="checkbox" name="example" value="サンプル"> 送料無料</td>
-                                    <td><input type="checkbox" name="example" value="サンプル"> 在庫あり</td>
-                                </tr>
-                                <tr>
-                                    <td><input type="checkbox" name="example" value="サンプル">レビューあり</td>
-                                    <td><input type="checkbox" name="example" value="サンプル">当日・翌日配送</td>
-                                </tr>
-                                <tr>
-                                    <td colspan="2"><input type="text" name="xxx" size="8" maxlength="20">を除く</td>
-                                </tr>
-                                <tr>
-                                    <td colspan="2" class="btn"><input type="button" value="検索"></td>
-                                </tr>
-                            </table>
+                            <p>ショッピンング条件</p>
+                            <div><input type="checkbox" name="example" value="サンプル"> 送料無料</div>
+                            <div><input type="checkbox" name="example" value="サンプル">レビューあり</div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="frame">
+                            <p>オークション条件</p>
+                            <div><input type="checkbox" name="example" value="サンプル">即決あり</div>
+                            <div><input type="checkbox" name="example" value="サンプル">新品のみ</div>
+                            <div><input type="checkbox" name="example" value="サンプル">ストアのみ</div>
                         </div>
                     </td>
                     <td class="priceInputbox">
@@ -269,30 +258,16 @@
                             <div class="priceInput">
                                 <p>価格帯絞り込み</p>
                                 <input type="text" name="xxx" size="8" maxlength="10">〜<input type="text" name="xxx" size="8" maxlength="10">円
-                                <span class="btn"><input type="button" value="変更"></span>
                             </div>
-                            <ul class="priceLink">
-                                <li>&emsp;&emsp;&emsp;&emsp;〜5,000円</li>
-                                <li>10,001円〜20,000円</li>
-                                <li>30,001円〜50,000円</li>
-                                <li>5,001円〜10.000円</li>
-                                <li>20,001円〜30,000円</li>
-                                <li>50,001円〜</li>
-                            </ul>
                         </div>
-                        <p>商品が見るからない場合には、再度検索するか、関連キーワードをクリックしてみてください。</br>比較表には、古いデータが含まれる場合がありますので、各ショップにて詳細をご確認ください。</p>
                     </td>
                     <td>
-                        <div class="frame">
-                            <p>オークション</p>
-                            <div><input type="checkbox" name="example" value="サンプル">即決あり</div>
-                            <div><input type="checkbox" name="example" value="サンプル">新品のみ</div>
-                            <div><input type="checkbox" name="example" value="サンプル">ストアのみ</div>
-                            <div class="btn"><input type="button" value="検索"></div>
-                        </div>
+                        <input type="submit" value="検索" class="btn">
                     </td>
                 </tr>
             </table><!-- /.options -->
+
+            <p class="aa">商品が見るからない場合には、再度検索するか、関連キーワードをクリックしてみてください。</br>比較表には、古いデータが含まれる場合がありますので、各ショップにて詳細をご確認ください。</p>
 
             <ul class="resultHeader">
                 <li>
@@ -374,6 +349,7 @@
             {% endif %}
         </div><!-- /.itemPriceBlock -->
         {% endif %}
+        {% endif %}
         <div>
             <div class="blockTitle clrF">
                 <img src="./static/images/block4/title04.gif" alt="title"/>
@@ -381,12 +357,6 @@
 
             <div class="searchBar clrF">
                 <form method="post" action="xxx">
-                    <select name="xxx">
-                        <option>ジャンルで絞り込む</option>
-                        <option value="xxx">テキスト1</option>
-                        <option value="xxx">テキスト2</option>
-                        <option value="xxx">テキスト3</option>
-                    </select>
                     <input type="text" name="q">
                     <input type="submit" value="検索" class="btn">
                 </form>

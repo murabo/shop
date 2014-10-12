@@ -81,6 +81,14 @@ VALUE_TOKEN_ID = "110c2bd9856649678c40168d3a09a0d9d"
 YAHOO_S_ID = "dj0zaiZpPXQ4MjlYTUdRZzBOSyZzPWNvbnN1bWVyc2VjcmV0Jng9ZWM-"
 YAHOO_S_AF_ID = "http%3a%2f%2fck%2ejp%2eap%2evaluecommerce%2ecom%2fservlet%2freferral%3fsid%3d3159552%26pid%3d882986629%26vc_url%3d"
 YAHOO_A_ID = "dj0zaiZpPURLc3hGMmlPRWIzWSZzPWNvbnN1bWVyc2VjcmV0Jng9YmM-"
+MOSHIMO_A_ID = 431508
+MOSHIMO_URL = "http://c.af.moshimo.com/af/c/click?a_id=%s&p_id=54&pc_id=54&pl_id=616" % MOSHIMO_A_ID
+
+VC_Y_A_URL = "http://ck.jp.ap.valuecommerce.com/servlet/referral?sid=3161331&pid=882992162&"
+RAKUTEN_API_URL = "https://app.rakuten.co.jp/services/api/IchibaItem/Search/20140222?"
+VALUE_API_URL   = "http://webservice.valuecommerce.ne.jp/productdb/search?"
+YAHOO_S_URL = "http://shopping.yahooapis.jp/ShoppingWebService/V1/json/itemSearch?"
+YAHOO_A_URL = "http://auctions.yahooapis.jp/AuctionWebService/V2/search?"
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
@@ -99,3 +107,4 @@ TEMPLATE_DIRS = (
                  # Don't forget to use absolute paths, not relative paths.
                  'pwprice/template',
                  )
+TEMPLATE_CONTEXT_PROCESSORS = ('django.core.context_processors.request',)

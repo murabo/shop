@@ -49,6 +49,14 @@ a:forcus{
    color:#3303f7;
 }
 
+.btn{
+    width: 100px;
+    height: 25px;
+    font-size: 16px;
+    background-color: #ccc;
+    border-style: none;
+}
+
 /*================================================
  * header
  ================================================*/
@@ -79,18 +87,22 @@ a:forcus{
     height: 34px;
     background: #ff3300;
     margin-top: 10px;
+    text-align: center;
 }
 .searchBar input[type="text"]{
-    width: 600px;
+    width: 850px;
     height: 30px;
 }
 .searchBar .btn{
     width: 100px;
     height: 30px;
+    font-size: 16px;
+    background-color: #F3F3F3;
+    border-style: none;
 }
 /* 関連ワード */
 .relatedWords{
-    background: #fafafa;
+    background: #F3F3F3;
     padding: 8px;
 }
 .relatedWords > span {
@@ -179,7 +191,7 @@ a:forcus{
 }
 .lowestPriceBlock .itemImg{
     text-align: center;
-    border: 10px solid #fafafa;
+    border: 10px solid #F3F3F3;
     padding: 15px;
     float: right;
     margin-top: 10px;
@@ -213,7 +225,7 @@ a:forcus{
     position: relative;
     width: 20%;
     text-align: center;
-    padding: 20px 5px 10px 5px;
+    padding: 20px 0 35px 0;
     vertical-align: top;
     border: 1px solid #999;
 }
@@ -225,22 +237,29 @@ a:forcus{
     text-align: left;
 }
 .rankingBlock .itemTable .link{
+    position: absolute;
+    bottom: 5px;
+    width: 100%;
+    padding: 0 5px;
+}
+.rankingBlock .itemTable .link a{
     height: 25px;
     width: 190px;
     line-height: 25px;
     color: #fff;
     background: #fe0032;
-    position: absolute;
-    bottom: 5px;
-    left:5px;
+    display: block;
+    margin: 0 auto;
 }
+
+
 
 /* 値段-リスト */
 .rankingBlock .priceBlock{
     margin-top: 10px;
     float: left;
     width: 430px;
-    border: 10px solid #fafafa;
+    border: 10px solid #F3F3F3;
     padding: 10px;
 }
 .rankingBlock .priceBlock .title{
@@ -309,7 +328,6 @@ a:forcus{
  ================================================*/
  /* 検索オプション */
 .itemPriceBlock table.options{
-    width: 100%;
     margin-top: 10px;
 }
 .itemPriceBlock table.options td{
@@ -323,34 +341,23 @@ a:forcus{
     font-size: 12px;
 }
 .itemPriceBlock .options .frame{
+    height: 75px;
     padding:10px 15px;
-    background: #fafafa;
-}
-.itemPriceBlock .options p,
-.itemPriceBlock .options caption{
-    text-align: center;
-    font-weight: bold;
+    background: #F3F3F3;
 }
 .itemPriceBlock .options p{
-    padding-top: 15px;
+    font-weight: bold;
+}
+.itemPriceBlock .aa{
+    font-weight: bold;
+    margin-top: 5px;
+    font-size: 12px;
 }
 .itemPriceBlock .options .btn{
     text-align: center;
 }
-.itemPriceBlock .priceInputbox{
-    width: 650px;
-}
-.itemPriceBlock .options .priceInput{
-    float: left;
-    margin-right: 10px;
-}
-.itemPriceBlock .options ul.priceLink{
-    padding-left: 15px;
-}
-.itemPriceBlock .options ul.priceLink >li{
-    display: inline-block;
-    padding-left: 10px;
-    color:#3303f7;
+.itemPriceBlock .priceInputbox > p{
+    margin-top: 10px;
 }
 
 /* 検索窓 */
