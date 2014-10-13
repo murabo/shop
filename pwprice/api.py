@@ -75,7 +75,7 @@ class ApiUtill(object):
     def exchangeYahooS(cls, datas):
         results = []
         for data in datas:
-            print data['Store']['Name']
+
             results.append({"itemName":data['Name'],
                            "itemPrice":data['Price']['_value'],
                            "itemUrl":data['Url'],
