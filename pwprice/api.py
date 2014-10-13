@@ -48,7 +48,6 @@ class ApiUtill(object):
     def exchangePonpare(cls, datas):
         results = []
         for data in datas:
-            print "subStoreName",data["subStoreName"]
             results.append({"itemName":data['title'],
                            "itemPrice":data['price'],
                            "itemUrl":data['link'],
