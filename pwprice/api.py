@@ -34,7 +34,9 @@ class ApiUtill(object):
                 "asurakuFlag":data['asurakuFlag'],
                 "reviewAverage":data['reviewAverage'],
                 "reviewCount":data['reviewCount'],
-                "itemUrl":data['itemUrl'],}
+                "itemUrl":data['itemUrl'],
+                "shopName":data['shopName'],
+                "ec":"rakuten"}
             if data['mediumImageUrls']:
                 res["imageUrl"] = data['mediumImageUrls'][0]['imageUrl']
             
@@ -43,24 +45,44 @@ class ApiUtill(object):
         return results
 
     @classmethod
-    def exchangeVC(cls, datas):
+    def exchangePonpare(cls, datas):
         results = []
         for data in datas:
+            print "subStoreName",data["subStoreName"]
             results.append({"itemName":data['title'],
                            "itemPrice":data['price'],
                            "itemUrl":data['link'],
-                           "imageUrl":data['imageFree']['url']})
+                           "imageUrl":data['imageFree']['url'],
+                           "ec":"ponpare"}
+                           )
+        return results
+
+
+    @classmethod
+    def exchangeAmazon(cls, datas):
+        results = []
+        for data in datas:
+            
+            results.append({"itemName":data['title'],
+                           "itemPrice":data['price'],
+                           "itemUrl":data['link'],
+                           "imageUrl":data['imageFree']['url'],
+                           "ec":"amazon"}
+                       )
         return results
 
     @classmethod
     def exchangeYahooS(cls, datas):
         results = []
         for data in datas:
+            print data['Store']['Name']
             results.append({"itemName":data['Name'],
                            "itemPrice":data['Price']['_value'],
                            "itemUrl":data['Url'],
                            "imageUrl":data['ExImage']['Url'],
-                           "jan": data['JanCode']
+                           "jan": data['JanCode'],
+                           "shopName": data['Store']['Name'],
+                           "ec":"yahoo"
                            })
         return results
 
@@ -76,6 +98,8 @@ class ApiUtill(object):
             results.append({"itemName":data['Title'],
                             "itemUrl": settings.VC_Y_A_URL + param,
                             "imageUrl":data['Image'],
+                            "shopName":"",
+                            "ec":"yahoo_a"
                             })
         return results
 
@@ -106,9 +130,8 @@ class BridgeApi(object):
                     cls.JAN_DATA.append({"jan":[data['jan']],
                                          "imageUrl": data['imageUrl'],
                                         "itemName": data['itemName']})
-#print cls.JAN_DATA
 
-        
+
     @classmethod
     def getLowPrice(cls):
         print "AMA",len(cls.amazon_data)
@@ -117,14 +140,12 @@ class BridgeApi(object):
             continue
 
 
-
-
     @classmethod
     def getRakten(cls, ctxt, nocache=0, sort='', hits=30):
         api_name = 'rakuten'
         param = urllib.urlencode(
                         {'format': 'json',
-                         'keyword': ctxt['kwd'],
+                         'keyword': ctxt['kwd'] if not ctxt['jan'] else ctxt['jan'],
                          'applicationId': settings.RAKUTEN_APP_ID,
                          'minPrice': ctxt['minPrice'],
                          'maxPrice': ctxt['maxPrice'],
@@ -170,7 +191,9 @@ class BridgeApi(object):
         datas = Cache.getCacheData(api_name, ctxt['cache_keys'])
         result_datas = []
 
-        print "getYAHOO!S!"
+        print "getYAHOO!S!",ctxt["jan"]
+        if ctxt["jan"]:
+            print "JAN!!YAHOO"
 
         if not datas or nocache:
             print "キャッシュなしorJAN検索"
@@ -185,11 +208,12 @@ class BridgeApi(object):
             if not ctxt['jan']:
                 Cache.setCacheData(api_name, ctxt['cache_keys'], result_datas)
             datas = result_datas
+            for d in datas:
+                print "@@@@@@@@@@@@@@@", d
 
         else:
             print "キャッシュありS",
 
-        print len(result_datas)
         cls.YAHOO_DATA = ApiUtill.exchangeYahooS(datas)
         cls.createJanImgMap()
         # 必要なデータだけに生成
@@ -242,12 +266,13 @@ class BridgeApi(object):
     @classmethod
     def createVC(cls, ctxt, nocache=0, sort='', sort_order='', hits=50):
         api_name = 'vc'
-        cls.amazon_data = []
-        cls.ponpare_data = []
+        amazon_data = []
+        ponpare_data = []
+        
         keyword = urllib.quote(ctxt['kwd'])
         param = urllib.urlencode({
                                  'token': settings.VALUE_TOKEN_ID,
-                                 'keyword': ctxt['kwd'],
+                                 'keyword': ctxt['kwd'] if not ctxt['jan'] else ctxt['jan'],
                                  'category':'',
                                  'ec_code': cls.EC_CODE,
                                  'sort_by':sort,
@@ -269,47 +294,80 @@ class BridgeApi(object):
             for data in datas['items']:
 
                 if cls.EC_CODE_A == data['ecCode']:
-                    cls.amazon_data.append(data)
+                    amazon_data.append(data)
                 elif cls.EC_CODE_P == data['ecCode']:
-                    cls.ponpare_data.append(data)
-        return
+                    ponpare_data.append(data)
+        print "A&P",len(amazon_data), len(ponpare_data)
+        return amazon_data, ponpare_data
 
 
     @classmethod
-    def getPonpare(cls):
-        return ApiUtill.exchangeVC(cls.ponpare_data)
+    def getPonpare(cls, datas):
+        return ApiUtill.exchangePonpare(datas)
     
     @classmethod
-    def getAmazon(cls):
-        return ApiUtill.exchangeVC(cls.amazon_data)
+    def getAmazon(cls, datas):
+        return ApiUtill.exchangeAmazon(datas)
 
 
     @classmethod
     def getAll(cls, ctxt):
 
-        cls.createVC(ctxt)
-        
-        print cls.getPriceCheckData(ctxt)['rakuten_p'][0]
+        amazon_data, ponpare_data = cls.createVC(ctxt)
+
         return {'rakuten': cls.getRakten(ctxt, sort='standard'),
                 'yahoo_s': cls.getYahooS(ctxt),
                 'yahoo_a': cls.getYahooA(ctxt),
-                'amazon' : cls.getAmazon(),
-                'ponpare': cls.getPonpare(),
+                'amazon' : cls.getAmazon(amazon_data),
+                'ponpare': cls.getPonpare(ponpare_data),
                 'jandata': cls.JAN_DATA
                 }
 
     @classmethod
     def getPriceCheckData(cls, ctxt):
-        cls.createVC(ctxt, sort='price', nocache=1, sort_order='asc', hits=10)
-        return {'rakuten_p': cls.getRakten(ctxt, nocache=1, sort='+itemPrice', hits=10),
-                'yahoo_s_p': cls.getYahooS(ctxt, nocache=1, sort='+price', hits=10),
-                'yahoo_a_p': cls.getYahooA(ctxt, nocache=1, sort='cbids'),
-                'amazon_p' : cls.getAmazon(),
-                'ponpare_p': cls.getPonpare(),
-                'jandata_p': cls.JAN_DATA
+        amazon_data, ponpare_data = cls.createVC(ctxt, sort='price', nocache=1, sort_order='asc', hits=10)
+        rakuten = cls.getRakten(ctxt, nocache=1, sort='+itemPrice', hits=10)
+        yahoo_s = cls.getYahooS(ctxt, nocache=1, sort='+price', hits=10)
+        yahoo_a = cls.getYahooA(ctxt, nocache=1, sort='cbids')
+        amazon = cls.getAmazon(amazon_data)
+        ponpare = cls.getPonpare(ponpare_data)
+        
+        datas = {'rakuten_p': rakuten,
+                'yahoo_s_p': yahoo_s,
+                'yahoo_a_p': yahoo_a,
+                'amazon_p' : amazon,
+                'ponpare_p': ponpare,
+#                'jandata_p': cls.JAN_DATA,
+
         }
+        lowestPrice = {'1st_rakuten_p':rakuten[0] if rakuten and rakuten[0] else "",
+                       '1st_yahoo_s_p':yahoo_s[0] if yahoo_s and yahoo_s[0] else "",
+                       '1st_yahoo_a_p':yahoo_a[0] if yahoo_a and yahoo_a[0] else "",
+                       '1st_amazon_p':amazon[0] if amazon and amazon[0] else "",
+                       '1st_ponpare_p':ponpare[0] if ponpare and ponpare[0] else "",}
+        return cls.price_ranking(datas), lowestPrice
     
-    
+
+    @classmethod
+    def price_ranking(cls, datas):
+        list = []
+        del_list=[]
+        for k, v in datas.items():
+            list.extend(v)
+
+        for i, d in enumerate(list):
+            if not "itemPrice" in d:
+                list.pop(i)
+
+        list.sort(cls.price_sort)
+        if len(list) > 10:
+            list = list[:10]
+        return list
+
+
+    @classmethod
+    def price_sort(cls, x, y):
+        return int(x["itemPrice"]) - int(y["itemPrice"])
 
     @classmethod
     def imgUrlFilter(cls, url):
@@ -341,11 +399,6 @@ class PriceCheck(object):
         # 上記の各サービス毎の1件目を最安値とする。
         # 上記を一つにし、価格でソートして10件をランキングとする。
         return
-
-
-
-
-
 
 
 class Cache(object):

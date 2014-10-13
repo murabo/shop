@@ -6,7 +6,7 @@ from django import template
 register = template.Library()
 
 @register.filter
-def getTest(num, args):
+def getMatrix(num, args):
     amazon = args['amazon']
     rakuten = args['rakuten']
     yahoo_s = args['yahoo_s']
@@ -213,5 +213,20 @@ def getTest(num, args):
     </tr>
         </table><!-- /.resultItems -->'''
 
-    print s
     return mark_safe(s)
+
+
+
+
+@register.filter
+def getEcImg(ec):
+    if ec == 'yahoo':
+        return "/static/images/block2/yahoo135x32.gif"
+    if ec == 'rakuten':
+        return "/static/images/block2/rakuten135x32.gif"
+    if ec == 'amazon':
+        return "/static/images/block2/amazon135x32.gif"
+    if ec == 'yahoo_a':
+        return "/static/images/block2/yahooauc135x32.gif"
+    if ec == 'ponpare':
+        return "/static/images/block2/ponpar135x32.gif"

@@ -13,7 +13,7 @@
     <title>サイトタイトル</title>
 </head>
 <body>
-    {{ request }}
+
 <div class="wrapper">
 
         <div class="header clrF">
@@ -128,23 +128,23 @@
             {% endif %}
             
             
-            
+            {% if results.jandata %}            
             <table class="itemTable">
                 <tr>
                     {% for d in results.jandata %}
                     <td>
-                        <a href="" class="">
+                        <a href="/?kwd={{kwd}}&minPrice={{minPrice}}&maxPrice={{maxPrice}}&rec={{d.jan.0}}" class="">
                             <img src="{{d.imageUrl}}" alt="画像"/>
                         </a>
-                        <a href="xxx" class="itemName">{% for s in d.itemName%}{{s}}{%endfor%}</a>
+                        <a href="/?kwd={{kwd}}&minPrice={{minPrice}}&maxPrice={{maxPrice}}&rec={{d.jan.0}}" class="itemName">{% for s in d.itemName%}{{s}}{%endfor%}</a>
                         <div class="link">
-                            <a href="xxx">最安値チェック</a>
+                            <a href="/?kwd={{kwd}}&minPrice={{minPrice}}&maxPrice={{maxPrice}}&rec={{d.jan.0}}">最安値チェック</a>
                         </div>
                     </td>
                     {% endfor%}
                 </tr>
             </table><!-- /.itemTable -->
-
+{% if praice_results %}
             <div class="priceBlock">
                 <p class="title">サイト最安値</p>
                 <div class="itemImg">
@@ -153,29 +153,29 @@
                 </div>
                 <table class="priceTable">
                     <tr>
-                        <td><a href="xxx"><img src="./static/images/block2/amazon135x32.gif" alt="amazon"/></a></td>
-                        <td><a href="xxx">¥200</a></td>
+                        <td><a href="xxx"><img src="./static/images/block2/amazon135x32.gif" /></a></td>
+                        <td><a href="xxx">{%if lowestPrice.1st_amazon_p%}¥{{lowestPrice.1st_amazon_p.itemPrice}}{%else%}-{%endif%}</a></td>
                     </tr>
                     <tr>
-                        <td><a href="xxx"><img src="./static/images/block2/rakuten135x32.gif" alt="amazon"/></a></div>
-                        <td><a href="xxx">¥200</a></div>
+                        <td><a href="xxx"><img src="./static/images/block2/rakuten135x32.gif" /></a></div>
+                        <td><a href="xxx">{%if lowestPrice.1st_rakuten_p%}¥{{lowestPrice.1st_rakuten_p.itemPrice}}{%else%}-{%endif%}</a></div>
                     </tr>
                     <tr>
-                        <td><a href="xxx"><img src="./static/images/block2/yahoo135x32.gif" alt="amazon"/></a></div>
-                        <td><a href="xxx">¥200</a></div>
+                        <td><a href="xxx"><img src="./static/images/block2/yahoo135x32.gif" /></a></div>
+                        <td><a href="xxx">{%if lowestPrice.1st_yahoo_s_p%}¥{{lowestPrice.1st_yahoo_s_p.itemPrice}}{%else%}-{%endif%}</a></div>
                     </tr>
                     <tr>
                         <td><a href="xxx"><img src="./static/images/block2/ponpar135x32.gif" alt="amazon"/></a></div>
-                        <td><a href="xxx">¥200</a></div>
+                        <td><a href="xxx">{%if lowestPrice.1st_ponpare_p%}¥{{lowestPrice.1st_ponpare_p.itemPrice}}{%else%}-{%endif%}</a></div>
                     </tr>
                     <tr>
                         <td><a href="xxx"><img src="./static/images/block2/yahooauc135x32.gif" alt="amazon"/></a></div>
-                        <td><a href="xxx">¥200</a></div>
+                        <td><a href="xxx">{%if lowestPrice.1st_yahoo_a_p%}¥{{lowestPrice.1st_yahoo_a_p.itemPrice}}{%else%}-{%endif%}</a></div>
                     </tr>
                 </table>
 
                 <div class="lowestPrice">
-                    <span class="text">最安値</span><span class="price linkCol">¥200</span>
+                    <span class="text">最安値</span><span class="price linkCol">{%if praice_results %}<a href="{{praice_results.0.itemUrl}}" >¥{{praice_results.0.itemPrice}}</a>{%else%}-{%endif%}</span>
                 </div>
             </div><!-- /.priceList -->
             <div class="priceRanking">
@@ -184,23 +184,21 @@
                         <th >順位</th>
                         <th>価格</th>
                         <th>サイト</th>
-                        <th>ポイント</th>
-                        <th>送料</th>
-                        <th>カード</th>
                         <th>ショップ</th>
                     </tr>
+                    {% for d in praice_results %}
                     <tr>
-                        <td>1位</td>
-                        <td>¥29.000</td>
-                        <td>¥29.000</td>
-                        <td><span class="tag point">2%</span></td>
-                        <td><span class="tag postage">無料</span></td>
-                        <td><span class="tag card">OK</span></td>
-                        <td><a href="xxx" class="linkCol">ショップ</a></td>
+                        <td>{{forloop.counter}}位</td>
+                        <td>¥{{d.itemPrice}}</td>
+                        <td><a href="{{d.itemUrl}}" class="linkCol"><img src={{ d.ec|getEcImg}}/></a></td>
+                        <td><a href="{{d.itemUrl}}" class="linkCol">{{d.shopName}}</a></td>
                     </tr>
+                    {% endfor %}
                 </table>
             </div><!-- /.priceRanking -->
+            {% endif %}
         </div><!-- /.rankingBlock -->
+        {% endif %}
 
         {% if results %}
         <div class="itemPriceBlock clrF">
@@ -295,7 +293,7 @@
 
             {% for i in "01234"%}
             
-            {{ i|getTest:results}}
+            {{ i|getMatrix:results}}
             {% endfor %}
 
             <ul class="resultFooter">

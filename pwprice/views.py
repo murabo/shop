@@ -45,16 +45,23 @@ def home(request):
             cache_keys.append(hashlib.sha224(sort).hexdigest())
 
         cache_keys.sort()
+
         ctxt.update({'kwd': request.GET[u"kwd"].encode('utf-8'),
                      'cache_keys':cache_keys,
                      'sort': sort,
-                     'jan': '' if not "jan" in request.GET else request.GET[u"jan"].encode('utf-8')
+                     'jan': '' if not "rec" in request.GET else request.GET[u"rec"].encode('utf-8')
                     })
-
+        
         ctxt.update({"results": BridgeApi.getAll(ctxt)})
 
-
         print "cache_keysであるなしチェックや登録などの処理入れるよ", cache_keys
-    
+
+    if "rec" in request.GET and request.GET[u"rec"]:
+        price_data, lowestPrice= BridgeApi.getPriceCheckData(ctxt)
+        ctxt.update({"praice_results": price_data,
+                     "lowestPrice":lowestPrice})
+
+    ctxt = RequestContext(request, ctxt)
+
     return render_to_response("index.html",ctxt)
 
