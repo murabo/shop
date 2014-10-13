@@ -158,7 +158,8 @@ class BridgeApi(object):
             print "キャッシュなしR"
             datas = ApiUtill.callAPI(settings.RAKUTEN_API_URL, param)
             datas = json.loads(datas)
-            Cache.setCacheData(api_name, ctxt['cache_keys'], datas)
+            if not nocache:
+                Cache.setCacheData(api_name, ctxt['cache_keys'], datas)
         else:
             print "キャッシュありR"
 
@@ -204,11 +205,9 @@ class BridgeApi(object):
                     result_datas.append(datas[u'0']['Result'][u'%s' % i])
 
             # jan検索はキャッシュしない。
-            if not ctxt['jan']:
+            if not nocache:
                 Cache.setCacheData(api_name, ctxt['cache_keys'], result_datas)
             datas = result_datas
-            for d in datas:
-                print "@@@@@@@@@@@@@@@", d
 
         else:
             print "キャッシュありS",
@@ -243,8 +242,8 @@ class BridgeApi(object):
             print "キャッシュなしYA!"
             data = ApiUtill.callAPI(settings.YAHOO_A_URL, param)
             data = json.loads(data.replace('loaded(',"")[:-1])['ResultSet']
-
-            Cache.setCacheData(api_name, ctxt['cache_keys'], data)
+            if not nocache:
+                Cache.setCacheData(api_name, ctxt['cache_keys'], data)
         else:
             print "キャッシュありYA!"
 
@@ -285,7 +284,8 @@ class BridgeApi(object):
             print "キャッシュなしVC"
             datas = ApiUtill.callAPI(settings.VALUE_API_URL, param)
             datas = json.loads(datas)
-            Cache.setCacheData(api_name, ctxt['cache_keys'], datas)
+            if not nocache:
+                Cache.setCacheData(api_name, ctxt['cache_keys'], datas)
         else:
             print "キャッシュありVC"
 

@@ -98,7 +98,54 @@ def getMatrix(num, args):
     else:
         tag += u'<td></td>'
     tag += u'</tr>'
-    #print tag
+
+    tag += u'<tr>'
+    if int(num) < len(amazon) and amazon :
+        tag += u'<td><a href="/" ><img src="/static/images/banner/amazon_p193x40.gif" /></a></td>'
+    else:
+        tag += u'<td></td>'
+    if  int(num) < len(rakuten) and rakuten :
+        tag += u'<td><a href="/" ><img src="/static/images/banner/rakuten_p193x40.gif" /></a></td>'
+    else:
+        tag += u'<td></td>'
+    if  int(num) < len(yahoo_s) and yahoo_s:
+        tag += u'<td><a href="/" ><img src="/static/images/banner/yahoo_p193x40.gif" /></a></td>'
+    else:
+        tag += u'<td></td>'
+    if  int(num) < len(ponpare) and ponpare:
+        tag += u'<td><a href="/" ><img src="/static/images/banner/ponpare_p193x40.gif" /></a></td>'
+    else:
+        tag += u'<td></td>'
+    if  int(num) < len(yahoo_a) and yahoo_a:
+        tag += u'<td><a href="/" ><img src="/static/images/banner/yauc_p193x40.gif" /></a></td>'
+    else:
+        tag += u'<td></td>'
+    tag += u'</tr>'
+
+    tag += u'<tr>'
+    if int(num) < len(amazon) and amazon :
+        tag += u'<td class="prBx"></td>'
+    else:
+        tag += u'<td></td>'
+    if  int(num) < len(rakuten) and rakuten :
+        tag += u'<td class="prBx"><p class="pr"><span>楽天カードの無料登録</span></br>で実質<em>5000円</em>の値引き</p></td>'
+    else:
+        tag += u'<td></td>'
+    if  int(num) < len(yahoo_s) and yahoo_s:
+        tag += u'<td class="prBx"></td>'
+    else:
+        tag += u'<td></td>'
+    if  int(num) < len(ponpare) and ponpare:
+        tag += u'<td class="prBx"><p class="pr"><span>リクルートカードの無料登録</span></br>で実質<em>5000円</em>の値引き</p></td>'
+    else:
+        tag += u'<td></td>'
+    if  int(num) < len(yahoo_a) and yahoo_a:
+        tag += u'<td class="prBx"></td>'
+    else:
+        tag += u'<td></td>'
+    tag += u'</tr>'
+
+
 
     last_tag = u'</table><!-- /.resultItems -->'
     tag += last_tag
