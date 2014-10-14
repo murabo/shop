@@ -27,7 +27,7 @@ class ApiUtill(object):
 
         for data in datas:
             data = data['Item']
-            res = {"itemName":data['itemName'],
+            res = {"itemName":data['itemName'][:30],
                 "itemPrice":data['itemPrice'],
                 "pointRate":data['pointRate'],
                 "postageFlag":data['postageFlag'],
@@ -48,7 +48,7 @@ class ApiUtill(object):
     def exchangePonpare(cls, datas):
         results = []
         for data in datas:
-            results.append({"itemName":data['title'],
+            results.append({"itemName":data['title'][:30],
                            "itemPrice":data['price'],
                            "itemUrl":data['link'],
                            "imageUrl":data['imageFree']['url'],
@@ -62,7 +62,7 @@ class ApiUtill(object):
         results = []
         for data in datas:
             
-            results.append({"itemName":data['title'],
+            results.append({"itemName":data['title'][:30],
                            "itemPrice":data['price'],
                            "itemUrl":data['link'],
                            "imageUrl":data['imageFree']['url'],
@@ -75,7 +75,7 @@ class ApiUtill(object):
         results = []
         for data in datas:
 
-            results.append({"itemName":data['Name'],
+            results.append({"itemName":data['Name'][:30],
                            "itemPrice":data['Price']['_value'],
                            "itemUrl":data['Url'],
                            "imageUrl":data['ExImage']['Url'],
@@ -94,7 +94,7 @@ class ApiUtill(object):
                                      'vc_url': data['AuctionItemUrl'],
                                      })
 
-            results.append({"itemName":data['Title'],
+            results.append({"itemName":data['Title'][:30],
                             "itemUrl": settings.VC_Y_A_URL + param,
                             "imageUrl":data['Image'],
                             "shopName":"",
@@ -128,7 +128,7 @@ class BridgeApi(object):
                     tmp.append(data['jan'])
                     cls.JAN_DATA.append({"jan":[data['jan']],
                                          "imageUrl": data['imageUrl'],
-                                        "itemName": data['itemName']})
+                                        "itemName": data['itemName'][:30]})
 
 
     @classmethod
