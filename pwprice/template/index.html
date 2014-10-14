@@ -110,8 +110,10 @@
             </div><!-- /.blockTitle -->
 
             <div class="form clrF">
-                <form method="post" action="xxx">
-                    <input type="text" name="q">
+                <form method="get" action="{% url 'home' %}">
+                    <input type="text" name="kwd" value="{{kwd}}" >
+                    <input type="hidden" name="minPrice" value="{{minPrice}}">
+                    <input type="hidden" name="maxPrice" value="{{maxPrice}}">
                     <input type="submit" value="検索" class="btn">
                 </form>
             </div><!-- /.blockTitle -->
@@ -190,7 +192,8 @@
                     <tr>
                         <td>{{forloop.counter}}位</td>
                         <td>¥{{d.itemPrice}}</td>
-                        <td><a href="{{d.itemUrl}}" class="linkCol"><img src={{ d.ec|getEcImg}} /></a></td>
+                        <td><a href="{{d.itemUrl}}" class="linkCol"><img src={{ d.ec|getEcImg}} 
+                            /></a></td>
                         <td><a href="{{d.itemUrl}}" class="linkCol">{{d.shopName}}</a></td>
                     </tr>
                     {% endfor %}
@@ -209,8 +212,10 @@
 
             <div class="clrF">
                 <div class="form">
-                    <form method="get" action="{% url 'home' %}">
-                        <input type="text" name="">
+                     <form method="get" action="{% url 'home' %}">
+                        <input type="text" name="kwd" value="{{kwd}}" >
+                        <input type="hidden" name="minPrice" value="{{minPrice}}">
+                        <input type="hidden" name="maxPrice" value="{{maxPrice}}">
                         <input type="submit" value="検索" class="btn">
                     </form>
                 </div><!-- /.blockTitle -->
@@ -234,6 +239,7 @@
             </div><!-- /.relatedWords -->
             {% endif %}
 
+            <form method="get" action="{% url 'home' %}">
             <table class="options">
                 <tr>
                     <td>
@@ -255,7 +261,7 @@
                         <div class="frame">
                             <div class="priceInput">
                                 <p>価格帯絞り込み</p>
-                                <input type="text" name="xxx" size="8" maxlength="10">〜<input type="text" name="xxx" size="8" maxlength="10">円
+                                <input type="text" name="minPrice" size="8" value="{{minPrice}}" maxlength="10">〜<input type="text" name="maxPrice" value="{{maxPrice}}" size="8" maxlength="10">円
                             </div>
                         </div>
                     </td>
@@ -264,6 +270,7 @@
                     </td>
                 </tr>
             </table><!-- /.options -->
+            </form>
 
             <p class="aa">商品が見るからない場合には、再度検索するか、関連キーワードをクリックしてみてください。</br>比較表には、古いデータが含まれる場合がありますので、各ショップにて詳細をご確認ください。</p>
 
@@ -320,9 +327,12 @@
             </ul><!-- /.resultService -->
 
             <div class="clrF">
+
                 <div class="form">
-                    <form method="post" action="xxx">
-                        <input type="text" name="q">
+                    <form method="get" action="{% url 'home' %}">
+                        <input type="text" name="kwd" value="{{kwd}}" >
+                        <input type="hidden" name="minPrice" value="{{minPrice}}">
+                        <input type="hidden" name="maxPrice" value="{{maxPrice}}">
                         <input type="submit" value="検索" class="btn">
                     </form>
                 </div><!-- /.blockTitle -->
@@ -354,8 +364,10 @@
             </div><!-- /.title -->
 
             <div class="searchBar clrF">
-                <form method="post" action="xxx">
-                    <input type="text" name="q">
+                <form method="get" action="{% url 'home' %}">
+                    <input type="text" name="kwd" value="{{kwd}}" >
+                    <input type="hidden" name="minPrice" value="{{minPrice}}">
+                    <input type="hidden" name="maxPrice" value="{{maxPrice}}">
                     <input type="submit" value="検索" class="btn">
                 </form>
             </div><!-- /.searchBar -->

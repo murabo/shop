@@ -145,6 +145,74 @@ def getMatrix(num, args):
         tag += u'<td></td>'
     tag += u'</tr>'
 
+    tag += u'<tr>'
+    if int(num) < len(amazon) and amazon :
+        tag += u'<td><a href="%s" class="link">送料・支払い方法</a></td>' % (amazon[int(num)]['itemUrl'])
+    else:
+        tag += u'<td></td>'
+    if  int(num) < len(rakuten) and rakuten :
+        tag += u'<td><a href="%s" class="link">送料・支払い方法</a></td>' % (rakuten[int(num)]['itemUrl'])
+    else:
+        tag += u'<td></td>'
+    if  int(num) < len(yahoo_s) and yahoo_s:
+        tag += u'<td><a href="%s" class="link">送料・支払い方法</a></td>' % (yahoo_s[int(num)]['itemUrl'])
+    else:
+        tag += u'<td></td>'
+    if  int(num) < len(ponpare) and ponpare:
+        tag += u'<td><a href="%s" class="link">送料・支払い方法</a></td>' % (ponpare[int(num)]['itemUrl'])
+    else:
+        tag += u'<td></td>'
+    if  int(num) < len(yahoo_a) and yahoo_a:
+        tag += u'<td></td>'
+    else:
+        tag += u'<td></td>'
+    tag += u'</tr>'
+
+    tag += u'<tr>'
+    if int(num) < len(amazon) and amazon :
+        tag += u'<td></td>'
+    else:
+        tag += u'<td></td>'
+    if  int(num) < len(rakuten) and rakuten :
+        tag += u'<td> <img src="/static/images/star/%s.gif" /> <a href="%s" class="link">(%s件)</a></td>' % (rakuten[int(num)]['reviewAvg'],rakuten[int(num)]['itemUrl'],rakuten[int(num)]['reviewCnt'])
+    else:
+        tag += u'<td></td>'
+    if  int(num) < len(yahoo_s) and yahoo_s:
+        tag += u'<td><img src="/static/images/star/%s.gif" /><a href="%s" class="link">(%s件)</a></td>' % (yahoo_s[int(num)]['reviewAvg'], yahoo_s[int(num)]['reviewUrl'], yahoo_s[int(num)]['reviewCnt'])
+    else:
+        tag += u'<td></td>'
+    if  int(num) < len(ponpare) and ponpare:
+        tag += u'<td></td>'
+    else:
+        tag += u'<td></td>'
+    if  int(num) < len(yahoo_a) and yahoo_a:
+        tag += u'<td>入札&nbsp;%s件</td>' % yahoo_a[int(num)]['bids']
+    else:
+        tag += u'<td></td>'
+    tag += u'</tr>'
+
+    tag += u'<tr>'
+    if int(num) < len(amazon) and amazon :
+        tag += u'<td>%s</td>' % (amazon[int(num)]['shopName'])
+    else:
+        tag += u'<td></td>'
+    if  int(num) < len(rakuten) and rakuten :
+        tag += u'<td>%s</td>' % (rakuten[int(num)]['shopName'])
+    else:
+        tag += u'<td></td>'
+    if  int(num) < len(yahoo_s) and yahoo_s:
+        tag += u'<td>%s</td>' % (yahoo_s[int(num)]['shopName'])
+    else:
+        tag += u'<td></td>'
+    if int(num) < len(ponpare) and ponpare:
+        tag += u'<td>%s</td>' % (ponpare[int(num)]['shopName'])
+    else:
+        tag += u'<td></td>'
+    if  int(num) < len(yahoo_a) and yahoo_a:
+        tag += u'<td>%s</td>' % (yahoo_a[int(num)]['seller'])
+    else:
+        tag += u'<td></td>'
+    tag += u'</tr>'
 
 
     last_tag = u'</table><!-- /.resultItems -->'
@@ -261,6 +329,7 @@ def getMatrix(num, args):
         </table><!-- /.resultItems -->'''
 
     return mark_safe(s)
+
 
 
 

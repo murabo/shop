@@ -20,7 +20,15 @@ class ApiUtill(object):
         print "success"
         datas = datas.read()
         return datas
-
+    @classmethod
+    def makeStar(cls, num):
+        str = ""
+        for i in xrange(1,6):
+            if i <= num:
+                str += "★"
+            else:
+                str += "☆"
+        return str
     @staticmethod
     def exchangeRakuten(datas):
         results = []
@@ -36,7 +44,9 @@ class ApiUtill(object):
                 "reviewCount":data['reviewCount'],
                 "itemUrl":data['itemUrl'],
                 "shopName":data['shopName'],
-                "ec":"rakuten"}
+                "ec":"rakuten",
+                "reviewCnt":data['reviewCount'],
+                "reviewAvg":int(round(data['reviewAverage'],0))}
             if data['mediumImageUrls']:
                 res["imageUrl"] = data['mediumImageUrls'][0]['imageUrl']
             
@@ -47,12 +57,14 @@ class ApiUtill(object):
     @classmethod
     def exchangePonpare(cls, datas):
         results = []
+        print datas[0]
         for data in datas:
             results.append({"itemName":data['title'][:30],
                            "itemPrice":data['price'],
                            "itemUrl":data['link'],
                            "imageUrl":data['imageFree']['url'],
-                           "ec":"ponpare"}
+                           "ec":"ponpare",
+                           "shopName":data['subStoreName']}
                            )
         return results
 
@@ -66,7 +78,8 @@ class ApiUtill(object):
                            "itemPrice":data['price'],
                            "itemUrl":data['link'],
                            "imageUrl":data['imageFree']['url'],
-                           "ec":"amazon"}
+                           "ec":"amazon",
+                           "shopName":data['subStoreName']}
                        )
         return results
 
@@ -74,14 +87,17 @@ class ApiUtill(object):
     def exchangeYahooS(cls, datas):
         results = []
         for data in datas:
-
+            print type(float(data['Review']['Rate']))
             results.append({"itemName":data['Name'][:30],
                            "itemPrice":data['Price']['_value'],
                            "itemUrl":data['Url'],
                            "imageUrl":data['ExImage']['Url'],
                            "jan": data['JanCode'],
                            "shopName": data['Store']['Name'],
-                           "ec":"yahoo"
+                           "ec":"yahoo",
+                           "reviewAvg":int(round(float(data['Review']['Rate']),0)),
+                           "reviewCnt":data['Review']['Count'],
+                           "reviewUrl":data['Review']['Url'],
                            })
         return results
 
@@ -98,7 +114,9 @@ class ApiUtill(object):
                             "itemUrl": settings.VC_Y_A_URL + param,
                             "imageUrl":data['Image'],
                             "shopName":"",
-                            "ec":"yahoo_a"
+                            "ec":"yahoo_a",
+                            "bids":data['Bids'],
+                            "seller":data['Seller']['Id']
                             })
         return results
 
@@ -376,7 +394,6 @@ class BridgeApi(object):
     def imgUrlFilter(cls, url):
         # ドメインでチェック
         return
-
 
 
 
