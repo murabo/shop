@@ -253,8 +253,8 @@ class BridgeApi(object):
             ctxt.update({"suggest": [ctxt['kwd'],]})
 
         for i in xrange(0, int(data['@attributes']['totalResultsReturned'])):
-            print
-            datas.append(data['Result']['Item'][i])
+            if i in data['Result']['Item']:
+                datas.append(data['Result']['Item'][i])
                              
         # 必要なデータだけに生成
         return ApiUtill.exchangeYahooA(datas)
