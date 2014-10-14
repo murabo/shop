@@ -17,7 +17,7 @@ class ApiUtill(object):
         
         print "callAPI:",url + param
         datas = urllib.urlopen(url + param)
-        
+        print "success"
         datas = datas.read()
         return datas
 
@@ -242,6 +242,7 @@ class BridgeApi(object):
             print "キャッシュなしYA!"
             data = ApiUtill.callAPI(settings.YAHOO_A_URL, param)
             data = json.loads(data.replace('loaded(',"")[:-1])['ResultSet']
+            print data
             if not nocache:
                 Cache.setCacheData(api_name, ctxt['cache_keys'], data)
         else:
@@ -252,10 +253,13 @@ class BridgeApi(object):
         else:
             ctxt.update({"suggest": [ctxt['kwd'],]})
 
+
         for i in xrange(0, int(data['@attributes']['totalResultsReturned'])):
-            if i in data['Result']['Item']:
+            if int(data['@attributes']['totalResultsReturned']) == 1:
+                datas.append(data['Result']['Item'])
+            else:
                 datas.append(data['Result']['Item'][i])
-                             
+
         # 必要なデータだけに生成
         return ApiUtill.exchangeYahooA(datas)
 
