@@ -14,7 +14,6 @@ def getMatrix(num, args):
     yahoo_a = args['yahoo_a']
     if not len(amazon) and not len(rakuten) and not len(yahoo_a) and not len(yahoo_s) and not len(ponpare):
         return
-    print len(amazon), len(rakuten), len(yahoo_s), len(ponpare), len(yahoo_a)
     # Amazon 商品画像、商品名
     name_image_tag = u'''
     <td class="item">

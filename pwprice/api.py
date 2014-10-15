@@ -19,7 +19,7 @@ class ApiUtill(object):
         datas = urllib.urlopen(url + param)
         print "success"
         datas = datas.read()
-        return datas
+
     @classmethod
     def makeStar(cls, num):
         str = ""
@@ -86,7 +86,6 @@ class ApiUtill(object):
     def exchangeYahooS(cls, datas):
         results = []
         for data in datas:
-            print type(float(data['Review']['Rate']))
             results.append({"itemName":data['Name'][:30],
                            "itemPrice":data['Price']['_value'],
                            "itemUrl":data['Url'],
@@ -157,7 +156,7 @@ class BridgeApi(object):
 
 
     @classmethod
-    def getRakten(cls, ctxt, nocache=0, sort='', hits=30):
+    def getRakten(cls, ctxt, nocache=0, sort='', hits=20):
         api_name = 'rakuten'
         param = urllib.urlencode(
                         {'format': 'json',
@@ -181,13 +180,14 @@ class BridgeApi(object):
             print "キャッシュありR"
 
         # 必要なデータだけに生成
-        return ApiUtill.exchangeRakuten(datas['Items'])
-
+        if "Items" in datas:
+            return ApiUtill.exchangeRakuten(datas['Items'])
+        return []
 
 
 
     @classmethod
-    def getYahooS(cls, ctxt, nocache=0, sort='', hits=50):
+    def getYahooS(cls, ctxt, nocache=0, sort='', hits=30):
         api_name = 'yahoo_shopping'
         param = urllib.urlencode(
                              {
@@ -206,6 +206,7 @@ class BridgeApi(object):
                              })
 
         datas = Cache.getCacheData(api_name, ctxt['cache_keys'])
+        print "キャッシュの件数",type(datas)
         result_datas = []
 
         print "getYAHOO!S!",ctxt["jan"]
@@ -248,6 +249,9 @@ class BridgeApi(object):
                              'aucmaxprice': ctxt['maxPrice'],
                              'item_status':0, #0 ：指定なし,1 ：新品
                              'sort':sort,
+                             'buynow': ctxt['buynow'],
+                             'item_status': ctxt['item_status'],
+                             'store': ctxt['store']
                              # 'shipping': ctxt['shipping'], # 1：送料無料 デフォルトはなし
                              })
 
@@ -255,6 +259,7 @@ class BridgeApi(object):
         data = Cache.getCacheData(api_name, ctxt['cache_keys'])
         
         datas = []
+        
         if not data or nocache:
             print "キャッシュなしYA!"
             data = ApiUtill.callAPI(settings.YAHOO_A_URL, param)
@@ -283,7 +288,7 @@ class BridgeApi(object):
 
 
     @classmethod
-    def createVC(cls, ctxt, nocache=0, sort='', sort_order='', hits=50):
+    def createVC(cls, ctxt, nocache=0, sort='', sort_order='', hits=30):
         api_name = 'vc'
         amazon_data = []
         ponpare_data = []
@@ -424,6 +429,7 @@ class Cache(object):
     TMP = 0
     @classmethod
     def setLastTime(cls, name):
+        print "キャッシュセットしたよ"
         r = redis.StrictRedis(host='localhost', port=6379, db=0)
         r.set('lasttime:%s' % name, time.time())
 
@@ -458,5 +464,7 @@ class Cache(object):
             str += key
         print "キーのはず！",'%s:%s' % (name, str)
         result = r.get('%s:%s' % (name, key))
+        print "キャッシュあるの？？",type(result)
+
         if result:
             return msgpack.unpackb(result, encoding='utf-8')

@@ -22,6 +22,11 @@ def home(request):
     if "kwd" in request.GET and request.GET[u"kwd"]:
         kwds = request.GET[u"kwd"].split()
 
+        # キャッシュ用の処理
+        cache_keys = []
+        for kwd in kwds:
+            cache_keys.append(hashlib.sha224(kwd.encode('utf-8')).hexdigest())
+
         if "minPrice" in request.GET:
             ctxt.update({'minPrice': request.GET[u"minPrice"]})
         if "maxPrice" in request.GET:
@@ -30,26 +35,29 @@ def home(request):
         if "rec" in request.GET:
             ctxt.update({'rec': request.GET[u"rec"]})
         # 価格順かおすすめか
-        if "sort" in request.GET:
-            sort = request.GET[u"sort"]
-        else:
-            sort = 0
+        if "sort" in request.GET and request.GET["sort"]:
+            cache_keys.append(hashlib.sha224("sort_1").hexdigest())
 
-        # キャッシュ用の処理
-        cache_keys = []
-        for kwd in kwds:
-            cache_keys.append(hashlib.sha224(kwd.encode('utf-8')).hexdigest())
+        if "item_status" in request.GET and request.GET["item_status"]:
+            cache_keys.append(hashlib.sha224("item_status").hexdigest())
 
-        # 価格順の場合は、キーに追加
-        if sort:
-            cache_keys.append(hashlib.sha224(sort).hexdigest())
+        if "store" in request.GET and request.GET["store"]:
+            cache_keys.append(hashlib.sha224("store").hexdigest())
 
-        cache_keys.sort()
+        if "buynow" in request.GET and request.GET["buynow"]:
+            cache_keys.append(hashlib.sha224("buynow").hexdigest())
+
+
+        cache_keys.reverse()
 
         ctxt.update({'kwd': request.GET[u"kwd"].encode('utf-8'),
                      'cache_keys':cache_keys,
-                     'sort': sort,
-                     'jan': '' if not "rec" in request.GET else request.GET[u"rec"].encode('utf-8')
+                     'sort': 1 if "sort" in request.GET and request.GET["sort"] else 0,
+                     'jan': '' if not "rec" in request.GET else request.GET[u"rec"].encode('utf-8'),
+                     'item_status': 1 if "item_status" in request.GET and request.GET["item_status"] else 0,
+                     'store': 1 if "store" in request.GET and request.GET["store"] else 0,
+                     'buynow': 1 if "buynow" in request.GET and request.GET["buynow"] else 0,
+                    
                     })
         
         ctxt.update({"results": BridgeApi.getAll(ctxt)})

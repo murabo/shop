@@ -150,7 +150,7 @@
             <div class="priceBlock">
                 <p class="title">サイト最安値</p>
                 <div class="itemImg">
-                    <img src="http://placehold.it/150x150" alt="画像"/>
+                    <img src="{{praice_results.0.imageUrl}}" alt="画像"/>
                     <p>こちらの画像は異なる場合があります。</br>数量等は各ショップ詳細でご確認ください。</p>
                 </div>
                 <table class="priceTable">
@@ -240,6 +240,7 @@
             {% endif %}
 
             <form method="get" action="{% url 'home' %}">
+                <input type="hidden" name="kwd" value="{{kwd}}" >
             <table class="options">
                 <tr>
                     <td>
@@ -252,9 +253,9 @@
                     <td>
                         <div class="frame">
                             <p>オークション条件</p>
-                            <div><input type="checkbox" name="example" value="サンプル">即決あり</div>
-                            <div><input type="checkbox" name="example" value="サンプル">新品のみ</div>
-                            <div><input type="checkbox" name="example" value="サンプル">ストアのみ</div>
+                            <div><input type="checkbox" name="buynow" value=1 {%if buynow %}checked="checked"{%endif%} >即決あり</div>
+                            <div><input type="checkbox" name="item_status" value=1 >新品のみ</div>
+                            <div><input type="checkbox" name="store" value=1 >ストアのみ</div>
                         </div>
                     </td>
                     <td class="priceInputbox">
