@@ -19,6 +19,7 @@ class ApiUtill(object):
         datas = urllib.urlopen(url + param)
         print "success"
         datas = datas.read()
+        return datas
 
     @classmethod
     def makeStar(cls, num):
@@ -309,13 +310,14 @@ class BridgeApi(object):
         if not datas or nocache:
             print "キャッシュなしVC"
             datas = ApiUtill.callAPI(settings.VALUE_API_URL, param)
-            datas = json.loads(datas)
-            if not nocache:
-                Cache.setCacheData(api_name, ctxt['cache_keys'], datas)
+            if datas:
+                datas = json.loads(datas)
+                if not nocache:
+                    Cache.setCacheData(api_name, ctxt['cache_keys'], datas)
         else:
             print "キャッシュありVC"
 
-        if datas['resultCount']:
+        if datas and datas['resultCount']:
             for data in datas['items']:
 
                 if cls.EC_CODE_A == data['ecCode']:
@@ -337,7 +339,7 @@ class BridgeApi(object):
 
     @classmethod
     def getAll(cls, ctxt):
-
+        print ctxt
         amazon_data, ponpare_data = cls.createVC(ctxt)
 
         return {'rakuten': cls.getRakten(ctxt, sort='standard'),
