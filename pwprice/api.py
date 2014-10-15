@@ -167,10 +167,15 @@ class BridgeApi(object):
                          'maxPrice': ctxt['maxPrice'],
                          'imageFlag': '1',
                          'hits':hits,
-                         'sort': sort}
+                         'sort': sort,
+                         'postageFlag': ctxt['shipping']}
         )
 
-        datas = Cache.getCacheData(api_name, ctxt['cache_keys'])
+        keys = ctxt['cache_keys']
+        if ctxt['shipping']:
+            keys.append(hashlib.sha224("shipping").hexdigest())
+        keys.sort()
+        datas = Cache.getCacheData(api_name, keys)
         if not datas or nocache:
             print "キャッシュなしR"
             datas = ApiUtill.callAPI(settings.RAKUTEN_API_URL, param)
@@ -203,10 +208,14 @@ class BridgeApi(object):
                                  'price_to': ctxt['maxPrice'],
                                  'hits':hits,
                                  'sort':sort,
-                                  # 'shipping': ctxt['shipping'], # 1：送料無料 デフォルトはなし
+                                 'shipping': ctxt['shipping'],
                              })
+        keys = ctxt['cache_keys']
+        if ctxt['shipping']:
+            keys.append(hashlib.sha224("shipping").hexdigest())
+        keys.sort()
+        datas = Cache.getCacheData(api_name, keys)
 
-        datas = Cache.getCacheData(api_name, ctxt['cache_keys'])
         print "キャッシュの件数",type(datas)
         result_datas = []
 
@@ -248,16 +257,21 @@ class BridgeApi(object):
                              'category_id':'',
                              'aucminprice': ctxt['minPrice'],
                              'aucmaxprice': ctxt['maxPrice'],
-                             'item_status':0, #0 ：指定なし,1 ：新品
                              'sort':sort,
                              'buynow': ctxt['buynow'],
                              'item_status': ctxt['item_status'],
                              'store': ctxt['store']
                              # 'shipping': ctxt['shipping'], # 1：送料無料 デフォルトはなし
                              })
-
-
-        data = Cache.getCacheData(api_name, ctxt['cache_keys'])
+        keys = ctxt['cache_keys']
+        if ctxt['buynow']:
+            keys.append(hashlib.sha224("buynow").hexdigest())
+        if ctxt['item_status']:
+            keys.append(hashlib.sha224("item_status").hexdigest())
+        if ctxt['store']:
+            keys.append(hashlib.sha224("store").hexdigest())
+        keys.sort()
+        data = Cache.getCacheData(api_name, keys)
         
         datas = []
         
@@ -265,7 +279,7 @@ class BridgeApi(object):
             print "キャッシュなしYA!"
             data = ApiUtill.callAPI(settings.YAHOO_A_URL, param)
             data = json.loads(data.replace('loaded(',"")[:-1])['ResultSet']
-            print data
+
             if not nocache:
                 Cache.setCacheData(api_name, ctxt['cache_keys'], data)
         else:
@@ -465,7 +479,7 @@ class Cache(object):
         for key in keys:
             str += key
         print "キーのはず！",'%s:%s' % (name, str)
-        result = r.get('%s:%s' % (name, key))
+        result = r.get('%s:%s' % (name, str))
         print "キャッシュあるの？？",type(result)
 
         if result:

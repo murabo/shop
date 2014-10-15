@@ -29,8 +29,10 @@ def home(request):
 
         if "minPrice" in request.GET:
             ctxt.update({'minPrice': request.GET[u"minPrice"]})
+            cache_keys.append(hashlib.sha224("minPrice_%s" % request.GET[u"minPrice"]).hexdigest())
         if "maxPrice" in request.GET:
             ctxt.update({'maxPrice': request.GET[u"maxPrice"]})
+            cache_keys.append(hashlib.sha224("maxPrice_%s" % request.GET[u"maxPrice"]).hexdigest())
         # 価格(jan)検索の何番目かの番号
         if "rec" in request.GET:
             ctxt.update({'rec': request.GET[u"rec"]})
@@ -38,6 +40,7 @@ def home(request):
         if "sort" in request.GET and request.GET["sort"]:
             cache_keys.append(hashlib.sha224("sort_1").hexdigest())
 
+        """
         if "item_status" in request.GET and request.GET["item_status"]:
             cache_keys.append(hashlib.sha224("item_status").hexdigest())
 
@@ -46,9 +49,9 @@ def home(request):
 
         if "buynow" in request.GET and request.GET["buynow"]:
             cache_keys.append(hashlib.sha224("buynow").hexdigest())
+        """
 
-
-        cache_keys.reverse()
+        cache_keys.sort()
 
         ctxt.update({'kwd': request.GET[u"kwd"].encode('utf-8'),
                      'cache_keys':cache_keys,
@@ -57,7 +60,7 @@ def home(request):
                      'item_status': 1 if "item_status" in request.GET and request.GET["item_status"] else 0,
                      'store': 1 if "store" in request.GET and request.GET["store"] else 0,
                      'buynow': 1 if "buynow" in request.GET and request.GET["buynow"] else 0,
-                    
+                     'shipping': 1 if "shipping" in request.GET and request.GET["shipping"] else 0,
                     })
         
         ctxt.update({"results": BridgeApi.getAll(ctxt)})

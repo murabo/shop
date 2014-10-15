@@ -246,16 +246,15 @@
                     <td>
                         <div class="frame">
                             <p>ショッピンング条件</p>
-                            <div><input type="checkbox" name="example" value="サンプル"> 送料無料</div>
-                            <div><input type="checkbox" name="example" value="サンプル">レビューあり</div>
+                            <div><input type="checkbox" name="shipping" value="1" {%if shipping %}checked="checked"{%endif%} > 送料無料</div>
                         </div>
                     </td>
                     <td>
                         <div class="frame">
                             <p>オークション条件</p>
                             <div><input type="checkbox" name="buynow" value=1 {%if buynow %}checked="checked"{%endif%} >即決あり</div>
-                            <div><input type="checkbox" name="item_status" value=1 >新品のみ</div>
-                            <div><input type="checkbox" name="store" value=1 >ストアのみ</div>
+                            <div><input type="checkbox" name="item_status" value=1 {%if buynow %}checked="checked"{%endif%} >新品のみ</div>
+                            <div><input type="checkbox" name="store" value=1 {%if buynow %}checked="checked"{%endif%} >ストアのみ</div>
                         </div>
                     </td>
                     <td class="priceInputbox">
