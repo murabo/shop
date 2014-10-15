@@ -190,6 +190,36 @@ class BridgeApi(object):
             return ApiUtill.exchangeRakuten(datas['Items'])
         return []
 
+    """
+    @classmethod
+    def getRakA(cls, ctxt, nocache=0, sort='', hits=20):
+        api_name = 'rakuten'
+        param = urllib.urlencode(
+                             {'format': 'json',
+                             'keyword': ctxt['kwd'] if not ctxt['jan'] else ctxt['jan'],
+                             'applicationId': settings.RAKUTEN_APP_ID,
+                             'minPrice': ctxt['minPrice'],
+                             'maxPrice': ctxt['maxPrice'],
+                             'imageFlag': '1',
+                             'hits':hits,
+                             'sort': sort,
+                             'postageFlag': ctxt['shipping']}
+                             )
+                             
+        keys = ctxt['cache_keys']
+        if ctxt['shipping']:
+            keys.append(hashlib.sha224("shipping").hexdigest())
+        keys.sort()
+
+        datas = ApiUtill.callAPI("http://app.rakuten.co.jp/services/api/AuctionItem/Search/20130905?", param)
+        datas = json.loads(datas)
+            
+        # 必要なデータだけに生成
+        if "Items" in datas:
+            return ApiUtill.exchangeRakuten(datas['Items'])
+        return []
+    """
+
 
 
     @classmethod

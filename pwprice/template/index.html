@@ -55,21 +55,32 @@
                     <td>
                         <a href="xxx">
                             <img src="./static/images/block1/rakuten200x60.gif" alt="rakuten"/>
-                            <p class="point">テキスト1%</p>
-                            <p class="text">テキスト</p>
-                            <p class="etc">(レビュー99件)</p>
-                            <p class="etc">テキスト</p>
-                            <p class="card">テキスト</p>
+                            <p><img src="/static/images/block1/rakuten_p200x40.gif" /></p>
+                            <p class="text">>> 最安値はコチラ!</p>
+                            <p class="card"><a href="" >楽天カードなら5000円安く</a></p>
+                            <p class="etc">(レビュー{{results.rakuten.0.reviewCount}}件)</p>
+                            <p class="etc">xxx</p>
+                            
                         </a>
                     </td>
                     <td>
                         <a href="xxx">
                             <img src="./static/images/block1/amazon200x60.gif" alt="amazon"/>
+                            <p><img src="/static/images/block1/amazon_p200x40.gif" /></p>
+                            <p class="text">>> 最安値はコチラ!</p>
+                            <p class="card"><a href="" >アマゾン最強カードはコチラ</a></p>
+                            <p class="etc">(レビュー{{results.rakuten.0.reviewCount}}件)</p>
+                            <p class="etc">xxx</p>
                         </a>
                     </td>
                     <td>
                         <a href="xxx">
                             <img src="./static/images/block1/yahoo200x60.gif" alt="yahoo"/>
+                            <p><img src="/static/images/block1/yahoo_p200x40.gif" /></p>
+                            <p class="text">>> 最安値はコチラ!</p>
+                            <p class="card"><a href="" >ヤフーカードなら5000円安く</a></p>
+                            <p class="etc">(レビュー{{results.yahoo_s.0.reviewCount}}件)</p>
+                            <p class="etc">xxx</p>
                         </a>
                     </td>
                     <tr>
@@ -77,28 +88,39 @@
                     <td>
                         <a href="xxx">
                             <img src="./static/images/block1/ponpare200x60.gif" alt="ponpare"/>
-                            <p class="point">テキスト1%</p>
-                            <p class="text">テキスト</p>
+                            <p><img src="/static/images/block1/ponpare_p200x40.gif" /></p>
+                            <p class="text">>> 最安値はコチラ!</p>
+                            <p class="card"><a href="" >リクルートカードなら5000円安く</a></p>
                             <p class="etc">(レビュー99件)</p>
                             <p class="etc">テキスト</p>
-                            <p class="card">テキスト</p>
+                            
                         </a>
                     </td>
                     <td>
                         <a href="xxx">
                             <img src="./static/images/block1/yahooauc200x60.gif" alt="yahooauc"/>
+                            <p><img src="/static/images/block1/yauc_p200x40.gif" /></p>
+                            <p class="text">>> 最安値はコチラ!</p>
+                            <p class="card"><a href="" >ヤフーカードなら5000円安く</a></p>
+                            <p class="etc">(レビュー{{results.rakuten.0.reviewCount}}件)</p>
+                            <p class="etc">xxx</p>
                         </a>
                     </td>
                     <td>
                         <a href="xxx">
                             <img src="./static/images/block1/rakuauc200x60.gif" alt="rakuauc"/>
+                            <p><img src="/static/images/block1/rakuauc_p200x40.gif" /></p>
+                            <p class="text">>> 最安値はコチラ!</p>
+                            <p class="card"><a href="" >楽天カードなら5000円安く</a></p>
+                            <p class="etc">(レビュー{{results.rakuten.0.reviewCount}}件)</p>
+                            <p class="etc">xxx</p>
                         </a>
                     </td>
                 </tr>
             </table>
 
             <div class="itemImg">
-                <img src="http://placehold.it/150x150" alt="画像"/>
+                <img src="{{results.rakuten.0.imageUrl}}" alt="画像"/>
                 <p>こちらの画像は異なる場合があります。</br>数量等は各ショップ詳細でご確認ください。</p>
             </div>
         </div><!-- /.lowestPriceBlock -->
