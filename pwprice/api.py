@@ -33,6 +33,7 @@ class ApiUtill(object):
     @staticmethod
     def exchangeRakuten(datas):
         results = []
+        af_url = "http://c.af.moshimo.com/af/c/click?a_id=465153&p_id=54&pc_id=54&pl_id=616&url="
 
         for data in datas:
             data = data['Item']
@@ -43,7 +44,7 @@ class ApiUtill(object):
                 "asurakuFlag":data['asurakuFlag'],
                 "reviewAverage":data['reviewAverage'],
                 "reviewCount":data['reviewCount'],
-                "itemUrl":data['itemUrl'],
+                "itemUrl":af_url+urllib.quote(data['itemUrl']),
                 "shopName":data['shopName'],
                 "ec":"rakuten",
                 "reviewCnt":data['reviewCount'],
