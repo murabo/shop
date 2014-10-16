@@ -113,7 +113,6 @@ a:forcus{
 .relatedWords li {
    display: inline-block;
    margin-left: 10px;
-   text-decoration: underline;
    float:left;
 }
 
@@ -219,12 +218,12 @@ a:forcus{
 }
  /* 商品一覧 */
 .rankingBlock .itemTable{
-    width: 100%;
+    
     margin-top: 10px;
 }
 .rankingBlock .itemTable td{
     position: relative;
-    width: 20%;
+    width: 200px;
     text-align: center;
     padding: 20px 0 35px 0;
     vertical-align: top;
@@ -241,7 +240,7 @@ a:forcus{
     position: absolute;
     bottom: 5px;
     width: 100%;
-    padding: 0 5px;
+/*    padding: 0 5px;*/
 }
 .rankingBlock .itemTable .link a{
     height: 25px;

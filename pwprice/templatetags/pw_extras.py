@@ -4,6 +4,7 @@ from django.utils.safestring import mark_safe
 from pwprice.api import BridgeApi
 from django import template
 register = template.Library()
+import urllib
 
 @register.filter
 def getMatrix(num, args):
@@ -18,7 +19,7 @@ def getMatrix(num, args):
     name_image_tag = u'''
     <td class="item">
     <div class="img">
-    <img src="%s" alt="画像" height='45' width='45'/>
+    <img src="%s" alt="画像" height='76' width='76'/>
     </div>
     <a href='%s'><div class="body">%s</div></a>
     </td>'''
@@ -330,8 +331,20 @@ def getMatrix(num, args):
     return mark_safe(s)
 
 
+@register.filter
+def urlEncode(param,key=""):
 
+    key = urllib.quote(key)
+    return mark_safe(urllib.quote(param+key))
 
+@register.filter
+def urlEncodeRA(param,key=""):
+    print "エンコード楽天"
+    print key
+    print type(unicode(key, "utf-8"))
+    print urllib.quote(param+urllib.quote(unicode(key, "utf-8").encode('euc-jp')))
+    key = urllib.quote(unicode(key, "utf-8").encode('euc-jp'))
+    return mark_safe(urllib.quote(param+key))
 
 @register.filter
 def getEcImg(ec):
