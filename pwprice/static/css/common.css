@@ -114,6 +114,7 @@ a:forcus{
    display: inline-block;
    margin-left: 10px;
    float:left;
+   text-decoration: underline;
 }
 
 /* タイトル */
@@ -487,9 +488,18 @@ a:forcus{
     float: left;
 }
 
-
-
-
+.ads {
+    margin: 0px auto;
+    width: 1000px;
+}
+.ads #adright {
+    float: left;
+    margin:15px 15px 15px 15px;
+}
+.ads #adleft {
+    float: left;
+    margin: 0px;
+}
 
 
 

@@ -157,7 +157,7 @@ class BridgeApi(object):
 
 
     @classmethod
-    def getRakten(cls, ctxt, nocache=0, sort='', hits=20):
+    def getRakten(cls, ctxt, nocache=0, sort='standard', hits=20):
         api_name = 'rakuten'
         param = urllib.urlencode(
                         {'format': 'json',
@@ -167,7 +167,7 @@ class BridgeApi(object):
                          'maxPrice': ctxt['maxPrice'],
                          'imageFlag': '1',
                          'hits':hits,
-                         'sort': sort,
+                         'sort': sort if nocache or not ctxt['sort'] else "+itemPrice",
                          'postageFlag': ctxt['shipping']}
         )
 
@@ -190,37 +190,6 @@ class BridgeApi(object):
             return ApiUtill.exchangeRakuten(datas['Items'])
         return []
 
-    """
-    @classmethod
-    def getRakA(cls, ctxt, nocache=0, sort='', hits=20):
-        api_name = 'rakuten'
-        param = urllib.urlencode(
-                             {'format': 'json',
-                             'keyword': ctxt['kwd'] if not ctxt['jan'] else ctxt['jan'],
-                             'applicationId': settings.RAKUTEN_APP_ID,
-                             'minPrice': ctxt['minPrice'],
-                             'maxPrice': ctxt['maxPrice'],
-                             'imageFlag': '1',
-                             'hits':hits,
-                             'sort': sort,
-                             'postageFlag': ctxt['shipping']}
-                             )
-                             
-        keys = ctxt['cache_keys']
-        if ctxt['shipping']:
-            keys.append(hashlib.sha224("shipping").hexdigest())
-        keys.sort()
-
-        datas = ApiUtill.callAPI("http://app.rakuten.co.jp/services/api/AuctionItem/Search/20130905?", param)
-        datas = json.loads(datas)
-            
-        # 必要なデータだけに生成
-        if "Items" in datas:
-            return ApiUtill.exchangeRakuten(datas['Items'])
-        return []
-    """
-
-
 
     @classmethod
     def getYahooS(cls, ctxt, nocache=0, sort='', hits=30):
@@ -237,7 +206,7 @@ class BridgeApi(object):
                                  'price_from': ctxt['minPrice'],
                                  'price_to': ctxt['maxPrice'],
                                  'hits':hits,
-                                 'sort':sort,
+                                 'sort': sort if nocache or not ctxt['sort'] else "+price",
                                  'shipping': ctxt['shipping'],
                              })
         keys = ctxt['cache_keys']
@@ -287,7 +256,7 @@ class BridgeApi(object):
                              'category_id':'',
                              'aucminprice': ctxt['minPrice'],
                              'aucmaxprice': ctxt['maxPrice'],
-                             'sort':sort,
+                             'sort': sort if nocache or not ctxt['sort'] else "cbids",
                              'buynow': ctxt['buynow'],
                              'item_status': ctxt['item_status'],
                              'store': ctxt['store']
@@ -344,8 +313,9 @@ class BridgeApi(object):
                                  'keyword': ctxt['kwd'] if not ctxt['jan'] else ctxt['jan'],
                                  'category':'',
                                  'ec_code': cls.EC_CODE,
-                                 'sort_by':sort,
-                                 'sort_order':sort_order,
+                                 
+                                 'sort': sort if nocache or not ctxt['sort'] else "price",
+                                 'sort_order':sort_order if nocache or not ctxt['sort'] else "asc",
                                  'format':'json',
                                  'results_per_page':hits})
         
@@ -386,7 +356,7 @@ class BridgeApi(object):
         print ctxt
         amazon_data, ponpare_data = cls.createVC(ctxt)
 
-        return {'rakuten': cls.getRakten(ctxt, sort='standard'),
+        return {'rakuten': cls.getRakten(ctxt),
                 'yahoo_s': cls.getYahooS(ctxt),
                 'yahoo_a': cls.getYahooA(ctxt),
                 'amazon' : cls.getAmazon(amazon_data),
@@ -408,8 +378,6 @@ class BridgeApi(object):
                 'yahoo_a_p': yahoo_a,
                 'amazon_p' : amazon,
                 'ponpare_p': ponpare,
-#                'jandata_p': cls.JAN_DATA,
-
         }
         lowestPrice = {'1st_rakuten_p':rakuten[0] if rakuten and rakuten[0] else "",
                        '1st_yahoo_s_p':yahoo_s[0] if yahoo_s and yahoo_s[0] else "",

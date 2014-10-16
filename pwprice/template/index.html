@@ -18,9 +18,9 @@
 
         <div class="header clrF">
             <ul>
-                <li><a href="xxx"><img src="./static/images/header/logo01.gif" alt="logo"/></a></li>
-                <li><a href="xxx"><img src="./static/images/header/logo02.gif" alt="logo"/></a></li>
-                <li><a href="xxx"><img src="./static/images/header/ad_top01.gif" alt="ad"/></a></li>
+                <li><a href="/" ><img src="./static/images/header/logo01.gif" alt="logo"/></a></li>
+                <li><a href="xxx" target="_blank"><img src="./static/images/header/logo02.gif" alt="logo"/></a></li>
+                <li><a href="xxx" target="_blank"><img src="./static/images/header/ad_top01.gif" alt="ad"/></a></li>
             </ul>
         </div><!-- /.header -->
 
@@ -38,7 +38,7 @@
             <span>関連ワード :</span>
             <ul>
                 {% for str in suggest %}
-                <li><a href="{% url 'home' %}?kwd={{str}}&minPrice=0&maxPrice=0" class="linkCol">{{str}}</a></li>
+                <li><a href="{% url 'home' %}?kwd={{str}}&minPrice=0&maxPrice=0" class="linkCol" >{{str}}</a></li>
                 {% endfor %}
             </ul>
         </div><!-- /.relatedWords -->
@@ -57,7 +57,7 @@
                             <a href="http://c.af.moshimo.com/af/c/click?a_id=465153&p_id=54&pc_id=54&pl_id=616&url={{"http://search.rakuten.co.jp/search/mall?sitem="|urlEncode:kwd}}" target="_blank"><img src="./static/images/block1/rakuten200x60.gif" alt="rakuten"/></a>
                             <p><img src="/static/images/block1/rakuten_p200x40.gif" /></p>
                             <p class="text"><a href="http://c.af.moshimo.com/af/c/click?a_id=465153&p_id=54&pc_id=54&pl_id=616&url={{"http://search.rakuten.co.jp/search/mall?sitem="|urlEncode:kwd}}" target="_blank">>> 最安値はコチラ!<a/></p>
-                            <p class="card"><a href="" >楽天カードなら5000円安く</a></p>
+                            <p class="card"><a href=""  target="_blank">楽天カードなら5000円安く</a></p>
                             <p class="etc">(レビュー{{results.rakuten.0.reviewCount}}件)</p>
                             <p class="etc">xxx</p>
                             
@@ -67,7 +67,7 @@
                         <a href="http://ck.jp.ap.valuecommerce.com/servlet/referral?sid=3161331&pid=882992165&vc_url={{"http://www.amazon.co.jp/s/ref=nb_sb_noss_1?field-keywords="|urlEncode:kwd}}" target="_blank" ><img src="./static/images/block1/amazon200x60.gif" alt="amazon"/></a>
                             <p><img src="/static/images/block1/amazon_p200x40.gif" /></p>
                             <p class="text"><a href="http://ck.jp.ap.valuecommerce.com/servlet/referral?sid=3161331&pid=882992165&vc_url={{"http://www.amazon.co.jp/s/ref=nb_sb_noss_1?field-keywords="|urlEncode:kwd}}" target="_blank" >>> 最安値はコチラ!</a></p>
-                            <p class="card"><a href="" >アマゾン最強カードはコチラ</a></p>
+                            <p class="card"><a href=""  target="_blank">アマゾン最強カードはコチラ</a></p>
                             <p class="etc"></p>
                             <p class="etc">xxx</p>
                     </td>
@@ -76,7 +76,7 @@
                             <img src="./static/images/block1/yahoo200x60.gif" alt="yahoo"/></a>
                             <p><img src="/static/images/block1/yahoo_p200x40.gif" /></p>
                             <p class="text"><a href="http://ck.jp.ap.valuecommerce.com/servlet/referral?sid=3161331&pid=882992164&vc_url={{"http://search.shopping.yahoo.co.jp/search?p="|urlEncode:kwd}}" target="_blank" >>> 最安値はコチラ!</a></p>
-                            <p class="card"><a href="" >ヤフーカードなら5000円安く</a></p>
+                            <p class="card"><a href="" target="_blank">ヤフーカードなら5000円安く</a></p>
                             <p class="etc">(レビュー{{results.yahoo_s.0.reviewCount}}件)</p>
                             <p class="etc">xxx</p>
                     </td>
@@ -86,11 +86,9 @@
                         <a href="http://ck.jp.ap.valuecommerce.com/servlet/referral?sid=3161331&pid=882992165&vc_url={{"http://www.ponparemall.com/search/?keywordAnd="|urlEncode:kwd}}" target="_blank" ><img src="./static/images/block1/ponpare200x60.gif" alt="ponpare"/></a>
                             <p><img src="/static/images/block1/ponpare_p200x40.gif" /></p>
                             <p class="text"><a href="http://ck.jp.ap.valuecommerce.com/servlet/referral?sid=3161331&pid=882992165&vc_url={{"http://www.ponparemall.com/search/?keywordAnd="|urlEncode:kwd}}" target="_blank" >>> 最安値はコチラ!</a></p>
-                            <p class="card"><a href="" >リクルートカードなら5000円安く</a></p>
+                            <p class="card"><a href=""  target="_blank">リクルートカードなら5000円安く</a></p>
                             <p class="etc">(レビュー99件)</p>
                             <p class="etc">テキスト</p>
-                            
-                        </a>
                     </td>
                     <td>
                             <a href="http://ck.jp.ap.valuecommerce.com/servlet/referral?sid=3161331&pid=882992165&vc_url={{"http://auctions.search.yahoo.co.jp/search?auccat=&p="|urlEncode:kwd}}" target="_blank" ><img src="./static/images/block1/yahooauc200x60.gif" alt="yahooauc"/></a>
@@ -108,7 +106,6 @@
                             <p class="card"><a href="" >楽天カードなら5000円安く</a></p>
                             <p class="etc"></p>
                             <p class="etc">xxx</p>
-                        </a>
                     </td>
                 </tr>
             </table>
@@ -171,29 +168,29 @@
                 </div>
                 <table class="priceTable">
                     <tr>
-                        <td><a href="xxx"><img src="./static/images/block2/amazon135x32.gif" /></a></td>
-                        <td><a href="xxx">{%if lowestPrice.1st_amazon_p%}¥{{lowestPrice.1st_amazon_p.itemPrice}}{%else%}-{%endif%}</a></td>
+                        <td><img src="./static/images/block2/amazon135x32.gif" /></td>
+                        <td>{%if lowestPrice.1st_amazon_p%}<a href="{{lowestPrice.1st_amazon_p.itemUrl}}" target="_blank">¥{{lowestPrice.1st_amazon_p.itemPrice}}</a>{%else%}-{%endif%}</td>
                     </tr>
                     <tr>
-                        <td><a href="xxx"><img src="./static/images/block2/rakuten135x32.gif" /></a></div>
-                        <td><a href="xxx">{%if lowestPrice.1st_rakuten_p%}¥{{lowestPrice.1st_rakuten_p.itemPrice}}{%else%}-{%endif%}</a></div>
+                        <td><img src="./static/images/block2/rakuten135x32.gif" /></div>
+                        <td>{%if lowestPrice.1st_rakuten_p%}<a href="{{lowestPrice.1st_rakuten_p.itemUrl}}" target="_blank">¥{{lowestPrice.1st_rakuten_p.itemPrice}}</a>{%else%}-{%endif%}</div>
                     </tr>
                     <tr>
-                        <td><a href="xxx"><img src="./static/images/block2/yahoo135x32.gif" /></a></div>
-                        <td><a href="xxx">{%if lowestPrice.1st_yahoo_s_p%}¥{{lowestPrice.1st_yahoo_s_p.itemPrice}}{%else%}-{%endif%}</a></div>
+                        <td><img src="./static/images/block2/yahoo135x32.gif" /></div>
+                        <td>{%if lowestPrice.1st_yahoo_s_p%}<a href="{{lowestPrice.1st_yahoo_s_p.itemUrl}}" target="_blank">¥{{lowestPrice.1st_yahoo_s_p.itemPrice}}</a>{%else%}-{%endif%}</div>
                     </tr>
                     <tr>
-                        <td><a href="xxx"><img src="./static/images/block2/ponpar135x32.gif" alt="amazon"/></a></div>
-                        <td><a href="xxx">{%if lowestPrice.1st_ponpare_p%}¥{{lowestPrice.1st_ponpare_p.itemPrice}}{%else%}-{%endif%}</a></div>
+                        <td><img src="./static/images/block2/ponpar135x32.gif" alt="amazon"/></div>
+                        <td>{%if lowestPrice.1st_ponpare_p%}<a href="{{lowestPrice.1st_ponpare_p.itemUrl}}}" target="_blank">¥{{lowestPrice.1st_ponpare_p.itemPrice}}</a>{%else%}-{%endif%}</div>
                     </tr>
                     <tr>
-                        <td><a href="xxx"><img src="./static/images/block2/yahooauc135x32.gif" alt="amazon"/></a></div>
-                        <td><a href="xxx">{%if lowestPrice.1st_yahoo_a_p%}¥{{lowestPrice.1st_yahoo_a_p.itemPrice}}{%else%}-{%endif%}</a></div>
+                        <td><img src="./static/images/block2/yahooauc135x32.gif" alt="amazon"/></div>
+                        <td>{%if lowestPrice.1st_yahoo_a_p%}<a href="{{lowestPrice.1st_yahoo_a_p.itemUrl}}" target="_blank">¥{{lowestPrice.1st_yahoo_a_p.itemPrice}}</a>{%else%}-{%endif%}</div>
                     </tr>
                 </table>
 
                 <div class="lowestPrice">
-                    <span class="text">最安値</span><span class="price linkCol">{%if praice_results %}<a href="{{praice_results.0.itemUrl}}" >¥{{praice_results.0.itemPrice}}</a>{%else%}-{%endif%}</span>
+                    <span class="text">最安値</span><span class="price linkCol">{%if praice_results %}<a href="{{praice_results.0.itemUrl}}" target="_blank" >¥{{praice_results.0.itemPrice}}</a>{%else%}-{%endif%}</span>
                 </div>
             </div><!-- /.priceList -->
             <div class="priceRanking">
@@ -208,9 +205,9 @@
                     <tr>
                         <td>{{forloop.counter}}位</td>
                         <td>¥{{d.itemPrice}}</td>
-                        <td><a href="{{d.itemUrl}}" class="linkCol"><img src={{ d.ec|getEcImg}} 
+                        <td><a href="{{d.itemUrl}}" class="linkCol" target="_blank"><img src={{ d.ec|getEcImg}} 
                             /></a></td>
-                        <td><a href="{{d.itemUrl}}" class="linkCol">{{d.shopName}}</a></td>
+                        <td><a href="{{d.itemUrl}}" class="linkCol" target="_blank">{{d.shopName}}</a></td>
                     </tr>
                     {% endfor %}
                 </table>
@@ -238,9 +235,10 @@
 
                 <div class="sort">
                     <span>並び替え</span>
-                    <a href="xxxx" class="active">人気の順番(入札順)</a>
+                    <a href="/?kwd={{kwd}}&minPrice={{minPrice}}&maxPrice={{maxPrice}}&buynow={{buynow}}&item_status={{item_status}}&store={{store}}" {%if not request.GET.sort%}class="active"{%endif%}>人気の順番(入札順)</a>
                     <span>&nbsp;|&nbsp;</span>
-                    <a href="xxxx">価格の安い順番</a>
+
+                    <a href="/?kwd={{kwd}}&minPrice={{minPrice}}&maxPrice={{maxPrice}}&buynow={{buynow}}&item_status={{item_status}}&store={{store}}&sort=1" {%if request.GET.sort%}class="active"{%endif%}>価格の安い順番</a>
                 </div>
             </div>
 
@@ -269,8 +267,8 @@
                         <div class="frame">
                             <p>オークション条件</p>
                             <div><input type="checkbox" name="buynow" value=1 {%if buynow %}checked="checked"{%endif%} >即決あり</div>
-                            <div><input type="checkbox" name="item_status" value=1 {%if buynow %}checked="checked"{%endif%} >新品のみ</div>
-                            <div><input type="checkbox" name="store" value=1 {%if buynow %}checked="checked"{%endif%} >ストアのみ</div>
+                            <div><input type="checkbox" name="item_status" value=1 {%if item_status %}checked="checked"{%endif%} >新品のみ</div>
+                            <div><input type="checkbox" name="store" value=1 {%if store %}checked="checked"{%endif%} >ストアのみ</div>
                         </div>
                     </td>
                     <td class="priceInputbox">
@@ -310,7 +308,7 @@
                 </li>
                 <li>
                     <div class="logo"><a href="http://ck.jp.ap.valuecommerce.com/servlet/referral?sid=3161331&pid=882992165&vc_url={{"http://auctions.search.yahoo.co.jp/search?auccat=&p="|urlEncode:kwd}}" target="_blank" ><img src="./static/images/block3/yahooauc30.gif" alt="yahooauc"/></a></div>
-                    <p><a href="http://ck.jp.ap.valuecommerce.com/servlet/referral?sid=3161331&pid=882992165&vc_url={{"http://auctions.search.yahoo.co.jp/search?auccat=&p="|urlEncode:kwd}}" target="_blank" >終了間近の出品</a>｜<a href="xxx">落札相場</a></p>
+                    <p><a href="http://ck.jp.ap.valuecommerce.com/servlet/referral?sid=3161331&pid=882992165&vc_url={{"http://auctions.search.yahoo.co.jp/search?auccat=&p="|urlEncode:kwd}}" target="_blank" >終了間近の出品｜落札相場</a></p>
                 </li>
             </ul><!-- /.resultService -->
 
@@ -356,9 +354,10 @@
 
                 <div class="sort">
                     <span>並び替え</span>
-                    <a href="xxxx" class="active">人気の順番(入札順)</a>
+                    <a href="/?kwd={{kwd}}&minPrice={{minPrice}}&maxPrice={{maxPrice}}&buynow={{buynow}}&item_status={{item_status}}&store={{store}}" {%if not request.GET.sort%}class="active"{%endif%}>人気の順番(入札順)</a>
                     <span>&nbsp;|&nbsp;</span>
-                    <a href="xxxx">価格の安い順番</a>
+
+                    <a href="/?kwd={{kwd}}&minPrice={{minPrice}}&maxPrice={{maxPrice}}&buynow={{buynow}}&item_status={{item_status}}&store={{store}}&sort=1" {%if request.GET.sort%}class="active"{%endif%}>価格の安い順番</a>
                 </div>
             </div>
 
@@ -403,7 +402,16 @@
                 <p>運営情報・お問い合わせ</p>
             </div><!-- /.footer -->
         </div>
-
+        <p>
+            <div class="ads">
+<div id="adleft">
+        <!-- Begin Yahoo! JAPAN Web Services Attribution Snippet -->
+<a href="http://developer.yahoo.co.jp/about">
+<img src="http://i.yimg.jp/images/yjdn/yjdn_attbtn1_125_17.gif" title="Webサービス by Yahoo! JAPAN" alt="Web Services by Yahoo! JAPAN" width="125" height="17" border="0" style="margin:15px 15px 15px 15px"></a><!-- End Yahoo! JAPAN Web Services Attribution Snippet --></div>
+<div id="adright">
+<!-- Rakuten Web Services Attribution Snippet FROM HERE --><a href="http://webservice.rakuten.co.jp/" target="_blank"><img src="http://webservice.rakuten.co.jp/img/credit/200709/credit_22121.gif" border="0" alt="楽天ウェブサービスセンター" title="楽天ウェブサービスセンター" width="221" height="21"/></a>
+<!-- Rakuten Web Services Attribution Snippet TO HERE --></div>
+</div>
 </div><!-- /.wrapper -->
 </body>
 </html>

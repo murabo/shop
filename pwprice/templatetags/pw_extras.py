@@ -220,117 +220,6 @@ def getMatrix(num, args):
 
     return mark_safe(tag)
 
-    '''
-    <tr>
-    <td>
-    <p class="point">ポイント1%</p>
-    </td>
-    <td>
-    <p class="point">ポイント1%</p>
-    </td>
-    <td>
-    <p class="point">ポイント1%</p>
-    </td>
-    <td>
-    <p class="point">ポイント1%</p>
-    </td>
-    <td>
-    <p class="point">ポイント1%</p>
-    </td>
-    </tr>
-    <tr>
-    <td>
-    <p>獲得ポイント178</p>
-    </td>
-    <td>
-    <p>獲得ポイント178</p>
-    </td>
-    <td>
-    <p>獲得ポイント178</p>
-    </td>
-    <td>
-    <p>獲得ポイント178</p>
-    </td>
-    <td>
-    <p>獲得ポイント178</p>
-    </td>
-    </tr>
-    <tr>
-    <td class="prBx">
-    <p class="pr"><span>楽天カードの無料登録</span></br>で実質<em>5000円</em>の値引き</p>
-    </td>
-    <td class="prBx">
-    <p class="pr"><span>楽天カードの無料登録</span></br>で実質<em>5000円</em>の値引き</p>
-    </td>
-    <td class="prBx">
-    <p class="pr"><span>楽天カードの無料登録</span></br>で実質<em>5000円</em>の値引き</p>
-    </td>
-    <td class="prBx">
-    <p class="pr"><span>楽天カードの無料登録</span></br>で実質<em>5000円</em>の値引き</p>
-    </td>
-    <td class="prBx">
-    <p class="pr"><span>楽天カードの無料登録</span></br>で実質<em>5000円</em>の値引き</p>
-    </td>
-    </tr>
-    <tr>
-    <td class="option">
-    <span class="tag card">カード</span>
-    <span class="tag point">翌日は移送</span>
-    <span class="tag postage">送料無料</span>
-    </td>
-    <td class="option">
-    <span class="tag card">カード</span>
-    <span class="tag point">翌日は移送</span>
-    <span class="tag postage">送料無料</span>
-    </td>
-    <td class="option">
-    <span class="tag card">カード</span>
-    <span class="tag point">翌日は移送</span>
-    <span class="tag postage">送料無料</span>
-    </td>
-    <td class="option">
-    <span class="tag card">カード</span>
-    <span class="tag point">翌日は移送</span>
-    <span class="tag postage">送料無料</span>
-    </td>
-    <td class="option">
-    <span class="tag card">カード</span>
-    <span class="tag point">翌日は移送</span>
-    <span class="tag postage">送料無料</span>
-    </td>
-    </tr>
-    <tr>
-    <td>
-    <p class="linkCol">送料・支払い方法</p>
-    <p class="star">★★★★★★(14件)</p>
-    <p>パナソニック</p>
-    </td>
-    <td>
-    <p class="linkCol">送料・支払い方法</p>
-    <p class="star">★★★★★★(14件)</p>
-    <p>パナソニック</p>
-    </td>
-    <td>
-    <p class="linkCol">送料・支払い方法</p>
-    <p class="star">★★★★★★(14件)</p>
-    <p>パナソニック</p>
-    </td>
-    <td>
-    <p class="linkCol">送料・支払い方法</p>
-    <p class="star">★★★★★★(14件)</p>
-    <p>パナソニック</p>
-    </td>
-    <td>
-    <p class="linkCol">送料・支払い方法</p>
-    <p class="star">★★★★★★(14件)</p>
-    <p>パナソニック</p>
-    </td>
-    </tr>
-        </table><!-- /.resultItems -->'''
-
-    return mark_safe(s)
-
-
 @register.filter
 def urlEncode(param,key=""):
 
@@ -345,6 +234,8 @@ def urlEncodeRA(param,key=""):
     print urllib.quote(param+urllib.quote(unicode(key, "utf-8").encode('euc-jp')))
     key = urllib.quote(unicode(key, "utf-8").encode('euc-jp'))
     return mark_safe(urllib.quote(param+key))
+
+
 
 @register.filter
 def getEcImg(ec):
