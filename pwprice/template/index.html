@@ -204,7 +204,7 @@
                     {% for d in praice_results %}
                     <tr>
                         <td>{{forloop.counter}}位</td>
-                        <td>¥{{d.itemPrice}}</td>
+                        <td><a href="{{d.itemUrl}}" class="linkCol" target="_blank">¥{{d.itemPrice}}</a></td>
                         <td><a href="{{d.itemUrl}}" class="linkCol" target="_blank"><img src={{ d.ec|getEcImg}} 
                             /></a></td>
                         <td><a href="{{d.itemUrl}}" class="linkCol" target="_blank">{{d.shopName}}</a></td>

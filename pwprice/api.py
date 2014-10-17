@@ -10,6 +10,8 @@ import unicodedata
 import redis
 import time
 import msgpack
+import locale
+
 
 class ApiUtill(object):
     @staticmethod
@@ -33,12 +35,14 @@ class ApiUtill(object):
     @staticmethod
     def exchangeRakuten(datas):
         results = []
+        locale.setlocale(locale.LC_NUMERIC, 'ja_JP')
         af_url = "http://c.af.moshimo.com/af/c/click?a_id=465153&p_id=54&pc_id=54&pl_id=616&url="
 
         for data in datas:
             data = data['Item']
             res = {"itemName":data['itemName'][:30],
-                "itemPrice":data['itemPrice'],
+                "itemPrice":locale.format('%d', data['itemPrice'], True),
+                "itemPriceP":data['itemPrice'],
                 "pointRate":data['pointRate'],
                 "postageFlag":data['postageFlag'],
                 "asurakuFlag":data['asurakuFlag'],
@@ -58,10 +62,12 @@ class ApiUtill(object):
 
     @classmethod
     def exchangePonpare(cls, datas):
+        locale.setlocale(locale.LC_NUMERIC, 'ja_JP')
         results = []
         for data in datas:
             results.append({"itemName":data['title'][:30],
-                           "itemPrice":data['price'],
+                           "itemPrice":locale.format('%d', data['price'], True),
+                           "itemPriceP":data['price'],
                            "itemUrl":data['link'],
                            "imageUrl":data['imageFree']['url'],
                            "ec":"ponpare",
@@ -72,11 +78,13 @@ class ApiUtill(object):
 
     @classmethod
     def exchangeAmazon(cls, datas):
+        locale.setlocale(locale.LC_NUMERIC, 'ja_JP')
         results = []
         for data in datas:
             
             results.append({"itemName":data['title'][:30],
-                           "itemPrice":data['price'],
+                           "itemPrice":locale.format('%d', data['price'], True),
+                           "itemPriceP":data['price'],
                            "itemUrl":data['link'],
                            "imageUrl":data['imageFree']['url'],
                            "ec":"amazon",
@@ -86,10 +94,12 @@ class ApiUtill(object):
 
     @classmethod
     def exchangeYahooS(cls, datas):
+        locale.setlocale(locale.LC_NUMERIC, 'ja_JP')
         results = []
         for data in datas:
             results.append({"itemName":data['Name'][:30],
-                           "itemPrice":data['Price']['_value'],
+                           "itemPrice":locale.format('%d', int(data['Price']['_value']), True),
+                           "itemPriceP":int(data['Price']['_value']),
                            "itemUrl":data['Url'],
                            "imageUrl":data['ExImage']['Url'],
                            "jan": data['JanCode'],
@@ -103,6 +113,7 @@ class ApiUtill(object):
 
     @classmethod
     def exchangeYahooA(cls, datas):
+        locale.setlocale(locale.LC_NUMERIC, 'ja_JP')
         results = []
     
         for data in datas:
@@ -407,7 +418,7 @@ class BridgeApi(object):
 
     @classmethod
     def price_sort(cls, x, y):
-        return int(x["itemPrice"]) - int(y["itemPrice"])
+        return int(x["itemPriceP"]) - int(y["itemPriceP"])
 
     @classmethod
     def imgUrlFilter(cls, url):
