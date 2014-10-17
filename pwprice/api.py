@@ -2,8 +2,6 @@
 
 import settings
 import hashlib
-from django.template import RequestContext
-from django.shortcuts import render_to_response
 import urllib
 import json
 import unicodedata
@@ -11,17 +9,34 @@ import redis
 import time
 import msgpack
 import locale
+import csv
+import os
+from django.template import RequestContext
+from django.shortcuts import render_to_response
 
 
 class ApiUtill(object):
+
+    @staticmethod
+    def imageFilter(str):
+        f = open('%s/ng_url.csv' % settings.STATIC_ROOT, 'rb')
+        dataReader = csv.reader(f)
+        for row in dataReader:
+            if row[0] in str:
+                return ""
+            else:
+                return str
+                
+
     @staticmethod
     def callAPI(url, param):
-        
-        print "callAPI:",url + param
-        datas = urllib.urlopen(url + param)
-        print "success"
-        datas = datas.read()
-        return datas
+        try:
+            datas = urllib.urlopen(url + param)
+            print "success"
+            datas = datas.read()
+            return datas
+        except:
+            return []
 
     @classmethod
     def makeStar(cls, num):
@@ -94,6 +109,7 @@ class ApiUtill(object):
 
     @classmethod
     def exchangeYahooS(cls, datas):
+
         locale.setlocale(locale.LC_NUMERIC, 'ja_JP')
         results = []
         for data in datas:
@@ -101,7 +117,7 @@ class ApiUtill(object):
                            "itemPrice":locale.format('%d', int(data['Price']['_value']), True),
                            "itemPriceP":int(data['Price']['_value']),
                            "itemUrl":data['Url'],
-                           "imageUrl":data['ExImage']['Url'],
+                           "imageUrl":cls.imageFilter(data['ExImage']['Url']),
                            "jan": data['JanCode'],
                            "shopName": data['Store']['Name'],
                            "ec":"yahoo",
@@ -227,12 +243,7 @@ class BridgeApi(object):
         keys.sort()
         datas = Cache.getCacheData(api_name, keys)
 
-        print "キャッシュの件数",type(datas)
         result_datas = []
-
-        print "getYAHOO!S!",ctxt["jan"]
-        if ctxt["jan"]:
-            print "JAN!!YAHOO"
 
         if not datas or nocache:
             print "キャッシュなしorJAN検索"
@@ -365,7 +376,6 @@ class BridgeApi(object):
 
     @classmethod
     def getAll(cls, ctxt):
-        print ctxt
         amazon_data, ponpare_data = cls.createVC(ctxt)
 
         return {'rakuten': cls.getRakten(ctxt),
@@ -423,31 +433,6 @@ class BridgeApi(object):
     @classmethod
     def imgUrlFilter(cls, url):
         # ドメインでチェック
-        return
-
-
-
-
-
-
-
-
-
-class PriceCheck(object):
-    @classmethod
-    def test(cls,ctxt):
-        #print "jan ys 検索：", BridgeApi.getYahooS(ctxt, sort='+price',hits=10)
-        return
-
-    @classmethod
-    def getAll(cls, ctxt):
-        # 全APIから価格順で10件ずつ取得
-        # YAHOOS 10件取得
-        # YAHOOA 10件取得
-        # 楽天    10件取得
-        # VC(ama&pon)10件取得
-        # 上記の各サービス毎の1件目を最安値とする。
-        # 上記を一つにし、価格でソートして10件をランキングとする。
         return
 
 
