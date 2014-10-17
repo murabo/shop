@@ -190,7 +190,7 @@ def getMatrix(num, args):
     else:
         tag += u'<td></td>'
     tag += u'</tr>'
-
+    # バナー用領域
     tag += u'<tr>'
     if int(num) < len(amazon) and amazon :
         tag += u'<td>%s</td>' % (amazon[int(num)]['shopName'])
@@ -228,13 +228,8 @@ def urlEncode(param,key=""):
 
 @register.filter
 def urlEncodeRA(param,key=""):
-    print "エンコード楽天"
-    print key
-    print type(unicode(key, "utf-8"))
-    print urllib.quote(param+urllib.quote(unicode(key, "utf-8").encode('euc-jp')))
     key = urllib.quote(unicode(key, "utf-8").encode('euc-jp'))
     return mark_safe(urllib.quote(param+key))
-
 
 
 @register.filter
