@@ -249,10 +249,12 @@ class BridgeApi(object):
             print "キャッシュなしorJAN検索"
 
             datas = ApiUtill.callAPI(settings.YAHOO_S_URL, param)
-            datas = json.loads(datas)['ResultSet']
-            if 0 < datas['totalResultsReturned'] and 'totalResultsReturned' in datas:
-                for i in xrange(0, int(datas['totalResultsReturned'])):
-                    result_datas.append(datas[u'0']['Result'][u'%s' % i])
+            print u'Error' in json.loads(datas)
+            if not u'Error' in json.loads(datas):
+                datas = json.loads(datas)['ResultSet']
+                if 0 < datas['totalResultsReturned'] and 'totalResultsReturned' in datas:
+                    for i in xrange(0, int(datas['totalResultsReturned'])):
+                        result_datas.append(datas[u'0']['Result'][u'%s' % i])
 
             # jan検索はキャッシュしない。
             if not nocache:
