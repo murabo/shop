@@ -77,9 +77,10 @@ USE_L10N = True
 USE_TZ = True
 
 RAKUTEN_APP_ID = "1031991221960309245"
-VALUE_TOKEN_ID = "110c2bd9856649678c40168d3a09a0d9d"
-YAHOO_S_ID = "dj0zaiZpPXQ4MjlYTUdRZzBOSyZzPWNvbnN1bWVyc2VjcmV0Jng9ZWM-"
-YAHOO_S_AF_ID = "http%3a%2f%2fck%2ejp%2eap%2evaluecommerce%2ecom%2fservlet%2freferral%3fsid%3d3159552%26pid%3d882986629%26vc_url%3d"
+VALUE_TOKEN_ID = "1-6bd1060df985e94c90462ae569768554"
+#YAHOO_S_ID = "dj0zaiZpPXQ4MjlYTUdRZzBOSyZzPWNvbnN1bWVyc2VjcmV0Jng9ZWM-"
+YAHOO_S_ID = "dj0zaiZpPTFSYmhwQTFLZHAwWSZzPWNvbnN1bWVyc2VjcmV0Jng9NTI-"
+YAHOO_S_AF_ID = "http%3a%2f%2fck%2ejp%2eap%2evaluecommerce%2ecom%2fservlet%2freferral%3fsid%3d3161331%26pid%3d882992162%26vc_url%3d"
 YAHOO_A_ID = "dj0zaiZpPURLc3hGMmlPRWIzWSZzPWNvbnN1bWVyc2VjcmV0Jng9YmM-"
 MOSHIMO_A_ID = 431508
 MOSHIMO_URL = "http://c.af.moshimo.com/af/c/click?a_id=%s&p_id=54&pc_id=54&pl_id=616" % MOSHIMO_A_ID

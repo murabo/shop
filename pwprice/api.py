@@ -2,24 +2,41 @@
 
 import settings
 import hashlib
-from django.template import RequestContext
-from django.shortcuts import render_to_response
 import urllib
 import json
 import unicodedata
 import redis
 import time
 import msgpack
+import locale
+import csv
+import os
+from django.template import RequestContext
+from django.shortcuts import render_to_response
+
 
 class ApiUtill(object):
+
+    @staticmethod
+    def imageFilter(str):
+        f = open('%s/ng_url.csv' % settings.STATIC_ROOT, 'rb')
+        dataReader = csv.reader(f)
+        for row in dataReader:
+            if row[0] in str:
+                return ""
+            else:
+                return str
+                
+
     @staticmethod
     def callAPI(url, param):
-        
-        print "callAPI:",url + param
-        datas = urllib.urlopen(url + param)
-        print "success"
-        datas = datas.read()
-        return datas
+        try:
+            datas = urllib.urlopen(url + param)
+            print "success"
+            datas = datas.read()
+            return datas
+        except:
+            return []
 
     @classmethod
     def makeStar(cls, num):
@@ -33,17 +50,20 @@ class ApiUtill(object):
     @staticmethod
     def exchangeRakuten(datas):
         results = []
+        locale.setlocale(locale.LC_NUMERIC, 'ja_JP')
+        af_url = "http://c.af.moshimo.com/af/c/click?a_id=465153&p_id=54&pc_id=54&pl_id=616&url="
 
         for data in datas:
             data = data['Item']
             res = {"itemName":data['itemName'][:30],
-                "itemPrice":data['itemPrice'],
+                "itemPrice":locale.format('%d', data['itemPrice'], True),
+                "itemPriceP":data['itemPrice'],
                 "pointRate":data['pointRate'],
                 "postageFlag":data['postageFlag'],
                 "asurakuFlag":data['asurakuFlag'],
                 "reviewAverage":data['reviewAverage'],
                 "reviewCount":data['reviewCount'],
-                "itemUrl":data['itemUrl'],
+                "itemUrl":af_url+urllib.quote(data['itemUrl']),
                 "shopName":data['shopName'],
                 "ec":"rakuten",
                 "reviewCnt":data['reviewCount'],
@@ -57,10 +77,12 @@ class ApiUtill(object):
 
     @classmethod
     def exchangePonpare(cls, datas):
+        locale.setlocale(locale.LC_NUMERIC, 'ja_JP')
         results = []
         for data in datas:
             results.append({"itemName":data['title'][:30],
-                           "itemPrice":data['price'],
+                           "itemPrice":locale.format('%d', data['price'], True),
+                           "itemPriceP":data['price'],
                            "itemUrl":data['link'],
                            "imageUrl":data['imageFree']['url'],
                            "ec":"ponpare",
@@ -71,11 +93,13 @@ class ApiUtill(object):
 
     @classmethod
     def exchangeAmazon(cls, datas):
+        locale.setlocale(locale.LC_NUMERIC, 'ja_JP')
         results = []
         for data in datas:
             
             results.append({"itemName":data['title'][:30],
-                           "itemPrice":data['price'],
+                           "itemPrice":locale.format('%d', data['price'], True),
+                           "itemPriceP":data['price'],
                            "itemUrl":data['link'],
                            "imageUrl":data['imageFree']['url'],
                            "ec":"amazon",
@@ -85,12 +109,15 @@ class ApiUtill(object):
 
     @classmethod
     def exchangeYahooS(cls, datas):
+
+        locale.setlocale(locale.LC_NUMERIC, 'ja_JP')
         results = []
         for data in datas:
             results.append({"itemName":data['Name'][:30],
-                           "itemPrice":data['Price']['_value'],
+                           "itemPrice":locale.format('%d', int(data['Price']['_value']), True),
+                           "itemPriceP":int(data['Price']['_value']),
                            "itemUrl":data['Url'],
-                           "imageUrl":data['ExImage']['Url'],
+                           "imageUrl":cls.imageFilter(data['ExImage']['Url']),
                            "jan": data['JanCode'],
                            "shopName": data['Store']['Name'],
                            "ec":"yahoo",
@@ -102,6 +129,7 @@ class ApiUtill(object):
 
     @classmethod
     def exchangeYahooA(cls, datas):
+        locale.setlocale(locale.LC_NUMERIC, 'ja_JP')
         results = []
     
         for data in datas:
@@ -163,8 +191,8 @@ class BridgeApi(object):
                         {'format': 'json',
                          'keyword': ctxt['kwd'] if not ctxt['jan'] else ctxt['jan'],
                          'applicationId': settings.RAKUTEN_APP_ID,
-                         'minPrice': ctxt['minPrice'],
-                         'maxPrice': ctxt['maxPrice'],
+                         'minPrice': ctxt['minPrice'] if 'minPrice' in ctxt else "",
+                         'maxPrice': ctxt['maxPrice'] if 'maxPrice' in ctxt else "",
                          'imageFlag': '1',
                          'hits':hits,
                          'sort': sort if nocache or not ctxt['sort'] else "+itemPrice",
@@ -194,42 +222,52 @@ class BridgeApi(object):
     @classmethod
     def getYahooS(cls, ctxt, nocache=0, sort='', hits=30):
         api_name = 'yahoo_shopping'
-        param = urllib.urlencode(
-                             {
-                                 'query': ctxt['kwd'] if not ctxt['jan'] else ctxt['jan'],
-                                 'appid': settings.YAHOO_S_ID,
-                                 'affiliate_type':'vc',
-                                 'affiliate_id': settings.YAHOO_S_AF_ID,
-                                 'jan': ctxt['jan'] if ctxt['jan'] else '',
-                                 'image_size':76,
-                                 'category_id':'',
-                                 'price_from': ctxt['minPrice'],
-                                 'price_to': ctxt['maxPrice'],
-                                 'hits':hits,
-                                 'sort': sort if nocache or not ctxt['sort'] else "+price",
-                                 'shipping': ctxt['shipping'],
-                             })
+
+        param_dict = {
+                         'query': ctxt['kwd'] if not ctxt['jan'] else ctxt['jan'],
+                         'appid': settings.YAHOO_S_ID,
+                         'affiliate_type':'vc',
+                         'affiliate_id': settings.YAHOO_S_AF_ID,
+                         'image_size':146,
+                         'hits':hits,
+                      }
+        if ctxt['sort']:
+            param_dict.update({'sort':'+price'})
+        if ctxt['jan']:
+            param_dict.update({'jan':ctxt['jan']})
+        if 'minPrice' in ctxt and ctxt['minPrice']:
+            param_dict.update({'price_from':ctxt['minPrice']})
+        if 'maxPrice' in ctxt and ctxt['maxPrice']:
+            param_dict.update({'price_to':ctxt['maxPrice']})
+        if ctxt['shipping']:
+            param_dict.update({'shipping':ctxt['shipping']})
+        param = urllib.urlencode(param_dict)
+
         keys = ctxt['cache_keys']
         if ctxt['shipping']:
             keys.append(hashlib.sha224("shipping").hexdigest())
         keys.sort()
         datas = Cache.getCacheData(api_name, keys)
 
-        print "キャッシュの件数",type(datas)
         result_datas = []
-
-        print "getYAHOO!S!",ctxt["jan"]
-        if ctxt["jan"]:
-            print "JAN!!YAHOO"
 
         if not datas or nocache:
             print "キャッシュなしorJAN検索"
 
+
             datas = ApiUtill.callAPI(settings.YAHOO_S_URL, param)
-            datas = json.loads(datas)['ResultSet']
-            if 0 < datas['totalResultsReturned'] and 'totalResultsReturned' in datas:
-                for i in xrange(0, int(datas['totalResultsReturned'])):
-                    result_datas.append(datas[u'0']['Result'][u'%s' % i])
+            print u'Error' in json.loads(datas)
+            if not u'Error' in json.loads(datas):
+                datas = json.loads(datas)['ResultSet']
+                if 0 < datas['totalResultsReturned'] and 'totalResultsReturned' in datas:
+                    for i in xrange(0, int(datas['totalResultsReturned'])):
+                        result_datas.append(datas[u'0']['Result'][u'%s' % i])
+
+#            datas = ApiUtill.callAPI(settings.YAHOO_S_URL, param)
+#            datas = json.loads(datas)['ResultSet']
+#            if 0 < datas['totalResultsReturned'] and 'totalResultsReturned' in datas:
+#                for i in xrange(0, int(datas['totalResultsReturned'])):
+#                    result_datas.append(datas[u'0']['Result'][u'%s' % i])
 
             # jan検索はキャッシュしない。
             if not nocache:
@@ -254,8 +292,8 @@ class BridgeApi(object):
                              'appid': settings.YAHOO_A_ID,
                              'output':'json',
                              'category_id':'',
-                             'aucminprice': ctxt['minPrice'],
-                             'aucmaxprice': ctxt['maxPrice'],
+                             'aucminprice': ctxt['minPrice'] if 'minPrice' in ctxt else "",
+                             'aucmaxprice': ctxt['maxPrice'] if 'maxPrice' in ctxt else "",
                              'sort': sort if nocache or not ctxt['sort'] else "cbids",
                              'buynow': ctxt['buynow'],
                              'item_status': ctxt['item_status'],
@@ -287,7 +325,8 @@ class BridgeApi(object):
         if 'UnitsWord' in data[u'Result'] and type(data['Result']['UnitsWord']) == list:
             ctxt.update({"suggest": data['Result']['UnitsWord']})
         else:
-            ctxt.update({"suggest": [ctxt['kwd'],]})
+            if not nocache:
+                ctxt.update({"suggest": [ctxt['kwd'],]})
 
 
         for i in xrange(0, int(data['@attributes']['totalResultsReturned'])):
@@ -353,7 +392,6 @@ class BridgeApi(object):
 
     @classmethod
     def getAll(cls, ctxt):
-        print ctxt
         amazon_data, ponpare_data = cls.createVC(ctxt)
 
         return {'rakuten': cls.getRakten(ctxt),
@@ -406,36 +444,11 @@ class BridgeApi(object):
 
     @classmethod
     def price_sort(cls, x, y):
-        return int(x["itemPrice"]) - int(y["itemPrice"])
+        return int(x["itemPriceP"]) - int(y["itemPriceP"])
 
     @classmethod
     def imgUrlFilter(cls, url):
         # ドメインでチェック
-        return
-
-
-
-
-
-
-
-
-
-class PriceCheck(object):
-    @classmethod
-    def test(cls,ctxt):
-        #print "jan ys 検索：", BridgeApi.getYahooS(ctxt, sort='+price',hits=10)
-        return
-
-    @classmethod
-    def getAll(cls, ctxt):
-        # 全APIから価格順で10件ずつ取得
-        # YAHOOS 10件取得
-        # YAHOOA 10件取得
-        # 楽天    10件取得
-        # VC(ama&pon)10件取得
-        # 上記の各サービス毎の1件目を最安値とする。
-        # 上記を一つにし、価格でソートして10件をランキングとする。
         return
 
 

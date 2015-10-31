@@ -6,6 +6,7 @@ html {
    overflow-y:scroll;
 }
 body {
+/* background-color: #ccc; */
    color:#000;
    font-size: 14px;
    font-family:"ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro", "メイリオ", Meiryo, Osaka, "ＭＳ Ｐゴシック", "MS PGothic", sans-serif;
@@ -64,6 +65,12 @@ a:forcus{
    float:left;
 }
 
+.header{
+ margin-top:5px;
+/* margin-bottom:0px; */
+}
+
+
 /*================================================
  * footer
  ================================================*/
@@ -86,7 +93,7 @@ a:forcus{
     padding: 10px;
     height: 34px;
     background: #ff3300;
-    margin-top: 10px;
+    margin-top: 5px; 
     text-align: center;
 }
 .searchBar input[type="text"]{
@@ -100,6 +107,11 @@ a:forcus{
     background-color: #F3F3F3;
     border-style: none;
 }
+
+input.searchtext{
+    font-size: 18px;
+}
+
 /* 関連ワード */
 .relatedWords{
     background: #F3F3F3;
@@ -202,6 +214,13 @@ a:forcus{
     margin-top: 10px;
 }
 
+.lowestPriceBlock .itemImg .review {
+    color:#3303f7;
+    font-size: 16px;
+    text-decoration: underline;
+    margin-top: 10px;
+}
+
 /*================================================
  * block rankingBlock
  ================================================*/
@@ -217,10 +236,38 @@ a:forcus{
 .rankingBlock .relatedWords{
     margin-top: 10px;
 }
+
+ /* ナビゲーション */
+.rankingBlock .kw{   
+    font-size: 36px;
+    font-weight: bold;
+    text-decoration: underline;
+    color:#00f;
+} 
+.rankingBlock .navigation{   
+    font-size: 30px;
+} 
+
+.rankingBlock .rednavi{   
+    font-size: 36px;
+    font-weight: bold;
+    color:#f00;
+} 
+
+.rankingBlock .rightnavi{   
+    font-size: 30px;
+    float: right;
+    color:#00f;
+} 
+
+
+ 
  /* 商品一覧 */
-.rankingBlock .itemTable{
-    
+.rankingBlock .itemTable{   
     margin-top: 10px;
+    text-align:center;
+    margin-left:auto;
+    margin-right:auto;
 }
 .rankingBlock .itemTable td{
     position: relative;
@@ -241,14 +288,17 @@ a:forcus{
     position: absolute;
     bottom: 5px;
     width: 100%;
-/*    padding: 0 5px;*/
 }
 .rankingBlock .itemTable .link a{
     height: 25px;
     width: 190px;
     line-height: 25px;
+    font-size: 16px;
+    letter-spacing: 2px;
     color: #fff;
-    background: #fe0032;
+    background: #fe0032; 
+/*    color: #f00;
+    background: #efefef; */
     display: block;
     margin: 0 auto;
 }
@@ -502,6 +552,120 @@ a:forcus{
 }
 
 
+/*================================================
+ * 追加
+ ================================================*/
 
+.biggerfont{
+    font-size: 26px;
+    font-size: 30px;
+    color: #000;
+    font-weight: bold;
+}
+
+.biggerfontlink{
+    font-size: 30px;
+    color: #00f;
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+.sugestfont{
+    font-size: 20px;
+    color: #00f;
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+.sugestarea{
+    background: #F3F3F3;
+    margin-right: 0px;
+    margin-left: 0px;
+    padding: 8px;
+}
+
+.discount5000{
+    background: #F3F3F3;
+    margin-right: 0px;
+    margin-left: 0px;
+    padding: 8px;
+}
+
+.discount5000 a{display: block;}
+
+
+.textc{
+    text-align: center;
+}
+
+.textr{
+    text-align: right;
+}
+
+.textl{
+    text-align: left;
+}
+
+.backred{
+    background: #F00;
+    color: #FFF;
+}
+
+.imgr{
+	float: right;
+	margin: 10px;
+	border: 1px solid #ddd;
+}
+
+.imgl{
+	float: left;
+	margin: 10px;
+	border: 1px solid #ddd;
+}
+
+/*================================================
+ * manuBlock
+ ================================================*/
+ /* 商品一覧 */
+.menuBlock .itemTable{
+    margin-top: 0px;
+}
+
+/* menuブロック　テーブル */
+.menuBlock .itemTable td{
+    position: relative;
+    width: 200px;
+    text-align: center;
+/*    padding: 20px 0 35px 0; */
+    padding: 2px 0 2px 0;
+    vertical-align: top;
+/*    border: 1px solid #cfcfcf; */
+}
+.menuBlock .itemTable .itemName{
+    display: block;
+    margin-top: 1px;
+    margin-left: 10px;
+    color:#2388b4;
+    font-size: 13px;
+    text-align: left;
+}
+.menuBlock .itemTable .link{
+/*    position: absolute; */
+/*    bottom: 5px; */
+/*    width: 100%; */
+/*    padding: 0 5px;*/
+}
+.menuBlock .itemTable .link a{
+    height: 25px;
+    width: 190px;
+    font-size: 18px;
+    font-weight: bold;
+    text-decoration: underline;
+    line-height: 25px;
+    color:#2388b4;
+/*    background: #fe0032; */
+/*    display: block; */
+    margin: 0 auto;
+}
 
 

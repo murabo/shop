@@ -21,7 +21,7 @@ def getMatrix(num, args):
     <div class="img">
     <img src="%s" alt="画像" height='76' width='76'/>
     </div>
-    <a href='%s'><div class="body">%s</div></a>
+    <a href='%s' target="_blank"><div class="body">%s</div></a>
     </td>'''
     tag = u'''<table class="resultItems">
               <tr>'''
@@ -78,88 +78,88 @@ def getMatrix(num, args):
     tag += u'</tr>'
     tag += u'<tr>'
     if int(num) < len(amazon) and amazon :
-        tag += u'<td><a href="%s" class="link">最新価格のチェックはこちら</a></td>' % (amazon[int(num)]['itemUrl'])
+        tag += u'<td><a href="%s" class="link" target="_blank">最新価格のチェックはこちら</a></td>' % (amazon[int(num)]['itemUrl'])
     else:
         tag += u'<td></td>'
     if  int(num) < len(rakuten) and rakuten :
-        tag += u'<td><a href="%s" class="link">最新価格のチェックはこちら</a></td>' % (rakuten[int(num)]['itemUrl'])
+        tag += u'<td><a href="%s" class="link" target="_blank">最新価格のチェックはこちら</a></td>' % (rakuten[int(num)]['itemUrl'])
     else:
         tag += u'<td></td>'
     if  int(num) < len(yahoo_s) and yahoo_s:
-        tag += u'<td><a href="%s" class="link">最新価格のチェックはこちら</a></td>' % (yahoo_s[int(num)]['itemUrl'])
+        tag += u'<td><a href="%s" class="link" target="_blank">最新価格のチェックはこちら</a></td>' % (yahoo_s[int(num)]['itemUrl'])
     else:
         tag += u'<td></td>'
     if  int(num) < len(ponpare) and ponpare:
-        tag += u'<td><a href="%s" class="link">最新価格のチェックはこちら</a></td>' % (ponpare[int(num)]['itemUrl'])
+        tag += u'<td><a href="%s" class="link" target="_blank">最新価格のチェックはこちら</a></td>' % (ponpare[int(num)]['itemUrl'])
     else:
         tag += u'<td></td>'
     if  int(num) < len(yahoo_a) and yahoo_a:
-        tag += u'<td><a href="%s" class="link">最新価格のチェックはこちら</a></td>' % (yahoo_a[int(num)]['itemUrl'])
+        tag += u'<td><a href="%s" class="link" target="_blank">最新価格のチェックはこちら</a></td>' % (yahoo_a[int(num)]['itemUrl'])
     else:
         tag += u'<td></td>'
     tag += u'</tr>'
 
     tag += u'<tr>'
     if int(num) < len(amazon) and amazon :
-        tag += u'<td><a href="/" ><img src="/static/images/banner/amazon_p193x40.gif" /></a></td>'
+        tag += u'<td><a href="/static/ad/amazon.html"  target="_blank"><img src="/static/images/banner/amazon_p193x40.gif" /></a></td>'
     else:
         tag += u'<td></td>'
     if  int(num) < len(rakuten) and rakuten :
-        tag += u'<td><a href="/" ><img src="/static/images/banner/rakuten_p193x40.gif" /></a></td>'
+        tag += u'<td><a href="/static/ad/rakuten.html"  target="_blank"><img src="/static/images/banner/rakuten_p193x40.gif" /></a></td>'
     else:
         tag += u'<td></td>'
     if  int(num) < len(yahoo_s) and yahoo_s:
-        tag += u'<td><a href="/" ><img src="/static/images/banner/yahoo_p193x40.gif" /></a></td>'
+        tag += u'<td><a href="/static/ad/yahoo.html"  target="_blank"><img src="/static/images/banner/yahoo_p193x40.gif" /></a></td>'
     else:
         tag += u'<td></td>'
     if  int(num) < len(ponpare) and ponpare:
-        tag += u'<td><a href="/" ><img src="/static/images/banner/ponpare_p193x40.gif" /></a></td>'
+        tag += u'<td><a href="/static/ad/ponpare.html"  target="_blank"><img src="/static/images/banner/ponpare_p193x40.gif" /></a></td>'
     else:
         tag += u'<td></td>'
     if  int(num) < len(yahoo_a) and yahoo_a:
-        tag += u'<td><a href="/" ><img src="/static/images/banner/yauc_p193x40.gif" /></a></td>'
+        tag += u'<td><a href="/static/ad/yauc.html" target="_blank" ><img src="/static/images/banner/yauc_p193x40.gif" /></a></td>'
     else:
         tag += u'<td></td>'
     tag += u'</tr>'
 
     tag += u'<tr>'
     if int(num) < len(amazon) and amazon :
-        tag += u'<td class="prBx"></td>'
+        tag += u'<td><a href="/static/ad/amazon.html"  target="_blank"><img src="/static/images/banner/amazon_p185x39.gif" /></a></td>'
     else:
         tag += u'<td></td>'
     if  int(num) < len(rakuten) and rakuten :
-        tag += u'<td class="prBx"><p class="pr"><span>楽天カードの無料登録</span></br>で実質<em>5000円</em>の値引き</p></td>'
+        tag += u'<td><a href="/static/ad/rakuten.html"  target="_blank"><img src="/static/images/banner/rakuten_p185x39.gif" /></a></p></td>'
     else:
         tag += u'<td></td>'
     if  int(num) < len(yahoo_s) and yahoo_s:
-        tag += u'<td class="prBx"></td>'
+        tag += u'<td><a href="/static/ad/yahoo.html"  target="_blank"><img src="/static/images/banner/yahoo_p185x39.gif" /></a></td>'
     else:
         tag += u'<td></td>'
     if  int(num) < len(ponpare) and ponpare:
-        tag += u'<td class="prBx"><p class="pr"><span>リクルートカードの無料登録</span></br>で実質<em>5000円</em>の値引き</p></td>'
+        tag += u'<td><a href="/static/ad/ponpare.html"  target="_blank"><img src="/static/images/banner/ponpare_p185x39.gif" /></a></td>'
     else:
         tag += u'<td></td>'
     if  int(num) < len(yahoo_a) and yahoo_a:
-        tag += u'<td class="prBx"></td>'
+        tag += u'<td><a href="/static/ad/yauc.html" target="_blank" ><img src="/static/images/banner/yauc_p185x39.gif" /></a></td>'
     else:
         tag += u'<td></td>'
     tag += u'</tr>'
 
     tag += u'<tr>'
     if int(num) < len(amazon) and amazon :
-        tag += u'<td><a href="%s" class="link">送料・支払い方法</a></td>' % (amazon[int(num)]['itemUrl'])
+        tag += u'<td><a href="%s" class="link" target="_blank">送料・支払い方法</a></td>' % (amazon[int(num)]['itemUrl'])
     else:
         tag += u'<td></td>'
     if  int(num) < len(rakuten) and rakuten :
-        tag += u'<td><a href="%s" class="link">送料・支払い方法</a></td>' % (rakuten[int(num)]['itemUrl'])
+        tag += u'<td><a href="%s" class="link" target="_blank">送料・支払い方法</a></td>' % (rakuten[int(num)]['itemUrl'])
     else:
         tag += u'<td></td>'
     if  int(num) < len(yahoo_s) and yahoo_s:
-        tag += u'<td><a href="%s" class="link">送料・支払い方法</a></td>' % (yahoo_s[int(num)]['itemUrl'])
+        tag += u'<td><a href="%s" class="link" target="_blank">送料・支払い方法</a></td>' % (yahoo_s[int(num)]['itemUrl'])
     else:
         tag += u'<td></td>'
     if  int(num) < len(ponpare) and ponpare:
-        tag += u'<td><a href="%s" class="link">送料・支払い方法</a></td>' % (ponpare[int(num)]['itemUrl'])
+        tag += u'<td><a href="%s" class="link" target="_blank">送料・支払い方法</a></td>' % (ponpare[int(num)]['itemUrl'])
     else:
         tag += u'<td></td>'
     if  int(num) < len(yahoo_a) and yahoo_a:
@@ -174,11 +174,11 @@ def getMatrix(num, args):
     else:
         tag += u'<td></td>'
     if  int(num) < len(rakuten) and rakuten :
-        tag += u'<td> <img src="/static/images/star/%s.gif" /> <a href="%s" class="link">(%s件)</a></td>' % (rakuten[int(num)]['reviewAvg'],rakuten[int(num)]['itemUrl'],rakuten[int(num)]['reviewCnt'])
+        tag += u'<td> <img src="/static/images/star/%s.gif" /> <a href="%s" class="link" target="_blank">(%s件)</a></td>' % (rakuten[int(num)]['reviewAvg'],rakuten[int(num)]['itemUrl'],rakuten[int(num)]['reviewCnt'])
     else:
         tag += u'<td></td>'
     if  int(num) < len(yahoo_s) and yahoo_s:
-        tag += u'<td><img src="/static/images/star/%s.gif" /><a href="%s" class="link">(%s件)</a></td>' % (yahoo_s[int(num)]['reviewAvg'], yahoo_s[int(num)]['reviewUrl'], yahoo_s[int(num)]['reviewCnt'])
+        tag += u'<td><img src="/static/images/star/%s.gif" /><a href="%s" class="link" target="_blank">(%s件)</a></td>' % (yahoo_s[int(num)]['reviewAvg'], yahoo_s[int(num)]['reviewUrl'], yahoo_s[int(num)]['reviewCnt'])
     else:
         tag += u'<td></td>'
     if  int(num) < len(ponpare) and ponpare:
@@ -190,7 +190,7 @@ def getMatrix(num, args):
     else:
         tag += u'<td></td>'
     tag += u'</tr>'
-
+    # バナー用領域
     tag += u'<tr>'
     if int(num) < len(amazon) and amazon :
         tag += u'<td>%s</td>' % (amazon[int(num)]['shopName'])
@@ -228,13 +228,8 @@ def urlEncode(param,key=""):
 
 @register.filter
 def urlEncodeRA(param,key=""):
-    print "エンコード楽天"
-    print key
-    print type(unicode(key, "utf-8"))
-    print urllib.quote(param+urllib.quote(unicode(key, "utf-8").encode('euc-jp')))
     key = urllib.quote(unicode(key, "utf-8").encode('euc-jp'))
     return mark_safe(urllib.quote(param+key))
-
 
 
 @register.filter

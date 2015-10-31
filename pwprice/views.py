@@ -5,6 +5,8 @@ import hashlib
 from django.template import RequestContext
 from django.shortcuts import render_to_response
 
+from django.http import QueryDict
+
 from django.core.context_processors import csrf
 from django.views.decorators.csrf import csrf_protect
 from django.shortcuts import redirect
@@ -17,6 +19,9 @@ def home(request):
 
     ctxt = {}
     ctxt.update(csrf(request))
+
+    if not "kwd" in request.GET:
+        request.GET = QueryDict("kwd=アウトレット&i=1")
 
     # 検索処理
     if "kwd" in request.GET and request.GET[u"kwd"]:
@@ -57,10 +62,11 @@ def home(request):
                      'cache_keys':cache_keys,
                      'sort': 1 if "sort" in request.GET and request.GET["sort"] else 0,
                      'jan': '' if not "rec" in request.GET else request.GET[u"rec"].encode('utf-8'),
-                     'item_status': 1 if "item_status" in request.GET and request.GET["item_status"] else 0,
-                     'store': 1 if "store" in request.GET and request.GET["store"] else 0,
-                     'buynow': 1 if "buynow" in request.GET and request.GET["buynow"] else 0,
+                     'item_status': 1 if "item_status" in request.GET and request.GET["item_status"]  == u'1' else 0,
+                     'store': 1 if "store" in request.GET and request.GET["store"]  == u'1'else 0,
+                     'buynow': 1 if "buynow" in request.GET and request.GET["buynow"]  == u'1'else 0,
                      'shipping': 1 if "shipping" in request.GET and request.GET["shipping"] else 0,
+                     'init': 1 if "i" in request.GET and request.GET["i"] else 0,
                     })
         
         ctxt.update({"results": BridgeApi.getAll(ctxt)})
