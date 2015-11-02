@@ -614,13 +614,13 @@ input.searchtext{
 .imgr{
 	float: right;
 	margin: 10px;
-	border: 1px solid #ddd;
+/*	border: 1px solid #ddd;*/
 }
 
 .imgl{
 	float: left;
 	margin: 10px;
-	border: 1px solid #ddd;
+/*	border: 1px solid #ddd;*/
 }
 
 /*================================================

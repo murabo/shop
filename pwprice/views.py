@@ -72,6 +72,11 @@ def home(request):
         ctxt.update({"results": BridgeApi.getAll(ctxt)})
 
         print "cache_keysであるなしチェックや登録などの処理入れるよ", cache_keys
+        if not ctxt["jan"]:
+            q = request.GET.urlencode() + "&rec=%s" % ctxt["results"]["jandata"][0]["jan"][0]
+            request.GET = QueryDict(q.encode('utf-8'))
+            ctxt.update(csrf(request))
+            ctxt.update({'jan': '' if not "rec" in request.GET else request.GET[u"rec"].encode('utf-8'),})
 
     if "rec" in request.GET and request.GET[u"rec"]:
         price_data, lowestPrice= BridgeApi.getPriceCheckData(ctxt)
