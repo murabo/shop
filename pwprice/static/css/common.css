@@ -623,6 +623,12 @@ input.searchtext{
 /*	border: 1px solid #ddd;*/
 }
 
+.textblue{
+    color: #00f;
+    text-decoration: underline;
+}
+
+
 /*================================================
  * manuBlock
  ================================================*/
