@@ -47,6 +47,52 @@ $.fn.rollover = function() {
 
 // 画像をロールオーバーする箇所を指定
 $(function() {
-   $('#menu img').rollover();
-   $('form input:image').rollover();
+   // $('#menu img').rollover();
+   // $('form input:image').rollover();
+   
+   getReviewList();
 });
+
+
+
+/* ===================================================================
+
+ * レビューを取得
+ 
+=================================================================== */
+
+function getReviewList(_limit, _offset){
+   $.ajax({
+      type: 'GET',
+      url: '/api/review/'+jan+'/',
+      dataType: 'json',
+      success: function(data){
+         var template = Handlebars.compile($('#review').html());
+         // レビュー一覧
+         $('.reviewList').append(template(data.ResultSet));
+         // レビュー件数
+         $('.reviewCnt').text(data.ResultSet.totalResultsReturned);
+
+         if(data.ResultSet.totalResultsReturned > 3) $('.reviewLink').css({'display':'block'});
+
+          for (var i = 1 ; i <= 3 ; i++){
+            $('.reviewList > li:nth-child('+ i +')').css({'display':'block'});
+          }
+
+      }
+   });
+
+   // 口コミをもっとみるリンク
+   $(".reviewLink").click(function () {
+      $('.reviewList > li').css({'display':'block'});
+      $('.reviewLink').css({'display':'none'});
+   });
+
+}
+
+
+Handlebars.registerHelper("great", function(update) {
+   var dateFormat = new DateFormat("yyyy年MM月dd日 HH時mm分");
+   return dateFormat.format(new Date(update));
+});
+

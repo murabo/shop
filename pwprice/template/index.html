@@ -1,5 +1,5 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-{% load pw_extras %}
+{% load pw_extras templatetag_handlebars %}
 <html xmlns="http://www.w3.org/1999/xhtml" lang="ja" xml:lang="ja">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -8,10 +8,16 @@
     <link rel="stylesheet" href="./static/css/reset.css" type="text/css" />
     <link rel="stylesheet" href="./static/css/common.css" type="text/css" />
     <script type="text/javascript" src="./static/js/jquery.js"></script>
+    <script type="text/javascript" src="./static/js/handlebars-v4.0.4.js"></script>
+    <script type="text/javascript" src="./static/js/dateformat.js"></script>
+    <script>
+    var jan = {{jan}};
+    </script>
+
     <script type="text/javascript" src="./static/js/common.js"></script>
     <script type="text/javascript" src="./static/js/ga.js"></script>
     <title>{{kwd}} 価格比較＆ランキング - パワープライス</title>
-	
+
 <script type="text/javascript" src="//tracking.dialogs.in/p.php?code=ier4m7XXC"></script>
 <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.6.0/jquery.min.js"></script>
 
@@ -30,10 +36,9 @@
 <!--
 <a href="./static/ad/rakutencard.html" target="_blank"  class="x-cvglink" data-cvg-gid="7295"><img src="http://ad.jp.ap.valuecommerce.com/servlet/gifbanner?sid=3161331&pid=883372000" height="60" width="234" border="0"></a>
 -->
-				</li>
+                                </li>
             </ul>
         </div><!-- /.header -->
-
         <div class="searchBar clrF">
             <form method="get" action="{% url 'home' %}">
                 <input type="text" name="kwd" class="searchtext" value="{{kwd}}" >
@@ -42,7 +47,8 @@
                 <input type="submit" value="検索" class="btn">
             </form>
         </div><!-- /.searchBar -->
-<!--        {% if results %}
+
+    <!--        {% if results %}
         {% if suggest %}
         <div class="relatedWords clrF">
             <span>関連ワード :</span>
@@ -128,7 +134,7 @@
                         <td><img src="./static/images/block2/rakuten135x32.gif" /></td>
                         <td>{%if lowestPrice.1st_rakuten_p%}<a href="{{lowestPrice.1st_rakuten_p.itemUrl}}" target="_blank" class="x-cvglink" data-cvg-gid="7293">¥{{lowestPrice.1st_rakuten_p.itemPrice}}</a>{%else%}-{%endif%}</td>
                     </tr>
-					
+
 <!--                    <tr>
                         <td><img src="./static/images/block2/yahoo135x32.gif" /></div>
                         <td>{%if lowestPrice.1st_yahoo_s_p%}<a href="{{lowestPrice.1st_yahoo_s_p.itemUrl}}" target="_blank">¥{{lowestPrice.1st_yahoo_s_p.itemPrice}}</a>{%else%}-{%endif%}</div>
@@ -156,7 +162,7 @@
                         <td><img src="./static/images/block2/yahooauc135x32.gif" alt="ヤフオク"/></div>
                         <td>{%if lowestPrice.1st_yahoo_a_p%}<a href="{{lowestPrice.1st_yahoo_a_p.itemUrl}}" target="_blank" class="x-cvglink" data-cvg-gid="7291">¥{{lowestPrice.1st_yahoo_a_p.itemPrice}}</a>{%else%}-{%endif%}</div>
                     </tr>
-			</table>
+			    </table>
 
                 <div class="lowestPrice">
                     <span class="text">最安値</span><span class="price linkCol">{%if praice_results %}<a href="{{praice_results.0.itemUrl}}" target="_blank" >¥{{praice_results.0.itemPrice}}</a>{%else%}-{%endif%}</span>
@@ -174,8 +180,7 @@
                     <tr>
                         <td>{{forloop.counter}}位</td>
                         <td><a href="{{d.itemUrl}}" class="linkCol" target="_blank">¥{{d.itemPrice}}</a></td>
-                        <td><a href="{{d.itemUrl}}" class="linkCol" target="_blank"><img src={{ d.ec|getEcImg}} 
-                            /></a></td>
+                        <td><a href="{{d.itemUrl}}" class="linkCol" target="_blank"><img src={{ d.ec|getEcImg}} /></a></td>
                         <td><a href="{{d.itemUrl}}" class="linkCol" target="_blank">{{d.shopName}}</a></td>
                     </tr>
                     {% endfor %}
@@ -185,6 +190,47 @@
 
 		</div><!-- /.rankingBlock -->
 		{% endif %}
+
+        <!-- reviewBlock -->
+        <div class="reviewBlock clrF">
+            <ul class="reviewList"></ul>
+            <p class="reviewLink">→口コミをもっと見る(全<span class="reviewCnt"></span>件)</p>
+
+            <script id="review" type="text/x-handlebars-template">
+            {% verbatim %}
+
+            {{#each Result}}
+                <li>
+                    <div class="mediaImage">
+                        <img src="./static/images/kuchikomi/voice.gif">
+                    </div>
+                    <div class="mediaBody">
+                        <p class="reviewTitle">{{ReviewTitle}}</p>
+                        <ul class="reviewEx clrF">
+                            <li class="reviewRate">
+                                <img src="./static/images/kuchikomi/{{Ratings.Rate}}star.gif">
+                                <span class="aaa">購入しました!</span>
+                            </li>
+                            <li>
+                                <img src="./static/images/kuchikomi/mokuteki.gif">
+                                {{#if Purpose}} {{Purpose}} {{else}} - {{/if}}
+                            </li>
+                            <li>
+                                <img src="./static/images/kuchikomi/dareni.gif">
+                                {{#if SendTo}} {{SendTo}} {{else}} - {{/if}}
+                            </li>
+                        </ul>
+                        <p class="reviewDescription">{{Description}}</p>
+                        <p class="reviewUpdate">{{great Update}}</p>
+                    </div>
+                </li>
+            {{/each}}
+
+
+            {% endverbatim %}
+            </script>
+        </div><!-- /.reviewBlock -->
+
 
 <!--		<br clear="all"> -->
 		<div class="itemPriceBlock clrF">
@@ -248,7 +294,7 @@
 
 <br/>
 
-			<!-- クレジットカードエリア 
+			<!-- クレジットカードエリア
 			<div class="discount5000">
 			<div class="rankingBlock clrF">
 <a href="#card">
@@ -478,7 +524,7 @@
 
 
             {% for i in "01234"%}
-            
+
             {{ i|getMatrix:results}}
             {% endfor %}
 
@@ -539,7 +585,7 @@
         {% endif %}
         {% endif %}
         <div>
-			
+
 			<br />
 
 
@@ -573,7 +619,7 @@
 			<br/>
 			<br/>
 			<br/>
-			
+
 
 
             <div class="blockTitle clrF">
@@ -752,7 +798,7 @@ Amazonで実施中のタイムセールを一覧でご紹介。10-70%の大幅�
 </p>
 
 
-<!-- 楽天カード訴求ブロック　ここから 
+<!-- 楽天カード訴求ブロック　ここから
             <div class="blockTitle clrF">
 				<a name="card"></a>
 				<img src="./static/images/rakutencard/title.gif" alt=""/><br clear="all">
@@ -854,7 +900,7 @@ JCB、VISA、マスターの３つから選べます。<br/>
 
 <!--
 			<br/>
-			
+
             <div class="searchBar clrF">
                 <form method="get" action="{% url 'home' %}">
                     <input type="text" name="kwd"  class="searchtext"value="{{kwd}}" >

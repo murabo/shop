@@ -26,7 +26,7 @@ class ApiUtill(object):
                 return ""
             else:
                 return str
-                
+
 
     @staticmethod
     def callAPI(url, param):
@@ -70,9 +70,9 @@ class ApiUtill(object):
                 "reviewAvg":int(round(data['reviewAverage'],0))}
             if data['mediumImageUrls']:
                 res["imageUrl"] = data['mediumImageUrls'][0]['imageUrl']
-            
+
             results.append(res)
-        
+
         return results
 
     @classmethod
@@ -96,7 +96,7 @@ class ApiUtill(object):
         locale.setlocale(locale.LC_NUMERIC, 'ja_JP')
         results = []
         for data in datas:
-            
+
             results.append({"itemName":data['title'][:30],
                            "itemPrice":locale.format('%d', data['price'], True),
                            "itemPriceP":data['price'],
@@ -131,7 +131,7 @@ class ApiUtill(object):
     def exchangeYahooA(cls, datas):
         locale.setlocale(locale.LC_NUMERIC, 'ja_JP')
         results = []
-    
+
         for data in datas:
             param = urllib.urlencode({
                                      'vc_url': data['AuctionItemUrl'],
@@ -169,6 +169,7 @@ class BridgeApi(object):
         cls.getLowPrice()
         if cls.YAHOO_DATA:
             for data in cls.YAHOO_DATA:
+                print data
                 if data['jan'] and len(cls.JAN_DATA) < 5 and not data['jan'] in tmp:
                     tmp.append(data['jan'])
                     cls.JAN_DATA.append({"jan":[data['jan']],
@@ -256,6 +257,10 @@ class BridgeApi(object):
 
 
             datas = ApiUtill.callAPI(settings.YAHOO_S_URL, param)
+
+            j = json.loads(datas)
+            print "#####", j['ResultSet']['0']['Result']['0']
+            print "#####", j['ResultSet']['0']['Result']['0']['CategoryIdPath']
             print u'Error' in json.loads(datas)
             if not u'Error' in json.loads(datas):
                 datas = json.loads(datas)['ResultSet']
@@ -309,9 +314,9 @@ class BridgeApi(object):
             keys.append(hashlib.sha224("store").hexdigest())
         keys.sort()
         data = Cache.getCacheData(api_name, keys)
-        
+
         datas = []
-        
+
         if not data or nocache:
             print "キャッシュなしYA!"
             data = ApiUtill.callAPI(settings.YAHOO_A_URL, param)
@@ -345,20 +350,20 @@ class BridgeApi(object):
         api_name = 'vc'
         amazon_data = []
         ponpare_data = []
-        
+
         keyword = urllib.quote(ctxt['kwd'])
         param = urllib.urlencode({
                                  'token': settings.VALUE_TOKEN_ID,
                                  'keyword': ctxt['kwd'] if not ctxt['jan'] else ctxt['jan'],
                                  'category':'',
                                  'ec_code': cls.EC_CODE,
-                                 
+
                                  'sort': sort if nocache or not ctxt['sort'] else "price",
                                  'sort_order':sort_order if nocache or not ctxt['sort'] else "asc",
                                  'format':'json',
                                  'results_per_page':hits})
-        
-        
+
+
         datas = Cache.getCacheData(api_name, ctxt['cache_keys'])
         if not datas or nocache:
             print "キャッシュなしVC"
@@ -384,7 +389,7 @@ class BridgeApi(object):
     @classmethod
     def getPonpare(cls, datas):
         return ApiUtill.exchangePonpare(datas)
-    
+
     @classmethod
     def getAmazon(cls, datas):
         return ApiUtill.exchangeAmazon(datas)
@@ -404,26 +409,27 @@ class BridgeApi(object):
 
     @classmethod
     def getPriceCheckData(cls, ctxt):
+        print "JANだよ！",ctxt["jan"]
         amazon_data, ponpare_data = cls.createVC(ctxt, sort='price', nocache=1, sort_order='asc', hits=10)
         rakuten = cls.getRakten(ctxt, nocache=1, sort='+itemPrice', hits=10)
         yahoo_s = cls.getYahooS(ctxt, nocache=1, sort='+price', hits=10)
-        yahoo_a = cls.getYahooA(ctxt, nocache=1, sort='cbids')
+        #yahoo_a = cls.getYahooA(ctxt, nocache=1, sort='cbids')
         amazon = cls.getAmazon(amazon_data)
         ponpare = cls.getPonpare(ponpare_data)
-        
+
         datas = {'rakuten_p': rakuten,
                 'yahoo_s_p': yahoo_s,
-                'yahoo_a_p': yahoo_a,
+                #'yahoo_a_p': yahoo_a,
                 'amazon_p' : amazon,
                 'ponpare_p': ponpare,
         }
         lowestPrice = {'1st_rakuten_p':rakuten[0] if rakuten and rakuten[0] else "",
                        '1st_yahoo_s_p':yahoo_s[0] if yahoo_s and yahoo_s[0] else "",
-                       '1st_yahoo_a_p':yahoo_a[0] if yahoo_a and yahoo_a[0] else "",
+                       #'1st_yahoo_a_p':yahoo_a[0] if yahoo_a and yahoo_a[0] else "",
                        '1st_amazon_p':amazon[0] if amazon and amazon[0] else "",
                        '1st_ponpare_p':ponpare[0] if ponpare and ponpare[0] else "",}
         return cls.price_ranking(datas), lowestPrice
-    
+
 
     @classmethod
     def price_ranking(cls, datas):
@@ -464,7 +470,7 @@ class Cache(object):
     def getLastTime(cls, name):
         r = redis.StrictRedis(host='localhost', port=6379, db=0)
         return r.get('lasttime:%s' % name)
-    
+
     @classmethod
     def getCache(cls, name, key):
         if cls.getLastTime(name) and (cls.getLastTime(name) - time.time()) < 1.0:
