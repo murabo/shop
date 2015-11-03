@@ -1,5 +1,5 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-{% load pw_extras %}
+{% load pw_extras templatetag_handlebars %}
 <html xmlns="http://www.w3.org/1999/xhtml" lang="ja" xml:lang="ja">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -8,10 +8,16 @@
     <link rel="stylesheet" href="./static/css/reset.css" type="text/css" />
     <link rel="stylesheet" href="./static/css/common.css" type="text/css" />
     <script type="text/javascript" src="./static/js/jquery.js"></script>
+    <script type="text/javascript" src="./static/js/handlebars-v4.0.4.js"></script>
+    <script type="text/javascript" src="./static/js/dateformat.js"></script>
+    <script>
+    var jan = {{jan}};
+    </script>
+
     <script type="text/javascript" src="./static/js/common.js"></script>
     <script type="text/javascript" src="./static/js/ga.js"></script>
     <title>{{kwd}} 価格比較＆ランキング - パワープライス</title>
-	
+
 <script type="text/javascript" src="//tracking.dialogs.in/p.php?code=ier4m7XXC"></script>
 <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.6.0/jquery.min.js"></script>
 
@@ -30,10 +36,9 @@
 <!--
 <a href="./static/ad/rakutencard.html" target="_blank"  class="x-cvglink" data-cvg-gid="7295"><img src="http://ad.jp.ap.valuecommerce.com/servlet/gifbanner?sid=3161331&pid=883372000" height="60" width="234" border="0"></a>
 -->
-				</li>
+                                </li>
             </ul>
         </div><!-- /.header -->
-
         <div class="searchBar clrF">
             <form method="get" action="{% url 'home' %}">
                 <input type="text" name="kwd" class="searchtext" value="{{kwd}}" >
@@ -42,7 +47,8 @@
                 <input type="submit" value="検索" class="btn">
             </form>
         </div><!-- /.searchBar -->
-<!--        {% if results %}
+
+    <!--        {% if results %}
         {% if suggest %}
         <div class="relatedWords clrF">
             <span>関連ワード :</span>
@@ -128,7 +134,7 @@
                         <td><img src="./static/images/block2/rakuten135x32.gif" /></td>
                         <td>{%if lowestPrice.1st_rakuten_p%}<a href="{{lowestPrice.1st_rakuten_p.itemUrl}}" target="_blank" class="x-cvglink" data-cvg-gid="7293">¥{{lowestPrice.1st_rakuten_p.itemPrice}}</a>{%else%}-{%endif%}</td>
                     </tr>
-					
+
 <!--                    <tr>
                         <td><img src="./static/images/block2/yahoo135x32.gif" /></div>
                         <td>{%if lowestPrice.1st_yahoo_s_p%}<a href="{{lowestPrice.1st_yahoo_s_p.itemUrl}}" target="_blank">¥{{lowestPrice.1st_yahoo_s_p.itemPrice}}</a>{%else%}-{%endif%}</div>
@@ -156,7 +162,7 @@
                         <td><img src="./static/images/block2/yahooauc135x32.gif" alt="ヤフオク"/></div>
                         <td>{%if lowestPrice.1st_yahoo_a_p%}<a href="{{lowestPrice.1st_yahoo_a_p.itemUrl}}" target="_blank" class="x-cvglink" data-cvg-gid="7291">¥{{lowestPrice.1st_yahoo_a_p.itemPrice}}</a>{%else%}-{%endif%}</div>
                     </tr>
-			</table>
+			    </table>
 
                 <div class="lowestPrice">
                     <span class="text">最安値</span><span class="price linkCol">{%if praice_results %}<a href="{{praice_results.0.itemUrl}}" target="_blank" >¥{{praice_results.0.itemPrice}}</a>{%else%}-{%endif%}</span>
@@ -174,8 +180,7 @@
                     <tr>
                         <td>{{forloop.counter}}位</td>
                         <td><a href="{{d.itemUrl}}" class="linkCol" target="_blank">¥{{d.itemPrice}}</a></td>
-                        <td><a href="{{d.itemUrl}}" class="linkCol" target="_blank"><img src={{ d.ec|getEcImg}} 
-                            /></a></td>
+                        <td><a href="{{d.itemUrl}}" class="linkCol" target="_blank"><img src={{ d.ec|getEcImg}} /></a></td>
                         <td><a href="{{d.itemUrl}}" class="linkCol" target="_blank">{{d.shopName}}</a></td>
                     </tr>
                     {% endfor %}
@@ -185,6 +190,47 @@
 
 		</div><!-- /.rankingBlock -->
 		{% endif %}
+
+        <!-- reviewBlock -->
+        <div class="reviewBlock clrF">
+            <ul class="reviewList"></ul>
+            <p class="reviewLink">→口コミをもっと見る(全<span class="reviewCnt"></span>件)</p>
+
+            <script id="review" type="text/x-handlebars-template">
+            {% verbatim %}
+
+            {{#each Result}}
+                <li>
+                    <div class="mediaImage">
+                        <img src="./static/images/kuchikomi/voice.gif">
+                    </div>
+                    <div class="mediaBody">
+                        <p class="reviewTitle">{{ReviewTitle}}</p>
+                        <ul class="reviewEx clrF">
+                            <li class="reviewRate">
+                                <img src="./static/images/kuchikomi/{{Ratings.Rate}}star.gif">
+                                <span class="aaa">購入しました!</span>
+                            </li>
+                            <li>
+                                <img src="./static/images/kuchikomi/mokuteki.gif">
+                                {{#if Purpose}} {{Purpose}} {{else}} - {{/if}}
+                            </li>
+                            <li>
+                                <img src="./static/images/kuchikomi/dareni.gif">
+                                {{#if SendTo}} {{SendTo}} {{else}} - {{/if}}
+                            </li>
+                        </ul>
+                        <p class="reviewDescription">{{Description}}</p>
+                        <p class="reviewUpdate">{{great Update}}</p>
+                    </div>
+                </li>
+            {{/each}}
+
+
+            {% endverbatim %}
+            </script>
+        </div><!-- /.reviewBlock -->
+
 
 <!--		<br clear="all"> -->
 		<div class="itemPriceBlock clrF">
@@ -248,7 +294,7 @@
 
 <br/>
 
-			<!-- クレジットカードエリア 
+			<!-- クレジットカードエリア
 			<div class="discount5000">
 			<div class="rankingBlock clrF">
 <a href="#card">
@@ -478,7 +524,7 @@
 
 
             {% for i in "01234"%}
-            
+
             {{ i|getMatrix:results}}
             {% endfor %}
 
@@ -539,7 +585,7 @@
         {% endif %}
         {% endif %}
         <div>
-			
+
 			<br />
 
 
@@ -573,7 +619,7 @@
 			<br/>
 			<br/>
 			<br/>
-			
+
 
 
 <!--5,000円安く買うブロック ここから 
@@ -651,7 +697,65 @@
 　<span class="right">スポンサーリンク</span>
 
 
-<!-- 楽天カード訴求ブロック　ここから -->
+<p class="backred">モール別攻略法</p>
+<p>
+<a href="http://ck.jp.ap.valuecommerce.com/servlet/referral?sid=3161331&pid=882992164&vc_url=http%3A%2F%2Fshopping.yahoo.co.jp%2Fstorestamprally%2Fpromotion%2Fpoint%2F%3Fsc_i%3Dshp_pc_top_sideStoreCampaign_1" target="_blank" ><img class="imgl" src="./static/images/banner/yahoo_cap01.jpg" /></a><br/>
+<b>せっかく買うならポイント高還元のショップから買おう（Yahoo!ショッピング）</b><br/>
+Tポイント倍率アップキャンペーンから商品を探せば、ポイント還元率１０倍以上の商品のみからサーチできます。<br/>
+<a href="http://ck.jp.ap.valuecommerce.com/servlet/referral?sid=3161331&pid=882992164&vc_url=http%3A%2F%2Fshopping.yahoo.co.jp%2Fstorestamprally%2Fpromotion%2Fpoint%2F%3Fsc_i%3Dshp_pc_top_sideStoreCampaign_1" target="_blank" >→キャンペーンページはこちら</a><br/>
+<br clear="all">
+
+<a href="http://ck.jp.ap.valuecommerce.com/servlet/referral?sid=3161331&pid=882992164&vc_url=http%3A%2F%2Ftopics.shopping.yahoo.co.jp%2Fsale%2Fbargainsale%2F%3Fsc_i%3Dshp_pc_top_sideMenuTheme_1" target="_blank" ><img class="imgl" src="./static/images/banner/yahoo_cap02.jpg" /></a><br/>
+<b>Yahooショッピングのセールを利用しよう（Yahoo!ショッピング）</b><br/>
+複数のセールから自分の希望条件にあわせて商品を探せば、予算より大幅にお得に買えるチャンス！</br>
+<a href="http://ck.jp.ap.valuecommerce.com/servlet/referral?sid=3161331&pid=882992164&vc_url=http%3A%2F%2Ftopics.shopping.yahoo.co.jp%2Fsale%2Fbargainsale%2F%3Fsc_i%3Dshp_pc_top_sideMenuTheme_1" target="_blank" >→バーゲンセール</a>　
+<a href="http://ck.jp.ap.valuecommerce.com/servlet/referral?sid=3161331&pid=882992164&vc_url=http%3A%2F%2Ftopics.shopping.yahoo.co.jp%2Fsale%2Ftimesale%2F%3Fsc_i%3Dshp_pc_top_sideMenuTheme_2" target="_blank" >→２４時間限定セール</a>　
+<a href="http://ck.jp.ap.valuecommerce.com/servlet/referral?sid=3161331&pid=882992164&vc_url=http%3A%2F%2Ftopics.shopping.yahoo.co.jp%2Fsale%2Fopening_sale%2F%3Fsc_i%3Dshp_pc_top_sideMenuTheme_3" target="_blank" >→半額セール</a></br>
+<br clear="all">
+
+<a href="./static/ad/yahoocard.html" target="_blank"><img class="imgl" src="./static/images/banner/yahoo_cap03.jpg" /></a><br/>
+<b>今日から使える３０００ポイントを最短２分で手に入れるなら（登録無料・永年無料）（Yahoo!ショッピング）</b></br>
+まだの人限定の入会キャンペーン。Tポイントも貯まって使える必須のカード</br>
+<a href="./static/ad/yahoocard.html" target="_blank">→２分で値引きに使えるポイントを手に入れるなら</a></br>
+</p>
+<br clear="all">
+
+<p>
+<a href="http://c.af.moshimo.com/af/c/click?a_id=465153&p_id=54&pc_id=54&pl_id=616&url=http%3A%2F%2Fevent.rakuten.co.jp%2Fsuperdeal%2F" target="_blank"><img class="imgl" src="./static/images/banner/rakuten_cap01.jpg" /></a><br/>
+<b>スーパーDEAL活用で５０％オフ（楽天市場）</b></br>
+楽天会員限定の高還元率セール、取り扱い商品は５０００点以上。しかも毎日開催</br>
+<a href="http://c.af.moshimo.com/af/c/click?a_id=465153&p_id=54&pc_id=54&pl_id=616&url=http%3A%2F%2Fevent.rakuten.co.jp%2Fsuperdeal%2F" target="_blank">→最大５０％ポイント還元のアイテム確認はこちら</a></br>
+<br clear="all">
+
+<a href="http://c.af.moshimo.com/af/c/click?a_id=465153&p_id=54&pc_id=54&pl_id=616&url=http%3A%2F%2Fevent.rakuten.co.jp%2Fbargain%2Ftimesale%2F" target="_blank"><img class="imgl" src="./static/images/banner/rakuten_cap02.jpg" /></a><br/>
+<b>毎日更新、６時間限定タイムセールはすべて過去最安値（楽天市場）</b></br>
+６時間限定でタイムセールを実施。季節商品などが楽天市場史上ほぼ最安値で掲載中、しかも日替わりで更新</br>
+<a href="http://c.af.moshimo.com/af/c/click?a_id=465153&p_id=54&pc_id=54&pl_id=616&url=http%3A%2F%2Fevent.rakuten.co.jp%2Fbargain%2Ftimesale%2F" target="_blank">→楽天史上、ほぼ最安値のアテイムと価格のチェックはこちら</a></br>
+<br clear="all">
+
+<a href="./static/ad/rakutencard.html" target="_blank"><img class="imgl" src="./static/images/banner/rakuten_cap03.jpg" /></a><br/>
+<b>実質５０００円値引きで買う方法は（登録無料・永年無料）（楽天市場）</b></br>
+知らないと損する楽天会員必須のカード。ポイントが２倍たまる。</br>
+<a href="./static/ad/rakutencard.html" target="_blank">→期間限定キャンペーンの確認はこちら</a></br>
+<br clear="all">
+</p>
+
+<p>
+<a href="http://ck.jp.ap.valuecommerce.com/servlet/referral?sid=3161331&pid=882992165&vc_url=http%3A%2F%2Fwww.amazon.co.jp%2Fgp%2Fgoldbox%2Fall-deals%2Fref%3Dsv_whd_0%3Ftag%3Dvc-22%26linkCode%3Dure" target="_blank" ><img class="imgl" src="./static/images/banner/amazon_cap01.jpg" /></a><br/>
+<b>ブランドアイテムがずらり、タイムセール（Amazon）</b></br>
+Amazonで実施中のタイムセールを一覧でご紹介。10-70%の大幅ディスカウント</br>
+<a href="http://ck.jp.ap.valuecommerce.com/servlet/referral?sid=3161331&pid=882992165&vc_url=http%3A%2F%2Fwww.amazon.co.jp%2Fgp%2Fgoldbox%2Fall-deals%2Fref%3Dsv_whd_0%3Ftag%3Dvc-22%26linkCode%3Dure" target="_blank" >→タイムセールの商品確認はこちら</a>
+<br clear="all">
+
+<a href="http://ck.jp.ap.valuecommerce.com/servlet/referral?sid=3161331&pid=882992165&vc_url=http%3A%2F%2Fwww.amazon.co.jp%2Fb%2Fref%3Dsv_whd_2%3Fie%3DUTF8%26node%3D2761990051%26tag%3Dvc-22%26linkCode%3Dure" target="_blank" ><img class="imgl" src="./static/images/banner/amazon_cap02.jpg" /></a><br/>
+<b>掘り出し物満載のアマゾンアウトレット（Amazon）</b></br>
+３０日間返品可能で安心。以外と知られていない穴場商品が満載</br>
+<a href="http://ck.jp.ap.valuecommerce.com/servlet/referral?sid=3161331&pid=882992165&vc_url=http%3A%2F%2Fwww.amazon.co.jp%2Fb%2Fref%3Dsv_whd_2%3Fie%3DUTF8%26node%3D2761990051%26tag%3Dvc-22%26linkCode%3Dure" target="_blank" >→アウトレット商品を確認する</a></br>
+<br clear="all">
+</p>
+
+
+<!-- 楽天カード訴求ブロック　ここから
             <div class="blockTitle clrF">
 				<a name="card"></a>
 				<img src="./static/images/rakutencard/title.gif" alt=""/><br clear="all">
@@ -974,7 +1078,7 @@ JCB、VISA、マスターの３つから選べます。<br/>
 
 <!--
 			<br/>
-			
+
             <div class="searchBar clrF">
                 <form method="get" action="{% url 'home' %}">
                     <input type="text" name="kwd"  class="searchtext"value="{{kwd}}" >

@@ -68,10 +68,9 @@ def home(request):
                      'shipping': 1 if "shipping" in request.GET and request.GET["shipping"] else 0,
                      'init': 1 if "i" in request.GET and request.GET["i"] else 0,
                     })
-        
+
         ctxt.update({"results": BridgeApi.getAll(ctxt)})
 
-        print "cache_keysであるなしチェックや登録などの処理入れるよ", cache_keys
         if not ctxt["jan"]:
             q = request.GET.urlencode() + "&rec=%s" % ctxt["results"]["jandata"][0]["jan"][0]
             request.GET = QueryDict(q.encode('utf-8'))
@@ -86,4 +85,3 @@ def home(request):
     ctxt = RequestContext(request, ctxt)
 
     return render_to_response("index.html",ctxt)
-

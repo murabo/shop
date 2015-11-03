@@ -36,7 +36,8 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'pwprice'
+    'pwprice',
+    'templatetag_handlebars'
 )
 
 MIDDLEWARE_CLASSES = (

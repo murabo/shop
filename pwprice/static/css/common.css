@@ -675,3 +675,60 @@ input.searchtext{
 }
 
 
+
+/*================================================
+ * block reviewBlock
+ ================================================*/
+ /* レビュー */
+.reviewList > li{
+    display:none;
+    overflow: hidden;
+    padding: 10px;
+}
+.reviewList > li:nth-child(odd) {
+    background:#eee;
+}
+.reviewList .media {
+    overflow: hidden;
+}
+.reviewList .mediaBody{
+    overflow: hidden;
+    padding-left: 10px; 
+}
+.reviewList .mediaImage{
+    float: left;
+}
+.reviewList img{
+    vertical-align: top;
+}
+.reviewTitle{
+    font-weight: bold;
+    font-size: 16px;
+}
+.reviewDescription{
+    font-size: 14px;
+    clear: both;
+    margin-top: 5px;
+    line-height: 1.2;
+}   
+.reviewEx li{
+    float: left;
+    margin-right: 25px;
+    font-size: 12px;
+    vertical-align: bottom;
+    line-height: 25px;
+}
+.reviewRate{
+    font-size: 11px;
+}
+.reviewUpdate{
+    text-align: right;
+    line-height: 1;
+    margin-top: 10px;
+}
+.reviewLink{
+    cursor: pointer;
+    display:none;
+    margin-top: 10px;
+    color: #00f;
+}
