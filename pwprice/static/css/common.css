@@ -378,6 +378,9 @@ input.searchtext{
  * block itemPriceBlock
  ================================================*/
  /* 検索オプション */
+ .itemPriceBlock{
+    margin-top: 30px;
+ }
 .itemPriceBlock table.options{
     margin-top: 10px;
 }
@@ -673,7 +676,9 @@ input.searchtext{
 /*================================================
  * block reviewBlock
  ================================================*/
- /* レビュー */
+.reviewBlock{
+    margin-top:30px;
+}
 .reviewList > li{
     display:none;
     overflow: hidden;

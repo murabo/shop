@@ -90,9 +90,46 @@ function getReviewList(_limit, _offset){
 
 }
 
-
-Handlebars.registerHelper("great", function(update) {
+// 日付フォーマット
+Handlebars.registerHelper("updateFormat", function(update) {
    var dateFormat = new DateFormat("yyyy年MM月dd日 HH時mm分");
    return dateFormat.format(new Date(update));
 });
 
+// 目的 日本語化
+Handlebars.registerHelper('purposeFormat', function(purpose) {
+
+   var result = '';
+   if (purpose == 'daily'){
+      result = '購入者';
+   }else if (purpose == 'hobby'){
+      result = '趣味用途';
+   }else if (purpose == 'gift'){
+      result = 'プレゼント';
+   }else if (purpose == 'business'){
+      result = '仕事用';
+   }else{
+      result = '-';
+   }
+  return result;
+});
+
+// 誰に 日本語化
+Handlebars.registerHelper('sendToFormat', function(sendTo) {
+
+   var result = '';
+   if (sendTo == 'self'){
+      result = '自分用';
+   }else if (sendTo == 'family'){
+      result = '家族親戚用';
+   }else if (sendTo == 'friend'){
+      result = '友人へ';
+   }else if (sendTo == 'lover'){
+      result = '彼氏彼女へ';
+   }else if (sendTo == 'business'){
+      result = '取引先へ';
+   }else{
+      result = '-';
+   }
+  return result;
+});
