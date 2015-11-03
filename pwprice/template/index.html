@@ -213,15 +213,15 @@
                             </li>
                             <li>
                                 <img src="./static/images/kuchikomi/mokuteki.gif">
-                                {{#if Purpose}} {{Purpose}} {{else}} - {{/if}}
+                                {{purposeFormat Purpose}}
                             </li>
                             <li>
                                 <img src="./static/images/kuchikomi/dareni.gif">
-                                {{#if SendTo}} {{SendTo}} {{else}} - {{/if}}
+                                {{sendToFormat SendTo}}
                             </li>
                         </ul>
                         <p class="reviewDescription">{{Description}}</p>
-                        <p class="reviewUpdate">{{great Update}}</p>
+                        <p class="reviewUpdate">{{updateFormat Update}}</p>
                     </div>
                 </li>
             {{/each}}
