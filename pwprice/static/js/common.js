@@ -67,18 +67,19 @@ function getReviewList(_limit, _offset){
       url: '/api/review/'+jan+'/',
       dataType: 'json',
       success: function(data){
-         var template = Handlebars.compile($('#review').html());
-         // レビュー一覧
-         $('.reviewList').append(template(data.ResultSet));
-         // レビュー件数
-         $('.reviewCnt').text(data.ResultSet.totalResultsReturned);
+       
+        if(data.ResultSet.totalResultsReturned == 0) return;
+        var template = Handlebars.compile($('#review').html());
+        // レビュー一覧
+        $('.reviewList').append(template(data.ResultSet));
+        // レビュー件数
+        $('.reviewCnt').text(data.ResultSet.totalResultsReturned);
 
-         if(data.ResultSet.totalResultsReturned > 3) $('.reviewLink').css({'display':'block'});
+        if(data.ResultSet.totalResultsReturned > 3) $('.reviewLink').css({'display':'block'});
 
-          for (var i = 1 ; i <= 3 ; i++){
+         for (var i = 1 ; i <= 3 ; i++){
             $('.reviewList > li:nth-child('+ i +')').css({'display':'block'});
-          }
-
+         }
       }
    });
 
