@@ -51,17 +51,18 @@ $(function() {
    // $('form input:image').rollover();
    
    getReviewList();
+   getKeywordList();
 });
 
 
 
 /* ===================================================================
 
- * レビューを取得
+ * レビュー
  
 =================================================================== */
 
-function getReviewList(_limit, _offset){
+function getReviewList(){
    $.ajax({
       type: 'GET',
       url: '/api/review/'+jan+'/',
@@ -133,4 +134,37 @@ Handlebars.registerHelper('sendToFormat', function(sendTo) {
       result = '-';
    }
   return result;
+});
+
+/* ===================================================================
+
+ * キーワード
+ 
+=================================================================== */
+
+function getKeywordList(){
+
+   $.ajax({
+      type: 'GET',
+      url:'/api/kwd/',
+      dataType: 'json',
+      success: function(data){
+        var result = data.ResultSet[0];
+        var template = Handlebars.compile($('#keyword').html());
+        $('.keywordTable').append(template(result));
+      }
+   });
+}
+
+// 関連ワード生成
+Handlebars.registerHelper('relationalCreate', function(relational) {
+
+  var result = '';
+  if(typeof relational == "object"){
+    result = '<a href="http://www.pw-price.com/?kwd='+ relational.Query +'">'+ relational.Query +'</a>';
+  }else if(!relational){
+    result = '-';
+  }
+  return result;
+
 });

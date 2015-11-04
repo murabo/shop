@@ -93,7 +93,7 @@ a:forcus{
     padding: 10px;
     height: 34px;
     background: #ff3300;
-    margin-top: 5px; 
+    margin-top: 5px;
     text-align: center;
 }
 .searchBar input[type="text"]{
@@ -238,32 +238,32 @@ input.searchtext{
 }
 
  /* ナビゲーション */
-.rankingBlock .kw{   
+.rankingBlock .kw{
     font-size: 36px;
     font-weight: bold;
     text-decoration: underline;
     color:#00f;
-} 
-.rankingBlock .navigation{   
+}
+.rankingBlock .navigation{
     font-size: 30px;
-} 
+}
 
-.rankingBlock .rednavi{   
+.rankingBlock .rednavi{
     font-size: 36px;
     font-weight: bold;
     color:#f00;
-} 
+}
 
-.rankingBlock .rightnavi{   
+.rankingBlock .rightnavi{
     font-size: 30px;
     float: right;
     color:#00f;
-} 
+}
 
 
- 
+
  /* 商品一覧 */
-.rankingBlock .itemTable{   
+.rankingBlock .itemTable{
     margin-top: 10px;
     text-align:center;
     margin-left:auto;
@@ -296,7 +296,7 @@ input.searchtext{
     font-size: 16px;
     letter-spacing: 2px;
     color: #fff;
-    background: #fe0032; 
+    background: #fe0032;
 /*    color: #f00;
     background: #efefef; */
     display: block;
@@ -615,22 +615,16 @@ input.searchtext{
 }
 
 .imgr{
-	float: right;
-	margin: 10px;
-/*	border: 1px solid #ddd;*/
+    float: right;
+    margin: 10px;
+/*  border: 1px solid #ddd;*/
 }
 
 .imgl{
-	float: left;
-	margin: 10px;
-/*	border: 1px solid #ddd;*/
+    float: left;
+    margin: 10px;
+/*  border: 1px solid #ddd;*/
 }
-
-.textblue{
-    color: #00f;
-    text-decoration: underline;
-}
-
 
 /*================================================
  * manuBlock
@@ -698,7 +692,7 @@ input.searchtext{
 }
 .reviewList .mediaBody{
     overflow: hidden;
-    padding-left: 10px; 
+    padding-left: 10px;
 }
 .reviewList .mediaImage{
     float: left;
@@ -715,7 +709,7 @@ input.searchtext{
     clear: both;
     margin-top: 5px;
     line-height: 1.2;
-}   
+}
 .reviewEx li{
     float: left;
     margin-right: 25px;
@@ -736,4 +730,41 @@ input.searchtext{
     display:none;
     margin-top: 10px;
     color: #00f;
+}
+.reviewBuy{
+    margin-left: 10px;
+}
+.reviewBuy img{
+    padding-top: 4px;
+}
+
+
+/*================================================
+ * keywordBlock デイリー売れ筋アイテム
+ ================================================*/
+.keywordBlock .blockTitle p{
+    font-size: 16px;
+}
+.keywordTable{
+    margin-top: 20px;
+    width: 100%;
+}
+.keywordTable a{
+    color: #00f;
+    text-decoration: underline;
+    font-size: 15px;
+    font-weight: bold;
+}
+.keywordTable td{
+    vertical-align: middle;
+    padding: 5px;
+}
+.keywordRnk1 a{
+    font-size: 18px;
+}
+.keywordRnkIcon{
+    padding-left: 10px;
+}
+.keywordArrow{
+    width: 30px;
 }
