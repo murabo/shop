@@ -64,8 +64,8 @@ def _get_yahoo_keyword_ranking(hits=10):
     url = "http://shopping.yahooapis.jp/ShoppingWebService/V1/json/queryRanking?"
 
     param_dict = {
-        'appid': settings.YAHOO_S_ID,
-        'hits':hits,
+        'appid': 'dj0zaiZpPXQ4MjlYTUdRZzBOSyZzPWNvbnN1bWVyc2VjcmV0Jng9ZWM-',
+        'hits': hits,
     }
     param = urllib.urlencode(param_dict)
 
@@ -76,6 +76,5 @@ def _get_yahoo_keyword_ranking(hits=10):
 class KeywordView(JSONResponseMixin, View):
 
     def get(self, *args, **kwargs):
-        jan = kwargs['jan']
-        return self.render_to_json_response(_get_yahoo_reiew(jan))
+        return self.render_to_json_response(_get_yahoo_keyword_ranking())
 
