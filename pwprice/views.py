@@ -72,10 +72,16 @@ def home(request):
         ctxt.update({"results": BridgeApi.getAll(ctxt)})
 
         if not ctxt["jan"]:
-            q = request.GET.urlencode() + "&rec=%s" % ctxt["results"]["jandata"][0]["jan"][0]
+            try:
+                q = request.GET.urlencode() + "&rec=%s" % ctxt["results"]["jandata"][0]["jan"][0]
+                category = ctxt["results"]["jandata"][0]["category"]
+            except:
+                q = ''
+                category = ''
             request.GET = QueryDict(q.encode('utf-8'))
             ctxt.update(csrf(request))
-            ctxt.update({'jan': '' if not "rec" in request.GET else request.GET[u"rec"].encode('utf-8'),})
+            ctxt.update({'jan': '' if not "rec" in request.GET else request.GET[u"rec"].encode('utf-8'),
+                         'category': category})
 
     if "rec" in request.GET and request.GET[u"rec"]:
         price_data, lowestPrice= BridgeApi.getPriceCheckData(ctxt)

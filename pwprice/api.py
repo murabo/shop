@@ -113,6 +113,16 @@ class ApiUtill(object):
         locale.setlocale(locale.LC_NUMERIC, 'ja_JP')
         results = []
         for data in datas:
+            category = ''
+            for i in data['CategoryIdPath'].keys():
+                if category:
+                    continue
+                if i == '_container':
+                    continue
+                if not category and 'CategoryIdPath' in data and data['CategoryIdPath'][i]['Id'] != '1':
+                    category = data['CategoryIdPath'][i]['Id']
+
+
             results.append({"itemName":data['Name'][:30],
                            "itemPrice":locale.format('%d', int(data['Price']['_value']), True),
                            "itemPriceP":int(data['Price']['_value']),
@@ -124,7 +134,9 @@ class ApiUtill(object):
                            "reviewAvg":int(round(float(data['Review']['Rate']),0)),
                            "reviewCnt":data['Review']['Count'],
                            "reviewUrl":data['Review']['Url'],
+                           "category":category
                            })
+            #print results
         return results
 
     @classmethod
@@ -169,17 +181,20 @@ class BridgeApi(object):
         cls.getLowPrice()
         if cls.YAHOO_DATA:
             for data in cls.YAHOO_DATA:
-                print data
+                #print data
                 if data['jan'] and len(cls.JAN_DATA) < 5 and not data['jan'] in tmp:
                     tmp.append(data['jan'])
-                    cls.JAN_DATA.append({"jan":[data['jan']],
-                                         "imageUrl": data['imageUrl'],
-                                        "itemName": data['itemName'][:30]})
+                    print data['category']
+                    cls.JAN_DATA.append({
+                        "jan":[data['jan']],
+                        "imageUrl": data['imageUrl'],
+                        "itemName": data['itemName'][:30],
+                        "category": data['category']})
 
 
     @classmethod
     def getLowPrice(cls):
-        print "AMA",len(cls.amazon_data)
+        #print "AMA",len(cls.amazon_data)
         for data in cls.amazon_data:
             # print data['janCode']
             continue
@@ -259,9 +274,9 @@ class BridgeApi(object):
             datas = ApiUtill.callAPI(settings.YAHOO_S_URL, param)
 
             j = json.loads(datas)
-            print "#####", j['ResultSet']['0']['Result']['0']
-            print "#####", j['ResultSet']['0']['Result']['0']['CategoryIdPath']
-            print u'Error' in json.loads(datas)
+            #print "#####", j['ResultSet']['0']['Result']['0']
+            #print "#####", j['ResultSet']['0']['Result']['0']['CategoryIdPath']
+            #print u'Error' in json.loads(datas)
             if not u'Error' in json.loads(datas):
                 datas = json.loads(datas)['ResultSet']
                 if 0 < datas['totalResultsReturned'] and 'totalResultsReturned' in datas:
@@ -382,7 +397,7 @@ class BridgeApi(object):
                     amazon_data.append(data)
                 elif cls.EC_CODE_P == data['ecCode']:
                     ponpare_data.append(data)
-        print "A&P",len(amazon_data), len(ponpare_data)
+        #print "A&P",len(amazon_data), len(ponpare_data)
         return amazon_data, ponpare_data
 
 
@@ -409,7 +424,7 @@ class BridgeApi(object):
 
     @classmethod
     def getPriceCheckData(cls, ctxt):
-        print "JANだよ！",ctxt["jan"]
+        #print "JANだよ！",ctxt["jan"]
         amazon_data, ponpare_data = cls.createVC(ctxt, sort='price', nocache=1, sort_order='asc', hits=10)
         rakuten = cls.getRakten(ctxt, nocache=1, sort='+itemPrice', hits=10)
         yahoo_s = cls.getYahooS(ctxt, nocache=1, sort='+price', hits=10)
