@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 import urllib
 #from django.conf import settings
-import settings
+#import settings
 import json
 
 from django.http.response import JsonResponse
 from django.views.generic import View
 from pwprice.api import ApiUtill
-
+from bs4 import BeautifulSoup
 
 class JSONResponseMixin(object):
     """
@@ -78,3 +78,39 @@ class KeywordView(JSONResponseMixin, View):
     def get(self, *args, **kwargs):
         return self.render_to_json_response(_get_yahoo_keyword_ranking())
 
+
+def _get_yahoo_ranking(category=None, hits=10):
+    url = "http://shopping.yahooapis.jp/ShoppingWebService/V1/categoryRanking?"
+
+    param_dict = {
+        'appid': 'dj0zaiZpPXQ4MjlYTUdRZzBOSyZzPWNvbnN1bWVyc2VjcmV0Jng9ZWM-',
+        'hits': hits,
+        'period': 'daily',
+    }
+    if category:
+        param_dict.update(category_id=category)
+    param = urllib.urlencode(param_dict)
+
+    datas = ApiUtill.callAPI(url, param)
+    bs = BeautifulSoup(datas)
+    ranking_datas = bs.find('result').findAll('rankingdata')
+    results = {'ranking': []}
+    for data in ranking_datas:
+        results['ranking'].append({
+            "rank": data.attrs["rank"],
+            "vector": data.attrs["vector"],
+            "name": data.find('name').text,
+            "img": data.find('image').find('medium').text,
+            "count":data.find('review').find('count').text
+        })
+
+    return results
+
+
+class RankingView(JSONResponseMixin, View):
+
+    def get(self, *args, **kwargs):
+        category = None
+        if 'category' in kwargs:
+            category = kwargs['category']
+        return self.render_to_json_response(_get_yahoo_ranking(category))
