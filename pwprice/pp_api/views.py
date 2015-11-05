@@ -95,7 +95,7 @@ def _get_yahoo_ranking(category=None, hits=10):
     bs = BeautifulSoup(datas)
     ranking_datas = bs.find('result').findAll('rankingdata')
     results = {'ranking': []}
-    for data in ranking_datas:
+    for data in ranking_datas[:10]:
         results['ranking'].append({
             "rank": data.attrs["rank"],
             "vector": data.attrs["vector"],
