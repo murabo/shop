@@ -11,8 +11,8 @@
     <script type="text/javascript" src="./static/js/handlebars-v4.0.4.js"></script>
     <script type="text/javascript" src="./static/js/dateformat.js"></script>
     <script>
-    var jan = {{jan}};
-    var category = {{category}};
+    var jan = '{{jan}}';
+    var category = '{{category}}';
     </script>
 
     <script type="text/javascript" src="./static/js/common.js"></script>
@@ -251,7 +251,7 @@
                             <img src="./static/images/kwrank/{{_attributes.vector}}.gif">
                         </td>
                         <td class="keywordRnk1">
-                            <a href="http://www.pw-price.com/?kwd={{Query}}">{{Query}}</a>
+                            <a href="/?kwd={{Query}}">{{Query}}</a>
                         </td>
                         {{#each Relational}}
                             <td>{{{relationalCreate this}}}</td>
