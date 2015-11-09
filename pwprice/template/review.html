@@ -1,0 +1,39 @@
+        <!-- reviewBlock -->
+        <div class="reviewBlock clrF">
+            <ul class="reviewList"></ul>
+            <p class="reviewLink">→口コミをもっと見る(全<span class="reviewCnt"></span>件)</p>
+
+            <script id="review" type="text/x-handlebars-template">
+            {% verbatim %}
+
+            {{#each Result}}
+                <li>
+                    <div class="mediaImage">
+                        <img src="./static/images/kuchikomi/voice.gif">
+                    </div>
+                    <div class="mediaBody">
+                        <p class="reviewTitle">{{ReviewTitle}}</p>
+                        <ul class="reviewEx clrF">
+                            <li class="reviewRate">
+                                <img src="./static/images/kuchikomi/{{Ratings.Rate}}star.gif">
+                                <span class="reviewBuy"><img src="./static/images/kuchikomi/katta.gif"></span>
+                            </li>
+                            <li>
+                                <img src="./static/images/kuchikomi/mokuteki.gif">
+                                {{purposeFormat Purpose}}
+                            </li>
+                            <li>
+                                <img src="./static/images/kuchikomi/dareni.gif">
+                                {{sendToFormat SendTo}}
+                            </li>
+                        </ul>
+                        <p class="reviewDescription">{{Description}}</p>
+                        <p class="reviewUpdate">{{updateFormat Update}}</p>
+                    </div>
+                </li>
+            {{/each}}
+
+
+            {% endverbatim %}
+            </script>
+        </div><!-- /.reviewBlock -->

@@ -768,3 +768,59 @@ input.searchtext{
 .keywordArrow{
     width: 30px;
 }
+
+/*================================================
+ * dailyBlock デイリー売れ筋アイテム
+ ================================================*/
+.dailyBlock .blockTitle p{
+    font-size: 16px;
+}
+.dailyList{
+    margin-top: 20px;
+    width: 100%;
+    text-align: center;
+    color: #3303f7;
+}
+.dailyList td{
+    position: relative;
+    vertical-align: top;
+    width: 20%;
+    border: 1px solid #ccc;
+    padding: 5px 5px 35px 5px;
+}
+.dailyReview{
+    text-decoration: underline;
+    font-size: 13px;
+    margin-left: 10px;
+}
+.dailyItem{
+    font-size: 15px;
+    margin-top: 10px;
+}
+.dailyItem img{
+    margin: 0 auto;
+    display: block;
+}
+.dailyItem a{
+    display: block;
+    padding: 5px;
+}
+.dailyItemName{
+    text-align: left;
+    margin-top: 10px;
+}
+.dailyItemLink{
+    position: absolute;
+    width: 100%;
+    bottom: 5px;
+    margin-top: 5px;
+    text-align: center;
+}
+.dailyItemLink span{
+    display: block;
+    width: 188px;
+    background: #ff3300;
+    color: #fff;
+    line-height: 1.6;
+    padding: 2px;
+}

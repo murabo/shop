@@ -1,0 +1,31 @@
+        <!-- keywordBlock -->
+        <div class="keywordBlock clrF">
+            <div class="blockTitle clrF">
+                <img src="./static/images/kwrank/title.gif" alt="title">
+                <p>当サイトで検索されたキーワードとその関連キーワードを表示しています。</p>
+            </div>
+            <table class="keywordTable">
+                <script id="keyword" type="text/x-handlebars-template">
+                    {% verbatim %}
+                    {{#each Result}}
+                    {{#if _attributes}}
+                    <tr>
+                        <td class="keywordRnkIcon">
+                            <img src="./static/images/kwrank/rank{{_attributes.rank}}.gif">
+                        </td>
+                        <td class="keywordArrow">
+                            <img src="./static/images/kwrank/{{_attributes.vector}}.gif">
+                        </td>
+                        <td class="keywordRnk1">
+                            <a href="/?kwd={{Query}}">{{Query}}</a>
+                        </td>
+                        {{#each Relational}}
+                            <td>{{{relationalCreate this}}}</td>
+                        {{/each}}
+                    </tr>
+                    {{/if}}
+                    {{/each}}
+                    {% endverbatim %}
+                    </script>
+            </table>
+        </div><!-- /.keywordBlock -->

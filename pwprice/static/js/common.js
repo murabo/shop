@@ -52,6 +52,7 @@ $(function() {
    
    getReviewList();
    getKeywordList();
+   getdailyList();
 });
 
 
@@ -167,4 +168,34 @@ Handlebars.registerHelper('relationalCreate', function(relational) {
   }
   return result;
 
+});
+
+
+/* ===================================================================
+
+ * デイリーランキング
+
+=================================================================== */
+
+function getdailyList(){
+
+   $.ajax({
+      type: 'GET',
+      url:'/api/ranking/',
+      dataType: 'json',
+      success: function(data){
+
+        var template = Handlebars.compile($('#daily').html());
+
+        $('.dailyList').append(template(data));
+      }
+   });
+}
+
+// helper equal
+Handlebars.registerHelper('if_eq', function(a, b, opts) {
+    if(a == b) // Or === depending on your needs
+        return opts.fn(this);
+    else
+        return opts.inverse(this);
 });

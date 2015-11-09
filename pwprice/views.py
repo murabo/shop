@@ -77,7 +77,7 @@ def home(request):
                 category = ctxt["results"]["jandata"][0]["category"]
             except:
                 q = ''
-                category = ''
+                category = '1'
             request.GET = QueryDict(q.encode('utf-8'))
             ctxt.update(csrf(request))
             ctxt.update({'jan': '' if not "rec" in request.GET else request.GET[u"rec"].encode('utf-8'),

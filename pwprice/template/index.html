@@ -192,77 +192,11 @@
 		</div><!-- /.rankingBlock -->
 		{% endif %}
 
-        <!-- reviewBlock -->
-        <div class="reviewBlock clrF">
-            <ul class="reviewList"></ul>
-            <p class="reviewLink">→口コミをもっと見る(全<span class="reviewCnt"></span>件)</p>
-
-            <script id="review" type="text/x-handlebars-template">
-            {% verbatim %}
-
-            {{#each Result}}
-                <li>
-                    <div class="mediaImage">
-                        <img src="./static/images/kuchikomi/voice.gif">
-                    </div>
-                    <div class="mediaBody">
-                        <p class="reviewTitle">{{ReviewTitle}}</p>
-                        <ul class="reviewEx clrF">
-                            <li class="reviewRate">
-                                <img src="./static/images/kuchikomi/{{Ratings.Rate}}star.gif">
-                                <span class="reviewBuy"><img src="./static/images/kuchikomi/katta.gif"></span>
-                            </li>
-                            <li>
-                                <img src="./static/images/kuchikomi/mokuteki.gif">
-                                {{purposeFormat Purpose}}
-                            </li>
-                            <li>
-                                <img src="./static/images/kuchikomi/dareni.gif">
-                                {{sendToFormat SendTo}}
-                            </li>
-                        </ul>
-                        <p class="reviewDescription">{{Description}}</p>
-                        <p class="reviewUpdate">{{updateFormat Update}}</p>
-                    </div>
-                </li>
-            {{/each}}
+{% include "review.html"%}
 
 
-            {% endverbatim %}
-            </script>
-        </div><!-- /.reviewBlock -->
 
-        <!-- keywordBlock -->
-        <div class="keywordBlock clrF">
-            <div class="blockTitle clrF">
-                <img src="./static/images/kwrank/title.gif" alt="title">
-                <p>当サイトで検索されたキーワードとその関連キーワードを表示しています。</p>
-            </div>
-            <table class="keywordTable">
-                <script id="keyword" type="text/x-handlebars-template">
-                    {% verbatim %}
-                    {{#each Result}}
-                    {{#if _attributes}}
-                    <tr>
-                        <td class="keywordRnkIcon">
-                            <img src="./static/images/kwrank/rank{{_attributes.rank}}.gif">
-                        </td>
-                        <td class="keywordArrow">
-                            <img src="./static/images/kwrank/{{_attributes.vector}}.gif">
-                        </td>
-                        <td class="keywordRnk1">
-                            <a href="/?kwd={{Query}}">{{Query}}</a>
-                        </td>
-                        {{#each Relational}}
-                            <td>{{{relationalCreate this}}}</td>
-                        {{/each}}
-                    </tr>
-                    {{/if}}
-                    {{/each}}
-                    {% endverbatim %}
-                    </script>
-            </table>
-        </div><!-- /.keywordBlock -->
+
 
 <!--		<br clear="all"> -->
 		<div class="itemPriceBlock clrF">
@@ -305,7 +239,6 @@
 			</ul>
 		</div>
 
-
 <br />
 
 <center>
@@ -324,6 +257,7 @@
 <span class="biggerfontlink"><a href="http://ck.jp.ap.valuecommerce.com/servlet/referral?sid=3161331&pid=882992165&vc_url={{"http://www.amazon.co.jp/s/ref=nb_sb_noss_1?field-keywords="|urlEncode:kwd}}%26pct-off%3D20-" target="_blank" class="x-cvglink" data-cvg-gid="7292" >>> 20%-90%OFFから探す</a></span>
 </center>
 
+{% include "dairy.html" %}
 <br/>
 
 			<!-- クレジットカードエリア
@@ -392,66 +326,6 @@
 				<br/>
             </div><!-- /.title -->
 
-<!--★★★
-            <table>
-                <tr>
-                    <td>
-<a href="http://c.af.moshimo.com/af/c/click?a_id=465153&p_id=54&pc_id=54&pl_id=616&url={{"http://search.rakuten.co.jp/search/mall?sitem="|urlEncode:kwd}}" target="_blank" class="x-cvglink" data-cvg-gid="7295"><img src="./static/images/block1/rakuten200x60.gif" alt="rakuten"/></a>
-                            <p><img src="/static/images/block1/rakuten_p200x42.gif" /></p>
-                            <p class="text"><a href="http://c.af.moshimo.com/af/c/click?a_id=465153&p_id=54&pc_id=54&pl_id=616&url={{"http://search.rakuten.co.jp/search/mall?sitem="|urlEncode:kwd}}" target="_blank" class="x-cvglink" data-cvg-gid="7293">>> 最安値はコチラ!<a/></p>
-                            <p class="card"><a href="./static/ad/rakutencard.html" target="_blank" class="x-cvglink" data-cvg-gid="7295">楽天カードで5,000円安く</a></p>
-							<p class="etc"><a href="http://c.af.moshimo.com/af/c/click?a_id=465153&p_id=54&pc_id=54&pl_id=616&url=https%3A%2F%2Fpoint.rakuten.co.jp%2F%3Fl-id%3Dmyrakuten_top_02_04" target="_blank" class="x-cvglink" data-cvg-gid="7295">ポイント残高を確認</a></p>
-					</td>
-                    <td>
-<a href="http://ck.jp.ap.valuecommerce.com/servlet/referral?sid=3161331&pid=882992165&vc_url={{"http://www.amazon.co.jp/s/ref=nb_sb_noss_1?field-keywords="|urlEncode:kwd}}" target="_blank" class="x-cvglink" data-cvg-gid="7292"><img src="./static/images/block1/amazon200x60.gif" alt="amazon"/></a>
-                            <p><img src="/static/images/block1/amazon_p200x42.gif" /></p>
-                            <p class="text"><a href="http://ck.jp.ap.valuecommerce.com/servlet/referral?sid=3161331&pid=882992165&vc_url={{"http://www.amazon.co.jp/s/ref=nb_sb_noss_1?field-keywords="|urlEncode:kwd}}" target="_blank"  class="x-cvglink" data-cvg-gid="7294">>> 特価はコチラ!</a></p>
-
-							<p class="etc"><a href="http://ck.jp.ap.valuecommerce.com/servlet/referral?sid=3161331&pid=882992165&vc_url=https%3A%2F%2Fwww.amazon.co.jp%2Fgp%2Frewards%3Fie%3DUTF8%26%2AVersion%2A%3D1%26%2Aentries%2A%3D0%26%26tag%3Dvc-22%26linkCode%3Dure" target="_blank" class="x-cvglink" data-cvg-gid="7294">ポイント残高を確認</a></p>
-					</td>
-                    <td>
-<a href="http://ck.jp.ap.valuecommerce.com/servlet/referral?sid=3161331&pid=882992164&vc_url={{"http://search.shopping.yahoo.co.jp/search?p="|urlEncode:kwd}}" target="_blank" class="x-cvglink" data-cvg-gid="7290">
-                            <img src="./static/images/block1/yahoo200x60.gif" alt="yahoo"/></a>
-                            <p><img src="/static/images/block1/yahoo_p200x42.gif" /></p>
-                            <p class="text"><a href="http://ck.jp.ap.valuecommerce.com/servlet/referral?sid=3161331&pid=882992164&vc_url={{"http://search.shopping.yahoo.co.jp/search?p="|urlEncode:kwd}}" target="_blank" class="x-cvglink" data-cvg-gid="7290">>> 最安値はコチラ!</a></p>
-                            <p class="card"><a href="http://ck.jp.ap.valuecommerce.com/servlet/referral?sid=3161331&pid=883034027" target="_blank" class="x-cvglink" data-cvg-gid="7297">ヤフーカードで5,000円安く</a></p>
-							<p class="etc"><a href="http://ck.jp.ap.valuecommerce.com/servlet/referral?sid=3161331&pid=882992164&vc_url=https%3A%2F%2Fpoints.yahoo.co.jp%2Fbook%2F%3Fsc_i%3Dshp_pc_top_sideUserAccount_point" target="_blank" class="x-cvglink" data-cvg-gid="7290">ポイント残高を確認</a></p>
-                            <p class="etc"><a href="{{results.yahoo_s.0.reviewUrl}}" target="_blank" >(レビュー{{results.yahoo_s.0.reviewCnt}}件)</a></p>
-                    </td>
-                    <tr>
-                    </tr>
-                    <td>
-<img src="http://ad.jp.ap.valuecommerce.com/servlet/gifbanner?sid=3161331&pid=882992167" height="1" width="0" border="0">
-<a href="http://ck.jp.ap.valuecommerce.com/servlet/referral?sid=3161331&pid=882992167&vc_url={{"http://www.ponparemall.com/search/?keywordAnd="|urlEncode:kwd}}" target="_blank" class="x-cvglink" data-cvg-gid="7296"><img src="./static/images/block1/ponpare200x60.gif" alt="ponpare"/></a>
-                            <p><img src="/static/images/block1/ponpare_p200x42.gif" /></p>
-							<p class="text"><a href="http://ck.jp.ap.valuecommerce.com/servlet/referral?sid=3161331&pid=882992167&vc_url={{"http://www.ponparemall.com/search/?keywordAnd="|urlEncode:kwd}}" target="_blank" class="x-cvglink" data-cvg-gid="7296">>> 最安値はコチラ!</a></p>
-                            <p class="card"><a href=""  target="_blank" class="x-cvglink" data-cvg-gid="7298">リクルトカードで5,000円安く</a></p>
-							<p class="etc"></p>
-　　　　　　　　　　　　</td>
-                    <td>
-<img src="http://ad.jp.ap.valuecommerce.com/servlet/gifbanner?sid=3161331&pid=882992166" height="1" width="0" border="0">
-<a href="http://ck.jp.ap.valuecommerce.com/servlet/referral?sid=3161331&pid=882992166&vc_url={{"http://auctions.search.yahoo.co.jp/search?auccat=&p="|urlEncode:kwd}}" target="_blank"  class="x-cvglink" data-cvg-gid="7291"><img src="./static/images/block1/yahooauc200x60.gif" alt="yahooauc"/></a>
-                            <p><img src="/static/images/block1/yauc_p200x42.gif" /></p>
-                            <p class="text"><a href="http://ck.jp.ap.valuecommerce.com/servlet/referral?sid=3161331&pid=882992166&vc_url={{"http://auctions.search.yahoo.co.jp/search?auccat=&p="|urlEncode:kwd}}" target="_blank"  class="x-cvglink" data-cvg-gid="7291">>> 最安値はコチラ!</a></p>
-                            <p class="card">　</p>
-							<p class="etc"><a href="http://ck.jp.ap.valuecommerce.com/servlet/referral?sid=3161331&pid=882992164&vc_url=https%3A%2F%2Fpoints.yahoo.co.jp%2Fbook%2F%3Fsc_i%3Dshp_pc_top_sideUserAccount_point" target="_blank" class="x-cvglink" data-cvg-gid="7290">ポイント残高を確認</a></p>
-　　　　　　　　　　　　</td>
-                    <td>
-<a href="http://c.af.moshimo.com/af/c/click?a_id=465154&p_id=61&pc_id=61&pl_id=693&url={{"http://auction.rakuten.co.jp/search/vc?sv=13&v=2&s=38&f=A&l-id=pc_top_oth_click04_f_search_index&g=0&scid=af_pc_etc&sc2id=202756144&sitem="|urlEncodeRA:kwd}}" target="_blank" class="x-cvglink" data-cvg-gid="7293">
-                            <img src="./static/images/block1/rakuauc200x60.gif" alt="rakuauc"/></a>
-                            <p><img src="/static/images/block1/rakuauc_p200x42.gif" /></p>
-                            <p class="text"><a href="http://c.af.moshimo.com/af/c/click?a_id=465154&p_id=61&pc_id=61&pl_id=693&url={{"http://auction.rakuten.co.jp/search/vc?sv=13&v=2&s=38&f=A&l-id=pc_top_oth_click04_f_search_index&g=0&scid=af_pc_etc&sc2id=202756144&sitem="|urlEncodeRA:kwd}}" target="_blank" class="x-cvglink" data-cvg-gid="7293">>> 最安値はコチラ!</a></p>
-                            <p class="card">　</p>
-							<p class="etc"><a href="http://c.af.moshimo.com/af/c/click?a_id=465153&p_id=54&pc_id=54&pl_id=616&url=https%3A%2F%2Fpoint.rakuten.co.jp%2F%3Fl-id%3Dmyrakuten_top_02_04" target="_blank" class="x-cvglink" data-cvg-gid="7293">ポイント残高を確認</a></p>
-                    </td>
-                </tr>
-            </table>
-
-            <div class="itemImg">
-                <img src="{{results.yahoo_s.0.imageUrl}}" alt="画像"/>
-				<p class="review"><a href="{{results.yahoo_s.0.reviewUrl}}" target="_blank" class="x-cvglink" data-cvg-gid="7290">レビューを確認 ( {{results.yahoo_s.0.reviewCnt}}件)</a></p>
-                <p>こちらの画像は異なる場合があります。</br>数量等は各ショップ詳細でご確認ください。</p>
-            </div>★★★--->
 		</div><!-- /.lowestPriceBlock -->
 
 
@@ -616,6 +490,11 @@
         </div><!-- /.itemPriceBlock -->
         {% endif %}
         {% endif %}
+
+
+{% include "kwd.html" %}
+
+
         <div>
 
 			<br />

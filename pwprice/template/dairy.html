@@ -1,0 +1,34 @@
+
+<!-- dailyBlock -->
+<div class="dailyBlock clrF">
+    <div class="blockTitle clrF">
+        <img src="./static/images/dailyitem/title.gif" alt="title">
+        <p>検索した商品に関連したデイリーの売れ筋アイテムをランキングで表示しています。&nbsp;更新日：ｘｘ月xx日(データは1日1回更新)</p>
+    </div>
+
+    <table class="dailyList"></table>
+    <script id="daily" type="text/x-handlebars-template">
+        {% verbatim %}
+        {{#each ranking}}
+        {{#if_eq rank "1"}}<tr>{{/if_eq}}
+        {{#if_eq rank "6"}}<tr>{{/if_eq}}
+        <td>
+            <a href="http://www.pw-price.com/?kwd={{name}}">
+                <img src="./static/images/dailyitem/rank{{rank}}.gif">
+                <img src="./static/images/dailyitem/{{vector}}.gif">
+                <span class="dailyReview">レビュー({{count}}件)</span>
+                <div class="dailyItem">
+                    <img src="{{img}}" alt="画像" height="76" width="76">
+                    <p class="dailyItemName">{{name}}</p>
+                    <p class="dailyItemLink">
+                        <span>価格ランキングを見る</span>
+                    </p>
+                </div>
+            </a>
+        </td>
+        {{#if_eq rank "5"}}</tr>{{/if_eq}}
+        {{#if_eq rank "10"}}</tr>{{/if_eq}}
+    {{/each}}
+    {% endverbatim %}
+    </script>
+</div><!-- /.dailyBlock -->
