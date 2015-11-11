@@ -573,6 +573,20 @@ input.searchtext{
     text-decoration: underline;
 }
 
+.textlink{
+    color: #00f;
+    font-weight: normal;
+    text-decoration: underline;
+}
+
+.red{
+    color: #F00;
+}
+
+.yellow{
+	background-color: #FF0;
+}
+
 .sugestfont{
     font-size: 20px;
     color: #00f;
