@@ -1,0 +1,10 @@
+    {% if suggest %}
+        <div class="relatedWords clrF">
+            <span>関連ワード :</span>
+            <ul>
+                {% for str in suggest %}
+                <li><a href="{% url 'home' %}?kwd={{str}}&minPrice=0&maxPrice=0" class="linkCol" >{{str}}</a></li>
+                {% endfor %}
+            </ul>
+        </div> --><!-- /.relatedWords -->
+    {% endif %}
