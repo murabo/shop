@@ -247,7 +247,7 @@ class BridgeApi(object):
                          'image_size':146,
                          'hits':hits,
                       }
-        if ctxt['sort']:
+        if ctxt['sort'] or sort == '+price':
             param_dict.update({'sort':'+price'})
         if ctxt['jan']:
             param_dict.update({'jan':ctxt['jan']})
