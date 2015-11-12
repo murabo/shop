@@ -70,18 +70,25 @@ function getReviewList(){
       dataType: 'json',
       success: function(data){
        
-        if(data.ResultSet.totalResultsReturned == 0) return;
-        var template = Handlebars.compile($('#review').html());
-        // レビュー一覧
-        $('.reviewList').append(template(data.ResultSet));
-        // レビュー件数
-        $('.reviewCnt').text(data.ResultSet.totalResultsReturned);
+        if(data.ResultSet.totalResultsReturned == 0){
+            $('.reviewList').append("こちらの商品について購入者レビューはありません。");
+            $('.reviewList').css({'background':'#eee' });
+        } else {
+            var template = Handlebars.compile($('#review').html());
+            // レビュー一覧
+            $('.reviewList').append(template(data.ResultSet));
+            // レビュー件数
+            $('.reviewCnt').text(data.ResultSet.totalResultsReturned);
 
-        if(data.ResultSet.totalResultsReturned > 3) $('.reviewLink').css({'display':'block'});
+            if(data.ResultSet.totalResultsReturned > 3) $('.reviewLink').css({'display':'block'});
 
-         for (var i = 1 ; i <= 3 ; i++){
-            $('.reviewList > li:nth-child('+ i +')').css({'display':'block'});
-         }
+            for (var i = 1 ; i <= 3 ; i++){
+                $('.reviewList > li:nth-child('+ i +')').css({'display':'block'});
+            }
+        }
+
+
+
       }
    });
 
