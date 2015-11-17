@@ -188,7 +188,7 @@ function getdailyList(){
 
    $.ajax({
       type: 'GET',
-      url:'/api/ranking/',
+      url:'/api/ranking/' + category + '/',
       dataType: 'json',
       success: function(data){
 
