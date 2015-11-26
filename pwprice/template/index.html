@@ -110,32 +110,32 @@
 
                     <tr>
                         <td><img src="./static/images/block2/amazon135x32.gif" /></td>
-                        <td>{%if lowestPrice.1st_amazon_p%}<a href="{{lowestPrice.1st_amazon_p.itemUrl}}" target="_blank" class="x-cvglink" data-cvg-gid="7292">¥{{lowestPrice.1st_amazon_p.itemPrice}}</a>{%else%}-{%endif%}</td>
+                        <td>{%if lowestPrice.1st_amazon_p%}<a href="{{lowestPrice.1st_amazon_p.itemUrl}}" target="_blank" class="x-cvglink" data-cvg-gid="7292">\{{lowestPrice.1st_amazon_p.itemPrice}}</a>{%else%}-{%endif%}</td>
                     </tr>
 
 					<tr>
                         <td><img src="./static/images/block2/rakuten135x32.gif" /></td>
-                        <td>{%if lowestPrice.1st_rakuten_p%}<a href="{{lowestPrice.1st_rakuten_p.itemUrl}}" target="_blank" class="x-cvglink" data-cvg-gid="7293">¥{{lowestPrice.1st_rakuten_p.itemPrice}}</a>{%else%}-{%endif%}</td>
+                        <td>{%if lowestPrice.1st_rakuten_p%}<a href="{{lowestPrice.1st_rakuten_p.itemUrl}}" target="_blank" class="x-cvglink" data-cvg-gid="7293">\{{lowestPrice.1st_rakuten_p.itemPrice}}</a>{%else%}-{%endif%}</td>
                     </tr>
 
                     <tr>
                         <td><img src="./static/images/block2/yahoo135x32.gif" /></td>
-                        <td>{%if lowestPrice.1st_yahoo_s_p%}<a href="{{lowestPrice.1st_yahoo_s_p.itemUrl}}" target="_blank" class="x-cvglink" data-cvg-gid="7290">¥{{lowestPrice.1st_yahoo_s_p.itemPrice}}</a>{%else%}-{%endif%}</td>
+                        <td>{%if lowestPrice.1st_yahoo_s_p%}<a href="{{lowestPrice.1st_yahoo_s_p.itemUrl}}" target="_blank" class="x-cvglink" data-cvg-gid="7290">\{{lowestPrice.1st_yahoo_s_p.itemPrice}}</a>{%else%}-{%endif%}</td>
                     </tr>
 
 					<tr>
                         <td><img src="./static/images/block2/ponpar135x32.gif" alt="ポンパレ"/></td>
-                        <td>{%if lowestPrice.1st_ponpare_p%}<a href="{{lowestPrice.1st_ponpare_p.itemUrl}}}" target="_blank" class="x-cvglink" data-cvg-gid="7296">¥{{lowestPrice.1st_ponpare_p.itemPrice}}</a>{%else%}-{%endif%}</td>
+                        <td>{%if lowestPrice.1st_ponpare_p%}<a href="{{lowestPrice.1st_ponpare_p.itemUrl}}}" target="_blank" class="x-cvglink" data-cvg-gid="7296">\{{lowestPrice.1st_ponpare_p.itemPrice}}</a>{%else%}-{%endif%}</td>
                     </tr>
 					
 					<tr>
                         <td><img src="./static/images/block2/yahooauc135x32.gif" alt="ヤフオク"/></div>
-                        <td>{%if lowestPrice.1st_yahoo_a_p%}<a href="{{lowestPrice.1st_yahoo_a_p.itemUrl}}" target="_blank" class="x-cvglink" data-cvg-gid="7291">¥{{lowestPrice.1st_yahoo_a_p.itemPrice}}</a>{%else%}-{%endif%}</div>
+                        <td>{%if lowestPrice.1st_yahoo_a_p%}<a href="{{lowestPrice.1st_yahoo_a_p.itemUrl}}" target="_blank" class="x-cvglink" data-cvg-gid="7291">\{{lowestPrice.1st_yahoo_a_p.itemPrice}}</a>{%else%}-{%endif%}</div>
                     </tr>
 			    </table>
 
                 <div class="lowestPrice">
-                    <span class="text">最安値</span><span class="price linkCol">{%if praice_results %}<a href="{{praice_results.0.itemUrl}}" target="_blank" >¥{{praice_results.0.itemPrice}}</a>{%else%}-{%endif%}</span>
+                    <span class="text">最安値</span><span class="price linkCol">{%if praice_results %}<a href="{{praice_results.0.itemUrl}}" target="_blank" >\{{praice_results.0.itemPrice}}</a>{%else%}-{%endif%}</span>
                 </div>
             </div><!-- /.priceList -->
             <div class="priceRanking">
@@ -149,7 +149,7 @@
                     {% for d in praice_results %}
                     <tr>
                         <td>{{forloop.counter}}位</td>
-                        <td><a href="{{d.itemUrl}}" class="linkCol" target="_blank">¥{{d.itemPrice}}</a></td>
+                        <td><a href="{{d.itemUrl}}" class="linkCol" target="_blank">\{{d.itemPrice}}</a></td>
                         <td><a href="{{d.itemUrl}}" class="linkCol" target="_blank"><img src={{ d.ec|getEcImg}} /></a></td>
                         <td><a href="{{d.itemUrl}}" class="linkCol" target="_blank">{{d.shopName}}</a></td>
                     </tr>
@@ -164,16 +164,16 @@
 {% include "review.html"%}
 
 
-<!--		<br clear="all"> -->
 		<div class="itemPriceBlock clrF">
 			<ul class="resultHeader">
-                <li>
+<!-- amazon link               <li>
                     <div class="logo">
 					<img src="http://ad.jp.ap.valuecommerce.com/servlet/gifbanner?sid=3161331&pid=882992165" height="1" width="0" border="0">
 					<a href="http://ck.jp.ap.valuecommerce.com/servlet/referral?sid=3161331&pid=882992165&vc_url={{"http://www.amazon.co.jp/s/ref=nb_sb_noss_1?field-keywords="|urlEncode:kwd}}" target="_blank" class="x-cvglink" data-cvg-gid="7292"><img src="./static/images/block3/amazon30.gif" alt="amazon"/></a></div>
                     <p><a href="http://ck.jp.ap.valuecommerce.com/servlet/referral?sid=3161331&pid=882992165&vc_url={{"http://www.amazon.co.jp/s/ref=nb_sb_noss_1?field-keywords="|urlEncode:kwd}}" target="_blank" class="x-cvglink" data-cvg-gid="7292" >
                         商品一覧をチェックする</a></p>
                 </li>
+-->
                 <li>
                     <div class="logo">
 						<img src="http://i.af.moshimo.com/af/i/impression?a_id=465153&p_id=54&pc_id=54&pl_id=616" width="1" height="1" style="border:none;">
@@ -231,7 +231,135 @@
 			</div></div>
 			<!-- クレジットカードエリア -->
 <br/>
+			<!-- DMM FXエリア -->
+			<div class="dmmfx">
+			<div class="rankingBlock clrF">
+<a href="#dmm">
+<img src="./static/images/dmmfx/amazon5.gif"><br/ clear="all">
+<br/>
+<center>
+<a href="./static/ad/dmmfx.html" target="_blank">
+<span class="navigation">当サイト限定！15,000円分のギフト券プレゼント中（期間限定）</span><br/ clear="all">
+<img src="https://image.j-a-net.jp/1526980/549112/" width="728" height="90"  border="0"></a><br/ clear="all">
+※当サイト限定のキャンペーンとなります。キャンペーン特典を受けるにはこちらのバナーからのお申し込みが必須となります。
+</center>
+			</div></div>
+			<!-- DMM FXエリア -->
 
+
+<!-- ★★★DMM FX amazon campaign ここから -->
+<div class="promobox">
+<br/>
+<!--
+<center><img src="./static/images/dmmfx/title1.gif" alt=""/></center><br clear="all">
+
+<a href="./static/ad/dmmfx.html" target="_blank"><img src="./static/images/dmmfx/15000yen.gif" class="imgr"/></a>
+
+<span class="yellow">ローラさんや清原さんのCMでお馴染みのDMM FX、口座を開設してスマホまたはPCで1回以上取引を行うと15,000円分のAmazonギフト券がもらえます。しかも申込はネット完結！</span><br/>
+<br/>
+※当サイト限定のキャンペーンです、他のサイトから申し込んだ場合は対象外となりますのでご注意ください。<br/>
+<br/>
+条件はDMM FXの口座開設後60日以内に1回以上取引することです。<br/>
+ちなみにFXとは、ドルやユーロなど外国為替を売買するネット取引のことで、最近では株や投資信託の様にスマホでも取引できることから、利用者がどんどん増えています。<br/>
+<br/>
+<br clear="all">
+<div class="imgc">
+<iframe width="560" height="315" src="https://www.youtube.com/embed/7ir7LwT09-w?rel=0" frameborder="0" allowfullscreen></iframe>
+</div>
+<br clear="all">
+
+<a href="./static/ad/dmmfx.html" target="_blank"><img src="./static/images/dmmfx/sitecap1.gif" class="imgr"/></a>
+
+PCはもちろん、スマホアプリでも手軽に取引ができますから、休憩時間など空いた時間を使って取引ができるので、利用者がどんどん増えるのも納得です。趣味で始めたFXが本業の収入を超えるなんていう方もいるほどです。<br/>
+<br/>
+もちろん、得をするばかりでは無く、損をすることもありますから無理は禁物です。<br/>
+小さな金額から試してみましょう。<br/>
+<br/>
+<br/>
+最初に必要な金額は5万円ほどです。最小取引単位は1万通貨です。例えばドルを1万通貨買って為替レートが0.01円上がると100円の含み利益になります。0.1円上がると1000円の利益です。<br/>
+<br/>
+初めてFXをする方は、欲張らずに最小取引単位で、短時間のチャレンジをお勧めします。ちゃっかり利益を狙うのは慣れてきてからですよ。<br/>
+<br/>
+<span class="red">もちろん口座開設費用や年会費などは一切かかりません。無料です。</span><br/>
+<br/>
+<center>
+<a href="./static/ad/dmmfx.html" target="_blank"><img src="./static/images/dmmfx/amazongift.gif" class=""/></a><br clear="all">
+</center>
+<br/>
+<span class="yellow">口座開設に最短5分程度、ネットで完結します。</span><br/>
+<span class="red">こちらのキャンペーンは当サイト限定です。他では一部メディアを除き実施していません。</span><br/>
+今すぐ申込できない方はブックマークしておいてくださいね。<br/>
+<br/>
+<br/>
+<span class="yellow">為替を通じて経済が勉強できて、投資が学べて、さらにAmazonギフト券が15,000円分ももらえちゃいます。</span><br/>
+<br/>
+<span class="red">キャンペーン終了期限が迫っています。興味のある方は今のうちにどうぞ。</span><br/>
+<br/>
+<br/ clear="all">
+
+<center>
+<a href="./static/ad/dmmfx.html" target="_blank">
+<span class="">↓当サイト限定！15,000円分のギフト券プレゼント中（期間限定）</span><br/>
+<img src="https://image.j-a-net.jp/1526980/549112/" width="728" height="90"  border="0" class="imgc"></a><br/ clear="all">
+</center>
+
+<br/>
+<br/>
+
+<center><img src="./static/images/dmmfx/title2.gif" alt=""/></center><br clear="all">
+
+<a href="./static/ad/dmmfx.html" target="_blank"><img src="./static/images/dmmfx/sitecap2.gif" class="imgl"/></a>
+<br/>
+<b>ステップ１．口座開設ページを開く<a href="./static/ad/dmmfx.html" target="_blank">→こちら</a></b><br/>
+<br/>
+<br/>
+
+<b>ステップ２．口座開設ボタンをクリックします</b><br/>
+<br/ clear="all">
+
+<img src="./static/images/dmmfx/sitecap3.gif" class="imgl"/>
+<br/>
+<br/>
+<b>ステップ３．必要項目を入力します</b><br/>
+30項目ほどありますが、特に難しい内容は無いので、どんどん入力すると以外と早く終わります。<br/>
+<br/ clear="all">
+
+<img src="./static/images/dmmfx/sitecap4.gif" class="imgl"/>
+<br/>
+<br/>
+<b>ステップ４．本人確認書類をアップロード</b><br/>
+
+<br/>
+免許証はスマホやデジカメで撮影してアップロードできます。<br/>
+スマホ撮影の場合、撮影した写メをPCにメールで送ると便利です。<br/>
+<br/>
+実際に登録してみるとわかりますが、思ったより簡単で早く終わり拍子抜けしてしまいます。<br/>
+<br/ clear="all">
+<br/>
+<b>ステップ５．取引の実施</b><br/>
+あとはスマホやPCで1回以上の取引を実施すればOKです。<br/>
+<span class="yellow">DMM FXから電子メールでAmazon電子クーポンが送られてくるのを待つだけです。</span>クーポンが届くまでは口座から出金しないでくださいね。こちらもキャンペーンの条件になっています。<br/>
+<br/>
+<img src="./static/images/dmmfx/sitecap5.gif" class="imgr"/>
+難しいことは苦手という方、LINEのカスタマーサポートがスタートしていますよ。もちろん、電話とメールのサポートもあります。<br/>
+さすが、40万人以上が利用する日本国内で1位2位を争う人気のFXですね。至れり尽くせりです。<br/>
+<br/>
+<br/ clear="all">
+<center>
+<span class="navigation">↓↓キャンペーンはこちらから</span><br/ clear="all">
+<img src="https://image.j-a-net.jp/1526980/549112/" width="728" height="90"  border="0"></a>
+</center>
+-->
+<br/>
+</div>
+<br clear="all">
+<!-- ★★★DMM FX amazon campaign ここまで -->
+
+
+
+
+
+<br/>
 
 <p>スポンサーリンク</p>
 

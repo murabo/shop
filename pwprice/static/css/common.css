@@ -640,6 +640,10 @@ input.searchtext{
 /*  border: 1px solid #ddd;*/
 }
 
+.imgc{
+    margin:0 auto;
+}
+
 /*================================================
  * manuBlock
  ================================================*/
@@ -838,3 +842,17 @@ input.searchtext{
     line-height: 1.6;
     padding: 2px;
 }
+
+
+/*================================================
+ * プロモーション用ボックス
+ ================================================*/
+
+.promobox {
+    text-align: left;
+    margin:20px auto;
+    padding: 10px; 
+/*    border: 3px solid #ececec;*/
+    background: #fafafa; */
+}
+
