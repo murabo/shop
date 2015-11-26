@@ -11,6 +11,7 @@ from django.core.context_processors import csrf
 from django.views.decorators.csrf import csrf_protect
 from django.shortcuts import redirect
 from api import BridgeApi, Cache
+from constants import CRAWLER_USER_AGENT
 import urllib
 
 
@@ -22,6 +23,14 @@ def home(request):
 
     if not "kwd" in request.GET:
         request.GET = QueryDict("kwd=アウトレット&i=1")
+
+    if not _check_crawler_ua(request):
+
+        ctxt.update({'kwd': request.GET[u"kwd"].encode('utf-8'),
+                     'init': 1 if "i" in request.GET and request.GET["i"] else 0,
+                    })
+        ctxt = RequestContext(request, ctxt)
+        return render_to_response("crawler_index.html",ctxt)
 
     # 検索処理
     if "kwd" in request.GET and request.GET[u"kwd"]:
@@ -91,3 +100,13 @@ def home(request):
     ctxt = RequestContext(request, ctxt)
 
     return render_to_response("index.html",ctxt)
+
+
+def _check_crawler_ua(request):
+    user_agent=request.META.get('HTTP_USER_AGENT',None)
+
+    for ua in CRAWLER_USER_AGENT:
+        if ua in user_agent:
+            return True
+        return False
+
