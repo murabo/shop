@@ -24,7 +24,7 @@ def home(request):
     if not "kwd" in request.GET:
         request.GET = QueryDict("kwd=アウトレット&i=1")
 
-    if not _check_crawler_ua(request):
+    if _check_crawler_ua(request):
 
         ctxt.update({'kwd': request.GET[u"kwd"].encode('utf-8'),
                      'init': 1 if "i" in request.GET and request.GET["i"] else 0,
