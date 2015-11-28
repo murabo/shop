@@ -4,15 +4,12 @@ import settings
 import hashlib
 import urllib
 import json
-import unicodedata
+
 import redis
 import time
 import msgpack
 import locale
 import csv
-import os
-from django.template import RequestContext
-from django.shortcuts import render_to_response
 
 
 class ApiUtill(object):
@@ -32,7 +29,6 @@ class ApiUtill(object):
     def callAPI(url, param):
         try:
             datas = urllib.urlopen(url + param)
-            print "success"
             datas = datas.read()
             return datas
         except:
@@ -136,7 +132,6 @@ class ApiUtill(object):
                            "reviewUrl":data['Review']['Url'],
                            "category":category
                            })
-            #print results
         return results
 
     @classmethod
@@ -181,10 +176,8 @@ class BridgeApi(object):
         cls.getLowPrice()
         if cls.YAHOO_DATA:
             for data in cls.YAHOO_DATA:
-                #print data
                 if data['jan'] and len(cls.JAN_DATA) < 5 and not data['jan'] in tmp:
                     tmp.append(data['jan'])
-                    print data['category']
                     cls.JAN_DATA.append({
                         "jan":[data['jan']],
                         "imageUrl": data['imageUrl'],
@@ -194,9 +187,7 @@ class BridgeApi(object):
 
     @classmethod
     def getLowPrice(cls):
-        #print "AMA",len(cls.amazon_data)
         for data in cls.amazon_data:
-            # print data['janCode']
             continue
 
 
@@ -221,13 +212,10 @@ class BridgeApi(object):
         keys.sort()
         datas = Cache.getCacheData(api_name, keys)
         if not datas or nocache:
-            print "キャッシュなしR"
             datas = ApiUtill.callAPI(settings.RAKUTEN_API_URL, param)
             datas = json.loads(datas)
             if not nocache:
                 Cache.setCacheData(api_name, ctxt['cache_keys'], datas)
-        else:
-            print "キャッシュありR"
 
         # 必要なデータだけに生成
         if "Items" in datas:
@@ -268,34 +256,21 @@ class BridgeApi(object):
         result_datas = []
 
         if not datas or nocache:
-            print "キャッシュなしorJAN検索"
-
 
             datas = ApiUtill.callAPI(settings.YAHOO_S_URL, param)
 
             j = json.loads(datas)
-            #print "#####", j['ResultSet']['0']['Result']['0']
-            #print "#####", j['ResultSet']['0']['Result']['0']['CategoryIdPath']
-            #print u'Error' in json.loads(datas)
+
             if not u'Error' in json.loads(datas):
                 datas = json.loads(datas)['ResultSet']
                 if 0 < datas['totalResultsReturned'] and 'totalResultsReturned' in datas:
                     for i in xrange(0, int(datas['totalResultsReturned'])):
                         result_datas.append(datas[u'0']['Result'][u'%s' % i])
 
-#            datas = ApiUtill.callAPI(settings.YAHOO_S_URL, param)
-#            datas = json.loads(datas)['ResultSet']
-#            if 0 < datas['totalResultsReturned'] and 'totalResultsReturned' in datas:
-#                for i in xrange(0, int(datas['totalResultsReturned'])):
-#                    result_datas.append(datas[u'0']['Result'][u'%s' % i])
-
             # jan検索はキャッシュしない。
             if not nocache:
                 Cache.setCacheData(api_name, ctxt['cache_keys'], result_datas)
             datas = result_datas
-
-        else:
-            print "キャッシュありS",
 
         cls.YAHOO_DATA = ApiUtill.exchangeYahooS(datas)
         cls.createJanImgMap()
@@ -333,14 +308,11 @@ class BridgeApi(object):
         datas = []
 
         if not data or nocache:
-            print "キャッシュなしYA!"
             data = ApiUtill.callAPI(settings.YAHOO_A_URL, param)
             data = json.loads(data.replace('loaded(',"")[:-1])['ResultSet']
 
             if not nocache:
                 Cache.setCacheData(api_name, ctxt['cache_keys'], data)
-        else:
-            print "キャッシュありYA!"
 
         if 'UnitsWord' in data[u'Result'] and type(data['Result']['UnitsWord']) == list:
             ctxt.update({"suggest": data['Result']['UnitsWord']})
@@ -381,14 +353,11 @@ class BridgeApi(object):
 
         datas = Cache.getCacheData(api_name, ctxt['cache_keys'])
         if not datas or nocache:
-            print "キャッシュなしVC"
             datas = ApiUtill.callAPI(settings.VALUE_API_URL, param)
             if datas:
                 datas = json.loads(datas)
                 if not nocache:
                     Cache.setCacheData(api_name, ctxt['cache_keys'], datas)
-        else:
-            print "キャッシュありVC"
 
         if datas and datas['resultCount']:
             for data in datas['items']:
@@ -449,7 +418,6 @@ class BridgeApi(object):
     @classmethod
     def price_ranking(cls, datas):
         list = []
-        del_list=[]
         for k, v in datas.items():
             list.extend(v)
 
@@ -477,7 +445,6 @@ class Cache(object):
     TMP = 0
     @classmethod
     def setLastTime(cls, name):
-        print "キャッシュセットしたよ"
         r = redis.StrictRedis(host='localhost', port=6379, db=0)
         r.set('lasttime:%s' % name, time.time())
 
@@ -510,9 +477,7 @@ class Cache(object):
         str = ''
         for key in keys:
             str += key
-        print "キーのはず！",'%s:%s' % (name, str)
         result = r.get('%s:%s' % (name, str))
-        print "キャッシュあるの？？",type(result)
 
         if result:
             return msgpack.unpackb(result, encoding='utf-8')

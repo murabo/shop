@@ -49,10 +49,11 @@ $.fn.rollover = function() {
 $(function() {
    // $('#menu img').rollover();
    // $('form input:image').rollover();
-   
-   getReviewList();
-   getKeywordList();
-   getdailyList();
+   if (is_crl == 0) {
+       getReviewList();
+       getKeywordList();
+       getdailyList();
+   }
 });
 
 
