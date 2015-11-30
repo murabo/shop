@@ -812,6 +812,7 @@ input.searchtext{
     margin-left: 10px;
 }
 .dailyItem{
+    word-break: break-all;
     font-size: 15px;
     margin-top: 10px;
 }
