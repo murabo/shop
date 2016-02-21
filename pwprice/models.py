@@ -27,4 +27,5 @@ class NgFilter(models.Model):
 
     class Meta:
         verbose_name = u'NGワード・広告管理'
+        verbose_name_plural = u'NGワード・広告管理'
 
