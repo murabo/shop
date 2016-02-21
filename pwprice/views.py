@@ -1,4 +1,5 @@
 # encoding:utf-8
+import redis
 
 import settings
 import hashlib
@@ -13,6 +14,7 @@ from django.shortcuts import redirect
 from api import BridgeApi, Cache
 from constants import CRAWLER_USER_AGENT
 import urllib
+from models import NgFilter
 
 
 @csrf_protect
@@ -35,6 +37,21 @@ def home(request):
     # 検索処理
     if "kwd" in request.GET and request.GET[u"kwd"]:
         kwds = request.GET[u"kwd"].split()
+        ng_list1 = _get_redis("ng_1")
+        ng_filter = NgFilter.objects.get(pk=1)
+        if ng_list1:
+            ng_list1 = ng_list1.split('\n')
+        else:
+            ng_list1 = ng_filter.ng_1.encode('utf-8').split('\n')
+
+        if _check_ng(request.GET[u"kwd"].encode('utf-8'), ng_list1):
+            request.GET = QueryDict("kwd=アウトレット&i=1")
+
+        ng_list2 = _get_redis("ng_2")
+        if ng_list2:
+            ng_list2 = _get_redis("ng_2").split('\n')
+        else:
+            ng_list2 = ng_filter.ng_2.encode('utf-8').split('\n')
 
         # キャッシュ用の処理
         cache_keys = []
@@ -54,17 +71,6 @@ def home(request):
         if "sort" in request.GET and request.GET["sort"]:
             cache_keys.append(hashlib.sha224("sort_1").hexdigest())
 
-        """
-        if "item_status" in request.GET and request.GET["item_status"]:
-            cache_keys.append(hashlib.sha224("item_status").hexdigest())
-
-        if "store" in request.GET and request.GET["store"]:
-            cache_keys.append(hashlib.sha224("store").hexdigest())
-
-        if "buynow" in request.GET and request.GET["buynow"]:
-            cache_keys.append(hashlib.sha224("buynow").hexdigest())
-        """
-
         cache_keys.sort()
 
         ctxt.update({'kwd': request.GET[u"kwd"].encode('utf-8'),
@@ -76,6 +82,7 @@ def home(request):
                      'buynow': 1 if "buynow" in request.GET and request.GET["buynow"]  == u'1'else 0,
                      'shipping': 1 if "shipping" in request.GET and request.GET["shipping"] else 0,
                      'init': 1 if "i" in request.GET and request.GET["i"] else 0,
+                     'ng': _check_ng(request.GET[u"kwd"].encode('utf-8'), ng_list2),
                     })
 
         ctxt.update({"results": BridgeApi.getAll(ctxt)})
@@ -110,3 +117,13 @@ def _check_crawler_ua(request):
             return True
         return False
 
+def _check_ng(kwd, ng_list):
+    print ng_list
+    if kwd in ng_list:
+        return True
+    else:
+        return False
+
+def _get_redis(key):
+    r = redis.StrictRedis(host='localhost', port=6379, db=0)
+    return r.get(key)

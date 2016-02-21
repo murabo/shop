@@ -9,6 +9,9 @@ urlpatterns = patterns('',
     url(r'^api/',include('pwprice.pp_api.urls')),
 )
 urlpatterns += patterns('',
+    url(r'^admin/', include(admin.site.urls)),
+)
+urlpatterns += patterns('',
     url(r'^static/(?P<path>.*)$', 'django.views.static.serve',{'document_root':settings.STATIC_ROOT}),
 )
 
