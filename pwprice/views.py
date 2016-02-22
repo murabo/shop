@@ -40,18 +40,18 @@ def home(request):
         ng_list1 = _get_redis("ng_1")
         ng_filter = NgFilter.objects.get(pk=1)
         if ng_list1:
-            ng_list1 = ng_list1.split('\n')
+            ng_list1 = ng_list1.split('\r\n')
         else:
-            ng_list1 = ng_filter.ng_1.encode('utf-8').split('\n')
+            ng_list1 = ng_filter.ng_1.encode('utf-8').split('\r\n')
 
         if _check_ng(request.GET[u"kwd"].encode('utf-8'), ng_list1):
             request.GET = QueryDict("kwd=アウトレット&i=1")
 
         ng_list2 = _get_redis("ng_2")
         if ng_list2:
-            ng_list2 = _get_redis("ng_2").split('\n')
+            ng_list2 = _get_redis("ng_2").split('\r\n')
         else:
-            ng_list2 = ng_filter.ng_2.encode('utf-8').split('\n')
+            ng_list2 = ng_filter.ng_2.encode('utf-8').split('\r\n')
 
         # キャッシュ用の処理
         cache_keys = []
