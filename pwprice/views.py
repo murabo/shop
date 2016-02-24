@@ -118,11 +118,11 @@ def _check_crawler_ua(request):
         return False
 
 def _check_ng(kwd, ng_list):
-    print ng_list
-    if kwd in ng_list:
-        return True
-    else:
-        return False
+    for ng in ng_list:
+        if kwd in ng or ng in kwd:
+            return True
+        else:
+            return False
 
 def _get_redis(key):
     r = redis.StrictRedis(host='localhost', port=6379, db=0)
