@@ -1,6 +1,6 @@
 # encoding:utf-8
 import redis
-
+import mojimoji
 import settings
 import hashlib
 from django.template import RequestContext
@@ -43,7 +43,6 @@ def home(request):
             ng_list1 = ng_list1.split('\r\n')
         else:
             ng_list1 = ng_filter.ng_1.encode('utf-8').split('\r\n')
-
         if _check_ng(request.GET[u"kwd"].encode('utf-8'), ng_list1):
             request.GET = QueryDict("kwd=アウトレット&i=1")
 
@@ -119,10 +118,8 @@ def _check_crawler_ua(request):
 
 def _check_ng(kwd, ng_list):
     for ng in ng_list:
-        if kwd in ng or ng in kwd:
+        if mojimoji.zen_to_han(kwd.decode('utf-8'), kana=False) in mojimoji.zen_to_han(ng.decode('utf-8'), kana=False) or mojimoji.zen_to_han(ng.decode('utf-8'), kana=False) in mojimoji.zen_to_han(kwd.decode('utf-8'), kana=False):
             return True
-        else:
-            return False
 
 def _get_redis(key):
     r = redis.StrictRedis(host='localhost', port=6379, db=0)
