@@ -123,8 +123,14 @@ def _check_ng(kwd, ng_list):
         return False
 
     for ng in ng_list:
-        if (mojimoji.zen_to_han(kwd.decode('utf-8'), kana=False).encode('utf-8').lower().find(ng) > 0
-            or mojimoji.zen_to_han(ng.decode('utf-8'), kana=False).lower() in mojimoji.zen_to_han(kwd.lower().decode('utf-8'), kana=False)) and ng:
+
+        if kwd.find(ng) >= 0:
+            return True
+
+        if kwd.lower().find(ng) >= 0:
+            return True
+
+        if mojimoji.zen_to_han(kwd.decode('utf-8'), kana=False).encode('utf-8').lower().find(ng) >= 0:
             return True
 
 def _get_redis(key):
