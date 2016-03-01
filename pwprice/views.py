@@ -119,18 +119,20 @@ def _check_crawler_ua(request):
 
 def _check_ng(kwd, ng_list):
 
-    if ng_list and not ng_list[0]:
-        return False
-
     for ng in ng_list:
 
+        if ng == "":
+            return False
         if kwd.find(ng) >= 0:
+
             return True
 
         if kwd.lower().find(ng) >= 0:
+
             return True
 
-        if mojimoji.zen_to_han(kwd.decode('utf-8'), kana=False).encode('utf-8').lower().find(ng) >= 0:
+        if kwd.find(mojimoji.han_to_zen(ng.decode('utf-8')).encode('utf-8')) >= 0:
+
             return True
 
 def _get_redis(key):
