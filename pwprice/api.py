@@ -381,37 +381,38 @@ class BridgeApi(object):
 
     @classmethod
     def getAll(cls, ctxt):
-        amazon_data, ponpare_data = cls.createVC(ctxt)
+        #amazon_data, ponpare_data = cls.createVC(ctxt)
 
         return {'rakuten': cls.getRakten(ctxt),
                 'yahoo_s': cls.getYahooS(ctxt),
-                'yahoo_a': cls.getYahooA(ctxt),
-                'amazon' : cls.getAmazon(amazon_data),
-                'ponpare': cls.getPonpare(ponpare_data),
+#                'yahoo_a': cls.getYahooA(ctxt),
+#                'amazon' : cls.getAmazon(amazon_data),
+#                'ponpare': cls.getPonpare(ponpare_data),
                 'jandata': cls.JAN_DATA
                 }
 
     @classmethod
     def getPriceCheckData(cls, ctxt):
         #print "JANだよ！",ctxt["jan"]
-        amazon_data, ponpare_data = cls.createVC(ctxt, sort='price', nocache=1, sort_order='asc', hits=10)
+        #amazon_data, ponpare_data = cls.createVC(ctxt, sort='price', nocache=1, sort_order='asc', hits=10)
         rakuten = cls.getRakten(ctxt, nocache=1, sort='+itemPrice', hits=10)
         yahoo_s = cls.getYahooS(ctxt, nocache=1, sort='+price', hits=10)
         #yahoo_a = cls.getYahooA(ctxt, nocache=1, sort='cbids')
-        amazon = cls.getAmazon(amazon_data)
-        ponpare = cls.getPonpare(ponpare_data)
+        #amazon = cls.getAmazon(amazon_data)
+        #ponpare = cls.getPonpare(ponpare_data)
 
         datas = {'rakuten_p': rakuten,
                 'yahoo_s_p': yahoo_s,
                 #'yahoo_a_p': yahoo_a,
-                'amazon_p' : amazon,
-                'ponpare_p': ponpare,
+        #        'amazon_p' : amazon,
+        #        'ponpare_p': ponpare,
         }
         lowestPrice = {'1st_rakuten_p':rakuten[0] if rakuten and rakuten[0] else "",
                        '1st_yahoo_s_p':yahoo_s[0] if yahoo_s and yahoo_s[0] else "",
                        #'1st_yahoo_a_p':yahoo_a[0] if yahoo_a and yahoo_a[0] else "",
-                       '1st_amazon_p':amazon[0] if amazon and amazon[0] else "",
-                       '1st_ponpare_p':ponpare[0] if ponpare and ponpare[0] else "",}
+        #               '1st_amazon_p':amazon[0] if amazon and amazon[0] else "",
+        #               '1st_ponpare_p':ponpare[0] if ponpare and ponpare[0] else "",
+        }
         return cls.price_ranking(datas), lowestPrice
 
 
