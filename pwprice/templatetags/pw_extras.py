@@ -8,13 +8,13 @@ import urllib
 
 @register.filter
 def getMatrix(num, args):
-    amazon = args['amazon']
+    amazon = []#args['amazon']
     rakuten = args['rakuten']
     yahoo_s = args['yahoo_s']
-    ponpare = args['ponpare']
-    yahoo_a = args['yahoo_a']
-    if not len(amazon) and not len(rakuten) and not len(yahoo_a) and not len(yahoo_s) and not len(ponpare):
-        return
+    ponpare = []#args['ponpare']
+    yahoo_a = []#args['yahoo_a']
+    #if not len(amazon) and not len(rakuten) and not len(yahoo_a) and not len(yahoo_s) and not len(ponpare):
+    #    return
     # Amazon 商品画像、商品名
     name_image_tag = u'''
     <td class="item">
@@ -101,46 +101,46 @@ def getMatrix(num, args):
 
     tag += u'<tr>'
     if int(num) < len(amazon) and amazon :
-        tag += u'<td><a href="/static/ad/amazon.html"  target="_blank"><img src="/static/images/banner/amazon_p193x40.gif" /></a></td>'
+        tag += u'<td><a href="/static/ad/amazon.html"  target="_blank"></a></td>'
     else:
         tag += u'<td></td>'
     if  int(num) < len(rakuten) and rakuten :
-        tag += u'<td><a href="/static/ad/rakuten.html"  target="_blank"><img src="/static/images/banner/rakuten_p193x40.gif" /></a></td>'
+        tag += u'<td><a href="/static/ad/rakuten.html"  target="_blank"></a></td>'
     else:
         tag += u'<td></td>'
     if  int(num) < len(yahoo_s) and yahoo_s:
-        tag += u'<td><a href="/static/ad/yahoo.html"  target="_blank"><img src="/static/images/banner/yahoo_p193x40.gif" /></a></td>'
+        tag += u'<td><a href="/static/ad/yahoo.html"  target="_blank"></a></td>'
     else:
         tag += u'<td></td>'
     if  int(num) < len(ponpare) and ponpare:
-        tag += u'<td><a href="/static/ad/ponpare.html"  target="_blank"><img src="/static/images/banner/ponpare_p193x40.gif" /></a></td>'
+        tag += u'<td><a href="/static/ad/ponpare.html"  target="_blank"></a></td>'
     else:
         tag += u'<td></td>'
     if  int(num) < len(yahoo_a) and yahoo_a:
-        tag += u'<td><a href="/static/ad/yauc.html" target="_blank" ><img src="/static/images/banner/yauc_p193x40.gif" /></a></td>'
+        tag += u'<td><a href="/static/ad/yauc.html" target="_blank" ></a></td>'
     else:
         tag += u'<td></td>'
     tag += u'</tr>'
 
     tag += u'<tr>'
     if int(num) < len(amazon) and amazon :
-        tag += u'<td><a href="/static/ad/amazon.html"  target="_blank"><img src="/static/images/banner/amazon_p185x39.gif" /></a></td>'
+        tag += u'<td><a href="/static/ad/amazon.html"  target="_blank"></a></td>'
     else:
         tag += u'<td></td>'
     if  int(num) < len(rakuten) and rakuten :
-        tag += u'<td><a href="/static/ad/rakuten.html"  target="_blank"><img src="/static/images/banner/rakuten_p185x39.gif" /></a></p></td>'
+        tag += u'<td><a href="/static/ad/rakuten.html"  target="_blank"></a></p></td>'
     else:
         tag += u'<td></td>'
     if  int(num) < len(yahoo_s) and yahoo_s:
-        tag += u'<td><a href="/static/ad/yahoo.html"  target="_blank"><img src="/static/images/banner/yahoo_p185x39.gif" /></a></td>'
+        tag += u'<td><a href="/static/ad/yahoo.html"  target="_blank"></a></td>'
     else:
         tag += u'<td></td>'
     if  int(num) < len(ponpare) and ponpare:
-        tag += u'<td><a href="/static/ad/ponpare.html"  target="_blank"><img src="/static/images/banner/ponpare_p185x39.gif" /></a></td>'
+        tag += u'<td><a href="/static/ad/ponpare.html"  target="_blank"></a></td>'
     else:
         tag += u'<td></td>'
     if  int(num) < len(yahoo_a) and yahoo_a:
-        tag += u'<td><a href="/static/ad/yauc.html" target="_blank" ><img src="/static/images/banner/yauc_p185x39.gif" /></a></td>'
+        tag += u'<td><a href="/static/ad/yauc.html" target="_blank" ></a></td>'
     else:
         tag += u'<td></td>'
     tag += u'</tr>'

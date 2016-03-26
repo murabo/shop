@@ -1,0 +1,1059 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+{% load getMatrix templatetag_handlebars %}
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja" xml:lang="ja">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <link rel="stylesheet" href="./static/css/reset.css" type="text/css" />
+    <link rel="stylesheet" href="./static/css/common.css" type="text/css" />
+    <script type="text/javascript" src="./static/js/jquery.js"></script>
+    <script type="text/javascript" src="./static/js/handlebars-v4.0.4.js"></script>
+    <script type="text/javascript" src="./static/js/dateformat.js"></script>
+    <script>
+    var jan = '{{jan}}';
+    var category = '{{category}}';
+    var is_crl = 0;
+    </script>
+
+    <script type="text/javascript" src="./static/js/common.js"></script>
+    <script type="text/javascript" src="./static/js/ga.js"></script>
+    <title>{{kwd}} 価格比較＆ランキング - パワープライス</title>
+
+<script type="text/javascript" src="//tracking.dialogs.in/p.php?code=ier4m7XXC"></script>
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.6.0/jquery.min.js"></script>
+</head>
+
+<body>
+<div class="wrapper">
+
+        <div class="header clrF">
+            <ul>
+                <li><a href="/" ><img src="./static/images/header/logo01.gif" alt="logo"/></a></li>
+                <li><img src="./static/images/header/logo02.gif" alt="logo"/></li>
+                <li>
+
+<a href="./static/ad/yahoocard.html" target="_blank"  class="x-cvglink" data-cvg-gid="7297"><img src="http://h.accesstrade.net/sp/rr?rk=0100iipd00eimi" alt="" border="0" /></a>
+
+                </li>
+            </ul>
+        </div><!-- /.header -->
+
+		<div class="searchBar clrF">
+            <form method="get" action="{% url 'home' %}">
+                <input type="text" name="kwd" class="searchtext" value="{{kwd}}" >
+                <input type="hidden" name="minPrice" value="{{minPrice}}">
+                <input type="hidden" name="maxPrice" value="{{maxPrice}}">
+                <input type="submit" value="検索" class="btn">
+            </form>
+		</div><!-- /.searchBar -->
+{%include 'ad/ad_1.html'%}
+
+    {% if results %}
+
+
+
+<span class="right">スポンサーリンク</span>　
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- リンク広告　横長（大） -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:728px;height:15px"
+     data-ad-client="ca-pub-3810749367860510"
+     data-ad-slot="9256631912"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+        <div class="rankingBlock clrF">
+            <div class="blockTitle clrF">
+                <img src="./static/images/block2/title02.gif" alt="title"/>
+            </div><!-- /.blockTitle -->
+
+
+			<center><span class="kw">
+			<a href="http://c.af.moshimo.com/af/c/click?a_id=465153&p_id=54&pc_id=54&pl_id=616&url={{"http://search.rakuten.co.jp/search/mall?sitem="|urlEncode:kwd}}" target="_blank" class="x-cvglink" data-cvg-gid="7293">"{{kwd}}"</a> </span><span class="navigation">の安値ランキング＆比較</navigation></center>
+
+
+				<div class=sugestarea clrF">
+				<p>{% for str in suggest %}
+				<span class="sugestfont"><a href="{% url 'home' %}?kwd={{str}}&minPrice=0&maxPrice=0" class="linkCol" >{{str}}
+				</a></span>　
+                {% endfor %}</p>
+				</div><!-- /.sugestarea -->
+
+
+            {% if results.jandata %}
+
+			<table class="itemTable">
+                <tr>
+                    {% for d in results.jandata %}
+                    <td>
+                        <a href="/?kwd={{kwd}}&minPrice={{minPrice}}&maxPrice={{maxPrice}}&buynow={{buynow}}&item_status={{item_status}}&store={{store}}&sort={{request.GET.sort}}&rec={{d.jan.0}}" class="">
+                            <img src="{{d.imageUrl}}" width='76' height='76' alt="画像"/>
+                        </a>
+                        <a href="/?kwd={{kwd}}&minPrice={{minPrice}}&maxPrice={{maxPrice}}&buynow={{buynow}}&item_status={{item_status}}&store={{store}}&sort={{request.GET.sort}}&rec={{d.jan.0}}" class="itemName">{% for s in d.itemName%}{{s}}{%endfor%}</a>
+                        <div class="link">
+                            <a href="/?kwd={{kwd}}&minPrice={{minPrice}}&maxPrice={{maxPrice}}&buynow={{buynow}}&item_status={{item_status}}&store={{store}}&sort={{request.GET.sort}}&rec={{d.jan.0}}">価格ランキングをみる</a>
+                        </div>
+                    </td>
+                    {% endfor%}
+                </tr>
+            </table><!-- /.itemTable -->
+{% if praice_results %}
+            <div class="priceBlock">
+                <p class="title">サイト最安値</p>
+                <div class="itemImg">
+                    <img src="{{praice_results.0.imageUrl}}" alt="画像"/>
+                    <p>こちらの画像は異なる場合があります。</br>数量等は各ショップ詳細でご確認ください。</p>
+                </div>
+                <table class="priceTable">
+
+                    <tr>
+                        <td><img src="./static/images/block2/amazon135x32.gif" /></td>
+                        <td>{%if lowestPrice.1st_amazon_p%}<a href="{{lowestPrice.1st_amazon_p.itemUrl}}" target="_blank" class="x-cvglink" data-cvg-gid="7292">\{{lowestPrice.1st_amazon_p.itemPrice}}</a>{%else%}-{%endif%}</td>
+                    </tr>
+
+					<tr>
+                        <td><img src="./static/images/block2/rakuten135x32.gif" /></td>
+                        <td>{%if lowestPrice.1st_rakuten_p%}<a href="{{lowestPrice.1st_rakuten_p.itemUrl}}" target="_blank" class="x-cvglink" data-cvg-gid="7293">\{{lowestPrice.1st_rakuten_p.itemPrice}}</a>{%else%}-{%endif%}</td>
+                    </tr>
+
+                    <tr>
+                        <td><img src="./static/images/block2/yahoo135x32.gif" /></td>
+                        <td>{%if lowestPrice.1st_yahoo_s_p%}<a href="{{lowestPrice.1st_yahoo_s_p.itemUrl}}" target="_blank" class="x-cvglink" data-cvg-gid="7290">\{{lowestPrice.1st_yahoo_s_p.itemPrice}}</a>{%else%}-{%endif%}</td>
+                    </tr>
+
+					<tr>
+                        <td><img src="./static/images/block2/ponpar135x32.gif" alt="ポンパレ"/></td>
+                        <td>{%if lowestPrice.1st_ponpare_p%}<a href="{{lowestPrice.1st_ponpare_p.itemUrl}}}" target="_blank" class="x-cvglink" data-cvg-gid="7296">\{{lowestPrice.1st_ponpare_p.itemPrice}}</a>{%else%}-{%endif%}</td>
+                    </tr>
+					
+					<tr>
+                        <td><img src="./static/images/block2/yahooauc135x32.gif" alt="ヤフオク"/></div>
+                        <td>{%if lowestPrice.1st_yahoo_a_p%}<a href="{{lowestPrice.1st_yahoo_a_p.itemUrl}}" target="_blank" class="x-cvglink" data-cvg-gid="7291">\{{lowestPrice.1st_yahoo_a_p.itemPrice}}</a>{%else%}-{%endif%}</div>
+                    </tr>
+			    </table>
+
+                <div class="lowestPrice">
+                    <span class="text">最安値</span><span class="price linkCol">{%if praice_results %}<a href="{{praice_results.0.itemUrl}}" target="_blank" >\{{praice_results.0.itemPrice}}</a>{%else%}-{%endif%}</span>
+                </div>
+            </div><!-- /.priceList -->
+            <div class="priceRanking">
+                <table class="tankingTable">
+                    <tr>
+                        <th>順位</th>
+                        <th>価格</th>
+                        <th>サイト</th>
+                        <th>ショップ</th>
+                    </tr>
+                    {% for d in praice_results %}
+                    <tr>
+                        <td>{{forloop.counter}}位</td>
+                        <td><a href="{{d.itemUrl}}" class="linkCol" target="_blank">\{{d.itemPrice}}</a></td>
+                        <td><a href="{{d.itemUrl}}" class="linkCol" target="_blank"><img src={{ d.ec|getEcImg}} /></a></td>
+                        <td><a href="{{d.itemUrl}}" class="linkCol" target="_blank">{{d.shopName}}</a></td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div><!-- /.priceRanking -->
+            {% endif %}
+
+		</div><!-- /.rankingBlock -->
+		{% endif %}
+
+{% include "review.html"%}
+
+
+		<div class="itemPriceBlock clrF">
+			<ul class="resultHeader">
+<!-- amazon link               <li>
+                    <div class="logo">
+					<img src="http://ad.jp.ap.valuecommerce.com/servlet/gifbanner?sid=3161331&pid=882992165" height="1" width="0" border="0">
+					<a href="http://ck.jp.ap.valuecommerce.com/servlet/referral?sid=3161331&pid=882992165&vc_url={{"http://www.amazon.co.jp/s/ref=nb_sb_noss_1?field-keywords="|urlEncode:kwd}}" target="_blank" class="x-cvglink" data-cvg-gid="7292"><img src="./static/images/block3/amazon30.gif" alt="amazon"/></a></div>
+                    <p><a href="http://ck.jp.ap.valuecommerce.com/servlet/referral?sid=3161331&pid=882992165&vc_url={{"http://www.amazon.co.jp/s/ref=nb_sb_noss_1?field-keywords="|urlEncode:kwd}}" target="_blank" class="x-cvglink" data-cvg-gid="7292" >
+                        商品一覧をチェックする</a></p>
+                </li>
+-->
+                <li>
+                    <div class="logo">
+						<img src="http://i.af.moshimo.com/af/i/impression?a_id=465153&p_id=54&pc_id=54&pl_id=616" width="1" height="1" style="border:none;">
+						<img src="http://i.af.moshimo.com/af/i/impression?a_id=465153&p_id=54&pc_id=54&pl_id=10758" width="1" height="1" style="border:none;">
+						<a href="http://c.af.moshimo.com/af/c/click?a_id=465153&p_id=54&pc_id=54&pl_id=616&url={{"http://search.rakuten.co.jp/search/mall?sitem="|urlEncode:kwd}}" target="_blank" class="x-cvglink" data-cvg-gid="7296"><img src="./static/images/block3/rakuten30.gif" alt="rakuten"/><a/></div>
+<p><a href="http://c.af.moshimo.com/af/c/click?a_id=465153&p_id=54&pc_id=54&pl_id=616&url={{"http://search.rakuten.co.jp/search/mall?sitem="|urlEncode:kwd}}" target="_blank" class="x-cvglink" data-cvg-gid="7296">商品一覧をチェックする</a></p>
+                </li>
+                <li>
+                    <div class="logo">
+						<img src="http://ad.jp.ap.valuecommerce.com/servlet/gifbanner?sid=3161331&pid=882992164" height="1" width="0" border="0">
+						<img src="http://ad.jp.ap.valuecommerce.com/servlet/gifbanner?sid=3161331&pid=882992162" height="1" width="1" border="0">
+					<a href="http://ck.jp.ap.valuecommerce.com/servlet/referral?sid=3161331&pid=882992164&vc_url={{"http://search.shopping.yahoo.co.jp/search?p="|urlEncode:kwd}}" target="_blank"  class="x-cvglink" data-cvg-gid="7290"><img src="./static/images/block3/yahoo30.gif" alt="yahoo"/></a></div>
+                    <p><a href="http://ck.jp.ap.valuecommerce.com/servlet/referral?sid=3161331&pid=882992164&vc_url={{"http://search.shopping.yahoo.co.jp/search?p="|urlEncode:kwd}}" target="_blank"  class="x-cvglink" data-cvg-gid="7290">商品一覧をチェックする</a></p>
+                </li>
+                <li>
+                    <div class="logo">
+						<img src="http://ad.jp.ap.valuecommerce.com/servlet/gifbanner?sid=3161331&pid=882992167" height="1" width="0" border="0">
+						<img src="http://ad.jp.ap.valuecommerce.com/servlet/gifbanner?sid=3161331&pid=882991238" height="0" width="0" border="0">
+						<a href="http://ck.jp.ap.valuecommerce.com/servlet/referral?sid=3161331&pid=882992167&vc_url={{"http://www.ponparemall.com/search/?keywordAnd="|urlEncode:kwd}}" target="_blank" class="x-cvglink" data-cvg-gid="7296" ><img src="./static/images/block3/ponpar30.gif" alt="ponpar"/></a></div>
+                    <p><a href="http://ck.jp.ap.valuecommerce.com/servlet/referral?sid=3161331&pid=882992167&vc_url={{"http://www.ponparemall.com/search/?keywordAnd="|urlEncode:kwd}}" target="_blank" class="x-cvglink" data-cvg-gid="7296" >商品一覧をチェックする</a></p>
+                </li>
+                <li>
+                    <div class="logo">
+						<img src="http://ad.jp.ap.valuecommerce.com/servlet/gifbanner?sid=3161331&pid=882992166" height="1" width="0" border="0">
+						<img src="http://ad.jp.ap.valuecommerce.com/servlet/gifbanner?sid=3161331&pid=883037106" height="1" width="1" border="0">
+					<a href="http://ck.jp.ap.valuecommerce.com/servlet/referral?sid=3161331&pid=882992166&vc_url={{"http://auctions.search.yahoo.co.jp/search?auccat=&p="|urlEncode:kwd}}" target="_blank"  class="x-cvglink" data-cvg-gid="7291"><img src="./static/images/block3/yahooauc30.gif" alt="yahooauc"/></a></div>
+                    <p><a href="http://ck.jp.ap.valuecommerce.com/servlet/referral?sid=3161331&pid=882992166&vc_url={{"http://auctions.search.yahoo.co.jp/search?auccat=&p="|urlEncode:kwd}}" target="_blank"  class="x-cvglink" data-cvg-gid="7291">出品状況を確認する</a></p>
+                </li>
+			</ul>
+		</div>
+
+<br />
+
+<center>
+<span class="biggerfontlink"><a href="http://c.af.moshimo.com/af/c/click?a_id=465153&p_id=54&pc_id=54&pl_id=616&url={{"http://search.rakuten.co.jp/search/mall?sitem="|urlEncode:kwd}}" target="_blank" class="x-cvglink" data-cvg-gid="7296">>> 一番売れてるのはコチラ</a></span>
+　　
+<span class="biggerfontlink"><a href="http://ck.jp.ap.valuecommerce.com/servlet/referral?sid=3161331&pid=882992164&vc_url={{"http://search.shopping.yahoo.co.jp/search?tab_ex=commerce&uIv=on&ei=UTF-8&spcode=1000000245&p="|urlEncode:kwd}}" target="_blank" class="x-cvglink" data-cvg-gid="7290" >>> ポイント最大15倍から探す</a></span>
+
+<br/>
+<br/>
+
+<span class="biggerfontlink"><a href="http://c.af.moshimo.com/af/c/click?a_id=465154&p_id=61&pc_id=61&pl_id=693&url={{"http://auction.rakuten.co.jp/search/vc?sv=13&f=A&g=0&v=3&pn=1&p=0&s=38&oid=000&sub=1&k=0&bsitem=&bnitem=cz%A5%C0%A5%A4+%A5%F3%A5%C9cz+%A5%A4%A5%E4cz&bf=A&sitem="|urlEncode:kwd}}" target="_blank">>> 中古、アウトレットから探す</a><img src="http://i.af.moshimo.com/af/i/impression?a_id=465154&p_id=61&pc_id=61&pl_id=693" width="1" height="1" style="border:none;"></span>
+　　
+<span class="biggerfontlink"><a href="http://ck.jp.ap.valuecommerce.com/servlet/referral?sid=3161331&pid=882992165&vc_url={{"http://www.amazon.co.jp/s/ref=nb_sb_noss_1?field-keywords="|urlEncode:kwd}}%26pct-off%3D20-" target="_blank" class="x-cvglink" data-cvg-gid="7292" >>> 20%-90%OFFから探す</a></span>
+</center>
+
+<br/>
+
+			<!-- クレジットカードエリア -->
+			<div class="discount5000">
+			<div class="rankingBlock clrF">
+<a href="#card">
+			<center><span class="navigation">もれなく</navigation><span class="kw">"{{kwd}}"</span><span class="navigation">を実質5,000円以上安く買えるお得ワザ</navigation></center>
+			<center><span class="navigation"><img src="./static/images/bt/bt_credit.gif" alt=""/></navigation></a></center>
+			</div></div>
+			<!-- クレジットカードエリア -->
+<br/>
+			<!-- DMM FXエリア -->
+			<div class="dmmfx">
+			<div class="rankingBlock clrF">
+<a href="#dmm">
+<img src="./static/images/dmmfx/amazon5.gif"><br/ clear="all">
+<br/>
+<center>
+<a href="./static/ad/dmmfx.html" target="_blank">
+<span class="navigation">当サイト限定！15,000円分のギフト券プレゼント中（期間限定）</span><br/ clear="all">
+<img src="https://image.j-a-net.jp/1526980/549112/" width="728" height="90"  border="0"></a><br/ clear="all">
+※当サイト限定のキャンペーンとなります。キャンペーン特典を受けるにはこちらのバナーからのお申し込みが必須となります。
+</center>
+			</div></div>
+			<!-- DMM FXエリア -->
+
+
+<!-- ★★★DMM FX amazon campaign ここから -->
+<div class="promobox">
+<br/>
+<!--
+<center><img src="./static/images/dmmfx/title1.gif" alt=""/></center><br clear="all">
+
+<a href="./static/ad/dmmfx.html" target="_blank"><img src="./static/images/dmmfx/15000yen.gif" class="imgr"/></a>
+
+<span class="yellow">ローラさんや清原さんのCMでお馴染みのDMM FX、口座を開設してスマホまたはPCで1回以上取引を行うと15,000円分のAmazonギフト券がもらえます。しかも申込はネット完結！</span><br/>
+<br/>
+※当サイト限定のキャンペーンです、他のサイトから申し込んだ場合は対象外となりますのでご注意ください。<br/>
+<br/>
+条件はDMM FXの口座開設後60日以内に1回以上取引することです。<br/>
+ちなみにFXとは、ドルやユーロなど外国為替を売買するネット取引のことで、最近では株や投資信託の様にスマホでも取引できることから、利用者がどんどん増えています。<br/>
+<br/>
+<br clear="all">
+<div class="imgc">
+<iframe width="560" height="315" src="https://www.youtube.com/embed/7ir7LwT09-w?rel=0" frameborder="0" allowfullscreen></iframe>
+</div>
+<br clear="all">
+
+<a href="./static/ad/dmmfx.html" target="_blank"><img src="./static/images/dmmfx/sitecap1.gif" class="imgr"/></a>
+
+PCはもちろん、スマホアプリでも手軽に取引ができますから、休憩時間など空いた時間を使って取引ができるので、利用者がどんどん増えるのも納得です。趣味で始めたFXが本業の収入を超えるなんていう方もいるほどです。<br/>
+<br/>
+もちろん、得をするばかりでは無く、損をすることもありますから無理は禁物です。<br/>
+小さな金額から試してみましょう。<br/>
+<br/>
+<br/>
+最初に必要な金額は5万円ほどです。最小取引単位は1万通貨です。例えばドルを1万通貨買って為替レートが0.01円上がると100円の含み利益になります。0.1円上がると1000円の利益です。<br/>
+<br/>
+初めてFXをする方は、欲張らずに最小取引単位で、短時間のチャレンジをお勧めします。ちゃっかり利益を狙うのは慣れてきてからですよ。<br/>
+<br/>
+
+<div class="boxinbox">
+<br/>
+<center><img src="./static/images/dmmfx/title3.gif" alt=""/></center><br clear="all">
+ちなみに、なぜDMMFXがココまで人気なのかポイントをまとめてみました。<br/>
+
+<img src="./static/images/dmmfx/spread.gif" class="imgr"/>
+<br/>
+<b>ポイント１．FX業界最狭水準のスプレッド/取引手数料0円</b><br/>
+取引手数料が0円なのはもちろんですが、手数料と同じような意味を持つスプレッドはFX業界最狭水準なので、より有利に取引が進められます。<br/>
+また、全20通貨ペアでの取引が可能ですから、ドルやユーロなどの主要通貨はもちろん、南アフリカランドやスイスフランなど幅広い通貨ペアに対応しています。<br/>
+<br clear="all">
+
+<img src="./static/images/dmmfx/tools.gif" class="imgr"/>
+<b>ポイント２．みんなに好評な取引ツールが充実</b><br/>
+DMM FXでは初心者からデイトレーダーまで幅広いユーザーに対応した取引ツールが用意されています。<br/>
+最初は簡単でシンプルなツールから始めて、自分のスキルに合わせてツールもステップアップすることができますね。<br/>
+もちろんスマホアプリにも対応しているので、通勤時間や休憩中でも利益チェックができます。<br/>
+<br clear="all">
+
+<img src="./static/images/dmmfx/24h.gif" class="imgr"/>
+<b>ポイント３．カスタマーサポートが充実で初心者に優しい</b><br/>
+平日24時間電話サポート、業界初のLINEでの問い合わせ対応など、使い方や取引上の問い合わせなど初心者にはうれしいサポートです。<br/>
+<br/>
+
+<b>ポイント４．安心安全の『全額信託保全』導入済み</b><br/>
+預けたお金は大丈夫？DMM FXでは２つの信託銀行で資産を管理していますから、もしもの時も信託銀行で資産が守られます。<br/>
+<br clear="all">
+
+<img src="./static/images/dmmfx/news.gif" class="imgr"/>
+<b>ポイント５．業界初の『時事通信社』ニュースを配信</b><br/>
+ある程度FXを知ってくると情報収集はとっても大事です。情報収集が勝敗を決めるという専門家もいるほどです。<br/>
+DMM FXなら世界の速報を扱う時事通信社のニュースを受け取ることができます。<br/>
+<br/>
+<br/>
+<span class="red">もちろん口座開設費用や年会費などは一切かかりません。無料です。</span><br clear="all">
+</div>
+<br/>
+<center>
+<a href="./static/ad/dmmfx.html" target="_blank"><img src="./static/images/dmmfx/amazongift.gif" class=""/></a><br clear="all">
+</center>
+<br/>
+<span class="yellow">口座開設に最短5分程度、ネットで完結します。</span><br/>
+<span class="red">こちらのキャンペーンは当サイト限定です。他では一部メディアを除き実施していません。</span><br/>
+今すぐ申込できない方はブックマークしておいてくださいね。<br/>
+<br/>
+<br/>
+<span class="yellow">為替を通じて経済が勉強できて、投資が学べて、さらにAmazonギフト券が15,000円分ももらえちゃいます。</span><br/>
+<br/>
+<span class="red">キャンペーン終了期限が迫っています。興味のある方は今のうちにどうぞ。</span><br/>
+<br/>
+<br/ clear="all">
+
+<center>
+<a href="./static/ad/dmmfx.html" target="_blank">
+<span class="">↓当サイト限定！15,000円分のギフト券プレゼント中（期間限定）</span><br/>
+<img src="https://image.j-a-net.jp/1526980/549112/" width="728" height="90"  border="0" class="imgc"></a><br/ clear="all">
+</center>
+
+<br/>
+<br/>
+
+<center><img src="./static/images/dmmfx/title2.gif" alt=""/></center><br clear="all">
+
+<a href="./static/ad/dmmfx.html" target="_blank"><img src="./static/images/dmmfx/sitecap2.gif" class="imgl"/></a>
+<br/>
+<b>ステップ１．口座開設ページを開く<a href="./static/ad/dmmfx.html" target="_blank">→こちら</a></b><br/>
+<br/>
+<br/>
+
+<b>ステップ２．口座開設ボタンをクリックします</b><br/>
+<br/ clear="all">
+
+<img src="./static/images/dmmfx/sitecap3.gif" class="imgl"/>
+<br/>
+<br/>
+<b>ステップ３．必要項目を入力します</b><br/>
+30項目ほどありますが、特に難しい内容は無いので、どんどん入力すると以外と早く終わります。<br/>
+<br/ clear="all">
+
+<img src="./static/images/dmmfx/sitecap4.gif" class="imgl"/>
+<br/>
+<br/>
+<b>ステップ４．本人確認書類をアップロード</b><br/>
+
+<br/>
+免許証はスマホやデジカメで撮影してアップロードできます。<br/>
+スマホ撮影の場合、撮影した写メをPCにメールで送ると便利です。<br/>
+<br/>
+実際に登録してみるとわかりますが、思ったより簡単で早く終わり拍子抜けしてしまいます。<br/>
+<br/ clear="all">
+<br/>
+<b>ステップ５．取引の実施</b><br/>
+あとはスマホやPCで1回以上の取引を実施すればOKです。<br/>
+<span class="yellow">DMM FXから電子メールでAmazon電子クーポンが送られてくるのを待つだけです。</span>クーポンが届くまでは口座から出金しないでくださいね。こちらもキャンペーンの条件になっています。<br/>
+<br/>
+<img src="./static/images/dmmfx/sitecap5.gif" class="imgr"/>
+難しいことは苦手という方、LINEのカスタマーサポートがスタートしていますよ。もちろん、電話とメールのサポートもあります。<br/>
+さすが、40万人以上が利用する日本国内で1位2位を争う人気のFXですね。至れり尽くせりです。<br/>
+<br/>
+<br/ clear="all">
+<center>
+<span class="navigation">↓↓キャンペーンはこちらから</span><br/ clear="all">
+<img src="https://image.j-a-net.jp/1526980/549112/" width="728" height="90"  border="0"></a>
+</center>
+
+<br/>
+-->
+</div>
+<br clear="all">
+<!-- ★★★DMM FX amazon campaign ここまで -->
+
+
+
+
+
+<br/>
+
+<p>スポンサーリンク</p>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- responsive_all_20150717 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-3810749367860510"
+     data-ad-slot="8142412717"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<br/>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- リンク広告　横長（大） -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:728px;height:15px"
+     data-ad-client="ca-pub-3810749367860510"
+     data-ad-slot="9256631912"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+{% include "dairy.html" %}
+<br/>
+<br/>
+<br/>
+
+				<center><p class="biggerfont">探しているのはコレ↓↓↓ですか？</p></center>
+				<div class=sugestarea clrF">
+				<p>{% for str in suggest %}
+				<span class="sugestfont"><a href="{% url 'home' %}?kwd={{str}}&minPrice=0&maxPrice=0" class="linkCol" >{{str}}
+				</a></span>　
+                {% endfor %}</p>
+				</div><!-- /.sugestarea -->
+
+
+        <div class="searchBar clrF">
+            <form method="get" action="{% url 'home' %}">
+                <input type="text" name="kwd" class="searchtext" value="{{kwd}}" >
+                <input type="hidden" name="minPrice" value="{{minPrice}}">
+                <input type="hidden" name="maxPrice" value="{{maxPrice}}">
+                <input type="submit" value="検索" class="btn">
+            </form>
+        </div><!-- /.searchBar -->
+				<center><p class="biggerfont">再度、検索できます↑↑↑　モデル名、型名検索も可能！</p></center>
+
+        <div class="lowestPriceBlock clrF">
+            <div class="blockTitle clrF">
+				<br/>
+            </div><!-- /.title -->
+
+		</div><!-- /.lowestPriceBlock -->
+
+
+<br />
+
+
+        {% if results %}
+        <div class="itemPriceBlock clrF">
+            <div class="blockTitle clrF">
+                <img src="./static/images/block3/title03.gif" alt="title"/>
+                <p>主力モールアイテム別価格情報が確認できます。1クリックで詳細チェック可能。</p>
+            </div><!-- /.title -->
+
+            <div class="clrF">
+                <div class="form">
+                     <form method="get" action="{% url 'home' %}">
+                        <input type="text" name="kwd" value="{{kwd}}" >
+                        <input type="hidden" name="minPrice" value="{{minPrice}}">
+                        <input type="hidden" name="maxPrice" value="{{maxPrice}}">
+                        <input type="submit" value="検索" class="btn">
+                    </form>
+                </div><!-- /.blockTitle -->
+
+                <div class="sort">
+                    <span>並び替え</span>
+                    <a href="/?kwd={{kwd}}&minPrice={{minPrice}}&maxPrice={{maxPrice}}&buynow={{buynow}}&item_status={{item_status}}&store={{store}}" {%if not request.GET.sort%}class="active"{%endif%}>人気の順番(入札順)</a>
+                    <span>&nbsp;|&nbsp;</span>
+
+                    <a href="/?kwd={{kwd}}&minPrice={{minPrice}}&maxPrice={{maxPrice}}&buynow={{buynow}}&item_status={{item_status}}&store={{store}}&sort=1" {%if request.GET.sort%}class="active"{%endif%}>価格の安い順番</a>
+                </div>
+            </div>
+
+            {% if suggest %}
+            <div class="relatedWords clrF">
+                <span>関連ワード :</span>
+                <ul>
+                    {% for str in suggest %}
+                    <li><a href="{% url 'home' %}?kwd={{str}}&minPrice=0&maxPrice=0" class="linkCol">{{str}}</a></li>
+                    {% endfor %}
+                </ul>
+            </div><!-- /.relatedWords -->
+            {% endif %}
+
+            <form method="get" action="{% url 'home' %}">
+                <input type="hidden" name="kwd" value="{{kwd}}" >
+            <table class="options">
+                <tr>
+                    <td>
+                        <div class="frame">
+                            <p>ショッピンング条件</p>
+                            <div><input type="checkbox" name="shipping" value="1" {%if request.GET.shipping %}checked="checked"{%endif%} > 送料無料</div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="frame">
+                            <p>オークション条件</p>
+                            <div><input type="checkbox" name="buynow" value=1 {%if request.GET.buynow == 1 %}checked="checked"{%endif%} >即決あり</div>
+                            <div><input type="checkbox" name="item_status" value=1 {%if request.GET.item_status == 1 %}checked="checked"{%endif%} >新品のみ</div>
+                            <div><input type="checkbox" name="store" value=1 {%if request.GET.store == 1%}checked="checked"{%endif%} >ストアのみ</div>
+                        </div>
+                    </td>
+                    <td class="priceInputbox">
+                        <div class="frame">
+                            <div class="priceInput">
+                                <p>価格帯絞り込み</p>
+                                <input type="text" name="minPrice" size="8" value="{{minPrice}}" maxlength="10">?<input type="text" name="maxPrice" value="{{maxPrice}}" size="8" maxlength="10">円
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <input type="submit" value="検索" class="btn">
+                    </td>
+                </tr>
+            </table><!-- /.options -->
+            </form>
+
+            <p class="aa">商品が見つからない場合には、再度検索するか、関連キーワードをクリックしてみてください。</br>比較表には、古いデータが含まれる場合がありますので、各ショップにて詳細をご確認ください。</p>
+
+            <ul class="resultHeader">
+                <li>
+                    <div class="logo"><a href="http://ck.jp.ap.valuecommerce.com/servlet/referral?sid=3161331&pid=882992165&vc_url={{"http://www.amazon.co.jp/s/ref=nb_sb_noss_1?field-keywords="|urlEncode:kwd}}" target="_blank" class="x-cvglink" data-cvg-gid="7292" ><img src="./static/images/block3/amazon30.gif" alt="amazon"/></a></div>
+                    <p><a href="http://ck.jp.ap.valuecommerce.com/servlet/referral?sid=3161331&pid=882992165&vc_url={{"http://www.amazon.co.jp/s/ref=nb_sb_noss_1?field-keywords="|urlEncode:kwd}}" target="_blank" class="x-cvglink" data-cvg-gid="7292" >
+                        商品一覧をチェックする</a></p>
+                </li>
+                <li>
+                    <div class="logo"><a href="http://c.af.moshimo.com/af/c/click?a_id=465153&p_id=54&pc_id=54&pl_id=616&url={{"http://search.rakuten.co.jp/search/mall?sitem="|urlEncode:kwd}}" target="_blank" class="x-cvglink" data-cvg-gid="7293"><img src="./static/images/block3/rakuten30.gif" alt="rakuten"/><a/></div>
+                    <p><a href="http://c.af.moshimo.com/af/c/click?a_id=465153&p_id=54&pc_id=54&pl_id=616&url={{"http://search.rakuten.co.jp/search/mall?sitem="|urlEncode:kwd}}" target="_blank" class="x-cvglink" data-cvg-gid="7293">商品一覧をチェックする</a></p>
+                </li>
+                <li>
+                    <div class="logo"><a href="http://ck.jp.ap.valuecommerce.com/servlet/referral?sid=3161331&pid=882992164&vc_url={{"http://search.shopping.yahoo.co.jp/search?p="|urlEncode:kwd}}" target="_blank" class="x-cvglink" data-cvg-gid="7290" ><img src="./static/images/block3/yahoo30.gif" alt="yahoo"/ class="x-cvglink" data-cvg-gid="7290"></a></div>
+                    <p><a href="http://ck.jp.ap.valuecommerce.com/servlet/referral?sid=3161331&pid=882992164&vc_url={{"http://search.shopping.yahoo.co.jp/search?p="|urlEncode:kwd}}" target="_blank" class="x-cvglink" data-cvg-gid="7290">商品一覧をチェックする</a></p>
+                </li>
+                <li>
+                    <div class="logo"><a href="http://ck.jp.ap.valuecommerce.com/servlet/referral?sid=3161331&pid=882992167&vc_url={{"http://www.ponparemall.com/search/?keywordAnd="|urlEncode:kwd}}" target="_blank" ><img src="./static/images/block3/ponpar30.gif" alt="ponpar"/></a></div>
+                    <p><a href="http://ck.jp.ap.valuecommerce.com/servlet/referral?sid=3161331&pid=882992167&vc_url={{"http://www.ponparemall.com/search/?keywordAnd="|urlEncode:kwd}}" target="_blank" class="x-cvglink" data-cvg-gid="7297">商品一覧をチェックする</a></p>
+                </li>
+                <li>
+                    <div class="logo"><a href="http://ck.jp.ap.valuecommerce.com/servlet/referral?sid=3161331&pid=882992166&vc_url={{"http://auctions.search.yahoo.co.jp/search?auccat=&p="|urlEncode:kwd}}" target="_blank"  class="x-cvglink" data-cvg-gid="7291"><img src="./static/images/block3/yahooauc30.gif" alt="yahooauc"/></a></div>
+                    <p><a href="http://ck.jp.ap.valuecommerce.com/servlet/referral?sid=3161331&pid=882992166&vc_url={{"http://auctions.search.yahoo.co.jp/search?auccat=&p="|urlEncode:kwd}}" target="_blank" class="x-cvglink" data-cvg-gid="7291">出品状況を確認する</a></p>
+                </li>
+            </ul><!-- /.resultService -->
+
+
+            {% for i in "01234"%}
+
+            {{ i|getMatrix:results}}
+            {% endfor %}
+
+            <ul class="resultFooter">
+                <li>
+                    <p><a href="http://ck.jp.ap.valuecommerce.com/servlet/referral?sid=3161331&pid=882992165&vc_url={{"http://www.amazon.co.jp/s/ref=nb_sb_noss_1?field-keywords="|urlEncode:kwd}}" target="_blank" class="x-cvglink" data-cvg-gid="7294">もっとみる</a></p>
+                    <div class="logo"><a href="http://ck.jp.ap.valuecommerce.com/servlet/referral?sid=3161331&pid=882992165&vc_url={{"http://www.amazon.co.jp/s/ref=nb_sb_noss_1?field-keywords="|urlEncode:kwd}}" target="_blank"  class="x-cvglink" data-cvg-gid="7294"><img src="./static/images/block3/amazon30.gif" alt="amazon"/></a></div>
+                </li>
+                <li>
+                    <p><a href="http://c.af.moshimo.com/af/c/click?a_id=465153&p_id=54&pc_id=54&pl_id=616&url={{"http://search.rakuten.co.jp/search/mall?sitem="|urlEncode:kwd}}" target="_blank" class="x-cvglink" data-cvg-gid="7293">もっとみる</a></p>
+                    <div class="logo"><a href="http://c.af.moshimo.com/af/c/click?a_id=465153&p_id=54&pc_id=54&pl_id=616&url={{"http://search.rakuten.co.jp/search/mall?sitem="|urlEncode:kwd}}" target="_blank" class="x-cvglink" data-cvg-gid="7293"><img src="./static/images/block3/rakuten30.gif" alt="rakuten"/></a></div>
+                </li>
+                <li>
+                    <p><a href="http://ck.jp.ap.valuecommerce.com/servlet/referral?sid=3161331&pid=882992164&vc_url={{"http://search.shopping.yahoo.co.jp/search?p="|urlEncode:kwd}}" target="_blank"  class="x-cvglink" data-cvg-gid="7290">もっとみる</a></p>
+                    <div class="logo"><a href="http://ck.jp.ap.valuecommerce.com/servlet/referral?sid=3161331&pid=882992164&vc_url={{"http://search.shopping.yahoo.co.jp/search?p="|urlEncode:kwd}}" target="_blank"  class="x-cvglink" data-cvg-gid="7290"><img src="./static/images/block3/yahoo30.gif" alt="yahoo"/></a></div>
+                </li>
+                <li>
+                    <p><a href="http://ck.jp.ap.valuecommerce.com/servlet/referral?sid=3161331&pid=882992167&vc_url={{"http://www.ponparemall.com/search/?keywordAnd="|urlEncode:kwd}}" target="_blank" class="x-cvglink" data-cvg-gid="7296">もっとみる</a></p>
+                    <div class="logo"><a href="http://ck.jp.ap.valuecommerce.com/servlet/referral?sid=3161331&pid=882992167&vc_url={{"http://www.ponparemall.com/search/?keywordAnd="|urlEncode:kwd}}" target="_blank" class="x-cvglink" data-cvg-gid="7296"><img src="./static/images/block3/ponpar30.gif" alt="ponpar"/></a></div>
+                </li>
+                <li>
+                    <p><a href="http://ck.jp.ap.valuecommerce.com/servlet/referral?sid=3161331&pid=882992166&vc_url={{"http://auctions.search.yahoo.co.jp/search?auccat=&p="|urlEncode:kwd}}" target="_blank" class="x-cvglink" data-cvg-gid="7291" >もっとみる</a></p>
+                    <div class="logo"><a href="http://ck.jp.ap.valuecommerce.com/servlet/referral?sid=3161331&pid=882992166&vc_url={{"http://auctions.search.yahoo.co.jp/search?auccat=&p="|urlEncode:kwd}}" target="_blank" class="x-cvglink" data-cvg-gid="7291" ><img src="./static/images/block3/yahooauc30.gif" alt="yahooauc"/><a></div>
+                </li>
+            </ul><!-- /.resultService -->
+
+            <div class="clrF">
+
+                <div class="form">
+                    <form method="get" action="{% url 'home' %}">
+                        <input type="text" name="kwd" value="{{kwd}}" >
+                        <input type="hidden" name="minPrice" value="{{minPrice}}">
+                        <input type="hidden" name="maxPrice" value="{{maxPrice}}">
+                        <input type="submit" value="検索" class="btn">
+                    </form>
+                </div><!-- /.blockTitle -->
+
+                <div class="sort">
+                    <span>並び替え</span>
+                    <a href="/?kwd={{kwd}}&minPrice={{minPrice}}&maxPrice={{maxPrice}}&buynow={{buynow}}&item_status={{item_status}}&store={{store}}" {%if not request.GET.sort%}class="active"{%endif%}>人気の順番(入札順)</a>
+                    <span>&nbsp;|&nbsp;</span>
+
+                    <a href="/?kwd={{kwd}}&minPrice={{minPrice}}&maxPrice={{maxPrice}}&buynow={{buynow}}&item_status={{item_status}}&store={{store}}&sort=1" {%if request.GET.sort%}class="active"{%endif%}>価格の安い順番</a>
+                </div>
+            </div>
+
+            {% if suggest %}
+            <div class="relatedWords clrF">
+                <span>関連ワード :</span>
+                <ul>
+                    {% for str in suggest %}
+                    <li><a href="{% url 'home' %}?kwd={{str}}&minPrice=0&maxPrice=0" class="linkCol">{{str}}</a></li>
+                    {% endfor %}
+                </ul>
+            </div><!-- /.relatedWords -->
+            {% endif %}
+        </div><!-- /.itemPriceBlock -->
+        {% endif %}
+        {% endif %}
+
+<br clear="all">
+<br/>
+<br/>
+
+{% include "kwd.html" %}
+
+
+        <div>
+
+			<br />
+
+<!-- 代替え検討 -->
+				<br/>
+<a href="/?kwd=%E3%83%80%E3%82%A4%E3%82%BD%E3%83%B3+%E3%83%95%E3%82%A1%E3%83%B3&minPrice=&maxPrice=" target="_blank"><img src="http://ecx.images-amazon.com/images/I/41tp2%2BB1ZLL._SL160_.jpg" style="border: medium none;" alt="" /></a>　
+
+<a href="/?kwd=%E3%83%95%E3%82%A3%E3%83%AA%E3%83%83%E3%83%97%E3%82%B9+%E3%83%8E%E3%83%B3%E3%83%95%E3%83%A9%E3%82%A4%E3%83%A4%E3%83%BC&minPrice=&maxPrice=" target="_blank"><img src="http://ecx.images-amazon.com/images/I/41BA5NRXyNL._SL160_.jpg" style="border: medium none;" alt="" /></a>　
+
+<a href="/?kwd=%E3%83%87%E3%83%AD%E3%83%B3%E3%82%AE+%E3%82%AA%E3%82%A4%E3%83%AB%E3%83%92%E3%83%BC%E3%82%BF%E3%83%BC&minPrice=&maxPrice=" target="_blank"><img src="http://ecx.images-amazon.com/images/I/41tTZplYdeL._SL160_.jpg" style="border: medium none;" alt="" /></a>　
+
+<a href="/?kwd=%E3%81%8A%E3%81%9B%E3%81%A1%E6%96%99%E7%90%86%202015&minPrice=0&maxPrice=0" target="_blank"><img src="http://thumbnail.image.rakuten.co.jp/@0_mall/omosan/cabinet/omoi2015/page/new7005_001.jpg?_ex=160x160" style="border: medium none;" alt="" /></a>　
+
+<a href="/?kwd=%E7%AD%86%E7%8E%8B&minPrice=0&maxPrice=0" target="_blank"><img src="http://ecx.images-amazon.com/images/I/61d1IvSpBlL._SL160_.jpg" style="border: medium none;" alt="" /></a>　
+
+<a href="/?kwd=%E6%9C%89%E7%94%B0%E3%81%BF%E3%81%8B%E3%82%93&minPrice=0&maxPrice=0" target="_blank"><img src="http://thumbnail.image.rakuten.co.jp/@0_mall/bunza/cabinet/item003/2125000006b.jpg?_ex=160x160" style="border: medium none;" alt="" /></a>　
+<!-- 代替え検討 -->
+			<br/>
+			<br/>
+			<br/>
+
+<br clear="all">
+
+
+
+<!-- 楽天カード訴求ブロック　ここから -->
+            <div class="blockTitle clrF">
+				<a name="card"></a>
+				<img src="./static/images/rakutencard/title.gif" alt=""/><br clear="all">
+				<img src="./static/images/rakutencard/toha.gif" alt=""/><br clear="all">
+<br/>
+<span class="yellow">期間限定で、「<b><a href="http://c.af.moshimo.com/af/c/click?a_id=465153&p_id=54&pc_id=54&pl_id=616&url={{"http://search.rakuten.co.jp/search/mall?sitem="|urlEncode:kwd}}" target="_blank" class="x-cvglink" data-cvg-gid="7293">{{kwd}}</a>
+</b>」を実質5,000円以上お得に購入できます。</span><br/>
+<br/>
+<a href="./static/ad/rakutencard.html" target="_blank"  class="x-cvglink" data-cvg-gid="7295"><img src="./static/images/rakutencard/camp450x255.jpg" class="imgr"/></a>
+楽天カード（永年無料）の新規入会キャンペーンでは楽天カードで商品を購入すれば、入会ポイントと利用ポイントであわせて5,000円分以上もらえます。<br/>
+<br/>
+<span class="red">もらった楽天ポイントは楽天市場内で利用できるので実質5,000円以上の値引きで購入した事になりますね。</span><br/>
+年会費は永年無料なので、タダで5,000円分以上のポイントをもらう事が出来ます。<br/>
+<br/>
+このキャンペーンは<b>期間限定</b>です。<br/>
+<a href="./static/ad/rakutencard.html" target="_blank" data-cvg-gid="7295">
+　 <span class="textlink">→キャンペーン期限の確認はこちらから</span><br/>
+　 <span class="textlink">→キャンペーンでもらえるポイントの確認</span><br/></a>
+※新規入会特典とキャンペーン特典のポイント付与のタイミングが異なりますので、気をつけましょう。<br/>
+<br/>
+既に楽天カードをお持ちの方はキャンペーン対象外です。<br/>
+※ご家族の方が新たに別の方の名義でお申し込みする場合には対象となります。<br/>
+　<a href="./static/ad/yahoocard.html" target="_blank"  class="textlink">→楽天カードを既に持っている方にはこちら（期間限定）</a><br/>
+<br/>
+<br/>
+<center>
+<a href="./static/ad/yahoocard.html" target="_blank"  class="x-cvglink" data-cvg-gid="7297Ｓ"><img src="http://h.accesstrade.net/sp/rr?rk=0100iipc00eimi" alt="" border="0" /></a>
+
+<a href="./static/ad/rakutencard.html" target="_blank"  class="x-cvglink" data-cvg-gid="7295"><img src="http://ad.jp.ap.valuecommerce.com/servlet/gifbanner?sid=3161331&pid=883663342" height="60" width="468" border="0"></a>
+</center>
+<br clear="all">
+<br/>
+				<img src="./static/images/rakutencard/saikyo.gif" alt=""/><br clear="all">
+<br/>
+<br/>
+<br/>
+<center><img src="./static/images/rakutencard/melit10.gif" class=""/></center>
+<br/>
+ごらんのとおり、みるみるポイントが貯まり、しかも貯めたポイントを使いやすい使い勝手の優れたカードです。<br/>
+<br/>
+こんなにお得なカードなのに、タダです。しかもずーっと年会費は永年無料です。<br/>
+利用した以外にお金はかかりません。<br/>
+家族全員分のカードを作りたいくらいです。<br/>
+<br/>
+タダだからと言ってあなどってはいけません。<span class="yellow">顧客満足度指数のクレジットカード部門で４年連続第１位を獲得しているクレジットカードです。</span><br/>
+楽天カードの発行枚数も業界トップクラス。楽天愛用者のほとんどが持っています。<br/>
+<img src="./static/images/rakutencard/card.jpg" class="imgr"/>
+<br/>
+<br/>
+提携のショップやレストランではポイント還元が数倍にアップします。<br/>
+貯まったポイントは楽天市場や楽天トラベルなどの楽天サービスで１ポイント１円として利用できます。<br/>
+<br/>
+JCB、VISA、マスターの３つから選べます。<br/>
+迷う方は海外でも使いやすいVISAを選べば間違いないですね。<br/>
+<br/>
+<a href="./static/ad/rakutencard.html" target="_blank"  class="textlink" data-cvg-gid="7295">→無料で5,000円分の割引きに使えるポイントを申し込むならこちら</a><br/>
+<br/>
+審査基準も一般的なレベルだと言われているので、普通の方はさほど心配する必要はありません。<br/>
+※あくまでも審査はクレジットカード発行会社の基準により審査されます。<br/>
+<br/>
+もちろん、ゴールドカードもあります。<a href="http://ck.jp.ap.valuecommerce.com/servlet/referral?sid=3161331&pid=883803259" target="_blank"  class="textlink">こちら<br/>
+<br/>
+<br clear="all">
+<center><a href="./static/ad/rakutencard.html" target="_blank"  class="x-cvglink" data-cvg-gid="7295"><img src="./static/images/rakutencard/btn.gif" class=""/></a></center>
+
+<br clear="all">
+<br/>
+<br/>
+<img src="./static/images/rakutencard/3steps.gif" class=""/>
+<a href="./static/ad/rakutencard.html" target="_blank"  class="x-cvglink" data-cvg-gid="7295"><img src="./static/images/rakutencard/step1.jpg" class="imgl"/></a>
+<br/><br/><br/><br/>
+5,000円分以上のポイントバックを受けるにはキャンペーンへのエントリーが必要になります。<br/>
+楽天会員の方ならログインして、ワンクリック（１秒）でOKです。<br/>
+<a href="./static/ad/rakutencard.html" target="_blank"  class="textlink" data-cvg-gid="7295">→エントリーはこちらから</a><br/>
+
+<br clear="all">
+<a href="./static/ad/rakutencard.html" target="_blank"  class="x-cvglink" data-cvg-gid="7295"><img src="./static/images/rakutencard/step2.jpg" class="imgl"/></a>
+<br/><br/><br/>
+続いて楽天カードの申込になります。<br/>
+申込は入力フォームに従って順番に入力すれば、最短５分程度で完了します。<br/>
+<a href="./static/ad/rakutencard.html" target="_blank"  class="textlink" data-cvg-gid="7295">→申込はこちらから</a>
+<br/>
+<br/>
+<br clear="all">
+<img src="./static/images/rakutencard/step3.jpg" class="imgl"/>
+<br/><br/>
+キャンペーンの条件が楽天市場でのお買い物となっている場合には、楽天市場で商品を購入しましょう。<br/>
+<br/><br/>
+金額の大小は問わず、5000円分以上のポイントがもらえます。<br/>
+※キャンペーンの条件が変更になる場合がありますので、念のためキャンペーン内容を確認してくださいね。<br/>
+<br/>
+<br/>
+<br clear="all">
+<center><a href="./static/ad/rakutencard.html" target="_blank"  class="x-cvglink" data-cvg-gid="7295"><img src="./static/images/rakutencard/btn.gif" class=""/></a></center>
+
+<br clear="all">
+<br/>
+<br/>
+<center>
+<a href="./static/ad/yahoocard.html" target="_blank"  class="x-cvglink" data-cvg-gid="7297Ｓ"><img src="http://h.accesstrade.net/sp/rr?rk=0100iipc00eimi" alt="" border="0" /></a>
+
+<a href="./static/ad/rakutencard.html" target="_blank"  class="x-cvglink" data-cvg-gid="7295"><img src="http://ad.jp.ap.valuecommerce.com/servlet/gifbanner?sid=3161331&pid=883663342" height="60" width="468" border="0"></a>
+</center>
+<br clear="all">
+
+</div>
+<!-- 楽天カード訴求ブロック ここまで -->
+
+
+<br/>
+				<center><p class="biggerfont">最安値を検索できます↓↓↓　モデル名、型名検索も可能！</p></center>
+        <div class="searchBar clrF">
+            <form method="get" action="{% url 'home' %}">
+                <input type="text" name="kwd"  class="searchtext"value="{{kwd}}" >
+                <input type="hidden" name="minPrice" value="{{minPrice}}">
+                <input type="hidden" name="maxPrice" value="{{maxPrice}}">
+                <input type="submit" value="検索" class="btn">
+            </form>
+        </div><!-- /.searchBar -->
+				<br/>
+				<br/>
+		<div class="menuBlock clrF"><!-- メニューブロック ここから-->
+            <table class="itemTable">
+                <tr>
+
+                    <td>
+                        <a href="/?kwd=パソコン&minPrice=&maxPrice=" class="">
+                            <img src="./static/images/menu/pc.gif" width='76' height='76' alt="ロゴ"/>
+                        </a>
+                        <div class="link">
+						<a href="/?kwd=パソコン&minPrice=&maxPrice=">パソコン</a>
+						</div>
+						<a href="/?kwd=ノートパソコン&minPrice=0&maxPrice=0" class="itemName">ノートパソコン</a>
+						<a href="/?kwd=デスクトップpc&minPrice=0&maxPrice=0" class="itemName">デスクトップ</a>
+						<a href="/?kwd=プリンタ&minPrice=0&maxPrice=0" class="itemName">プリンタ</a>
+						<a href="/?kwd=タブレット&minPrice=0&maxPrice=0" class="itemName">タブレット</a>
+					</td>
+
+                    <td>
+                        <a href="/?kwd=家電&minPrice=0&maxPrice=0" class="">
+                            <img src="./static/images/menu/kaden.gif" width='76' height='76' alt="ロゴ"/>
+                        </a>
+                        <div class="link">
+						<a href="/?kwd=家電&minPrice=0&maxPrice=0">
+						家電</a>
+						</div>
+						<a href="/?kwd=液晶テレビ&minPrice=0&maxPrice=0" class="itemName">液晶テレビ</a>
+						<a href="/?kwd=ブルーレイレコーダー&minPrice=0&maxPrice=0" class="itemName">ブルーレイレコーダー</a>
+						<a href="/?kwd=加湿器&minPrice=0&maxPrice=0" class="itemName">加湿器</a>
+						<a href="/?kwd=冷暖房&minPrice=0&maxPrice=0" class="itemName">冷暖房</a>
+					</td>
+
+                    <td>
+                        <a href="/?kwd=カメラ&minPrice=0&maxPrice=0" class="">
+                            <img src="./static/images/menu/camera.gif" width='76' height='76' alt="ロゴ"/>
+                        </a>
+                        <div class="link">
+						<a href="/?kwd=カメラ&minPrice=0&maxPrice=0">
+						カメラ</a>
+						</div>
+						<a href="/?kwd=デジタルカメラ&minPrice=0&maxPrice=0" class="itemName">デジタルカメラ</a>
+						<a href="/?kwd=一眼レフカメラ&minPrice=0&maxPrice=0" class="itemName">一眼レフカメラ</a>
+						<a href="/?kwd=ビデオカメラ&minPrice=0&maxPrice=0" class="itemName">ビデオカメラ</a>
+						<a href="/?kwd=交換レンズ&minPrice=0&maxPrice=0" class="itemName">交換レンズ</a>
+					</td>
+
+
+                    <td>
+                        <a href="/?kwd=携帯電話&minPrice=0&maxPrice=0" class="">
+                            <img src="./static/images/menu/phone.gif" width='76' height='76' alt="ロゴ"/>
+                        </a>
+                        <div class="link">
+						<a href="/?kwd=携帯電話&minPrice=0&maxPrice=0">
+						携帯電話</a>
+						</div>
+						<a href="/?kwd=スマートフォン&minPrice=0&maxPrice=0" class="itemName">スマートフォン</a>
+						<a href="/?kwd=スマホケース&minPrice=0&maxPrice=0" class="itemName">スマホケース</a>
+						<a href="/?kwd=スマホ周辺機器&minPrice=0&maxPrice=0" class="itemName">スマホ周辺機器</a>
+					</td>
+
+                    <td>
+                        <a href="/?kwd=ファッション&minPrice=0&maxPrice=0" class="">
+                            <img src="./static/images/menu/fashion.gif" width='76' height='76' alt="ロゴ"/>
+                        </a>
+                        <div class="link">
+						<a href="/?kwd=ファッション&minPrice=0&maxPrice=0">
+						ファッション</a>
+						</div>
+						<a href="/?kwd=ブランド品&minPrice=0&maxPrice=0" class="itemName">ブランド品</a>
+						<a href="/?kwd=バッグ&minPrice=0&maxPrice=0" class="itemName">バッグ</a>
+						<a href="/?kwd=財布&minPrice=0&maxPrice=0" class="itemName">財布</a>
+						<a href="/?kwd=アウター&minPrice=0&maxPrice=0" class="itemName">アウター</a>
+					</td>
+                </tr>
+
+
+                <tr>
+                    <td>
+                        <a href="/?kwd=腕時計&minPrice=0&maxPrice=0" class="">
+                            <img src="./static/images/menu/watch.gif" width='76' height='76' alt="ロゴ"/>
+                        </a>
+                        <div class="link">
+						<a href="/?kwd=腕時計&minPrice=0&maxPrice=0">
+						腕時計</a>
+						</div>
+						<a href="/?kwd=アクセサリー&minPrice=0&maxPrice=0" class="itemName">アクセサリー</a>
+						<a href="/?kwd=指輪&minPrice=0&maxPrice=0" class="itemName">指輪</a>
+						<a href="/?kwd=ネックレス&minPrice=0&maxPrice=0" class="itemName">ネックレス</a>
+						<a href="/?kwd=ピアス&minPrice=0&maxPrice=0" class="itemName">ピアス</a>
+					</td>
+
+
+                    <td>
+                        <a href="/?kwd=家具&minPrice=0&maxPrice=0" class="">
+                            <img src="./static/images/menu/kagu.gif" width='76' height='76' alt="ロゴ"/>
+                        </a>
+                        <div class="link">
+						<a href="/?kwd=家具&minPrice=0&maxPrice=0">
+						家具</a>
+						</div>
+						<a href="/?kwd=ソファ&minPrice=0&maxPrice=0" class="itemName">ソファ</a>
+						<a href="/?kwd=ベッド&minPrice=0&maxPrice=0" class="itemName">ベッド</a>
+						<a href="/?kwd=パソコンデスク&minPrice=0&maxPrice=0" class="itemName">パソコンデスク</a>
+					</td>
+
+                    <td>
+                        <a href="/?kwd=雑貨&minPrice=0&maxPrice=0" class="">
+                            <img src="./static/images/menu/zakka.gif" width='76' height='76' alt="ロゴ"/>
+                        </a>
+                        <div class="link">
+						<a href="/?kwd=雑貨&minPrice=0&maxPrice=0">
+						雑貨</a>
+						</div>
+						<a href="/?kwd=文具&minPrice=0&maxPrice=0" class="itemName">文具</a>
+						<a href="/?kwd=日用品&minPrice=0&maxPrice=0" class="itemName">日用品</a>
+						<a href="/?kwd=旅行用品&minPrice=0&maxPrice=0" class="itemName">旅行用品</a>
+						<a href="/?kwd=介護用品&minPrice=0&maxPrice=0" class="itemName">介護用品</a>
+					</td>
+
+                    <td>
+                        <a href="/?kwd=ビューティー&minPrice=0&maxPrice=0" class="">
+                            <img src="./static/images/menu/beauty.gif" width='76' height='76' alt="ロゴ"/>
+                        </a>
+                        <div class="link">
+						<a href="/?kwd=ビューティー&minPrice=0&maxPrice=0">
+						ビューティー</a>
+						</div>
+						<a href="/?kwd=コスメ&minPrice=0&maxPrice=0" class="itemName">コスメ</a>
+						<a href="/?kwd=コンタクトレンズ&minPrice=0&maxPrice=0" class="itemName">コンタクトレンズ</a>
+						<a href="/?kwd=健康食品&minPrice=0&maxPrice=0" class="itemName">健康食品</a>
+						<a href="/?kwd=サプリメント&minPrice=0&maxPrice=0" class="itemName">サプリメント</a>
+					</td>
+
+                    <td>
+                        <a href="/?kwd=アウトドア&minPrice=0&maxPrice=0" class="">
+                            <img src="./static/images/menu/outdoor.gif" width='76' height='76' alt="ロゴ"/>
+                        </a>
+                        <div class="link">
+						<a href="/?kwd=アウトドア&minPrice=0&maxPrice=0">
+						アウトドア</a>
+						</div>
+						<a href="/?kwd=ゴルフ用品&minPrice=0&maxPrice=0" class="itemName">ゴルフ用品</a>
+						<a href="/?kwd=自転車&minPrice=0&maxPrice=0" class="itemName">自転車</a>
+						<a href="/?kwd=ジョギング&minPrice=0&maxPrice=0" class="itemName">ジョギング</a>
+						<a href="/?kwd=キャンプ用品&minPrice=0&maxPrice=0" class="itemName">キャンプ用品</a>
+					</td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        <a href="/?kwd=ベビー&minPrice=0&maxPrice=0" class="">
+                            <img src="./static/images/menu/baby.gif" width='76' height='76' alt="ロゴ"/>
+                        </a>
+                        <div class="link">
+						<a href="/?kwd=ベビー&minPrice=0&maxPrice=0">
+						ベビー</a>
+						</div>
+						<a href="/?kwd=チャイルドシート&minPrice=0&maxPrice=0" class="itemName">チャイルドシート</a>
+						<a href="/?kwd=ベビーカー&minPrice=0&maxPrice=0" class="itemName">ベビーカー</a>
+						<a href="/?kwd=ベビー服&minPrice=0&maxPrice=0" class="itemName">ベビー服</a>
+					</td>
+
+
+                    <td>
+                        <a href="/?kwd=キッチン用品&minPrice=0&maxPrice=0" class="">
+                            <img src="./static/images/menu/kitchen.gif" width='76' height='76' alt="ロゴ"/>
+                        </a>
+                        <div class="link">
+						<a href="/?kwd=キッチン用品&minPrice=0&maxPrice=0">
+						キッチン用品</a>
+						</div>
+						<a href="/?kwd=キッチン家電&minPrice=0&maxPrice=0" class="itemName">キッチン家電</a>
+						<a href="/?kwd=鍋&minPrice=0&maxPrice=0" class="itemName">鍋</a>
+						<a href="/?kwd=フライパン&minPrice=0&maxPrice=0" class="itemName">フライパン</a>
+						<a href="/?kwd=調理器具&minPrice=0&maxPrice=0" class="itemName">調理器具</a>
+					</td>
+
+                </tr>
+            </table>
+		</div><!-- /メニューブロック ここまで-->
+
+<br clear="all">
+
+{% if init %}
+{%include "pr.html"%}
+{% endif %}
+
+<p>スポンサーリンク</p>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- rectangle_big_all_20150717 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-3810749367860510"
+     data-ad-slot="9200343519"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- rectangle_big_all_20150717 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-3810749367860510"
+     data-ad-slot="9200343519"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<br/>
+<br/>
+
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- リンク広告　横長（大） -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:728px;height:15px"
+     data-ad-client="ca-pub-3810749367860510"
+     data-ad-slot="9256631912"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+　<span class="right">スポンサーリンク</span>
+
+<br/>
+<br/>
+
+            <div class="footer clrF">
+                <p><img src="./static/images/info/unei01.gif" alt="logo"/></p>
+<p><a href="./static/policy.html" target="_blank">プライバシーポリシー・お問い合わせ</a></p>
+            </div><!-- /.footer -->
+        </div>
+        <p>
+            <div class="ads">
+<div id="adleft">
+        <!-- Begin Yahoo! JAPAN Web Services Attribution Snippet -->
+<a href="http://developer.yahoo.co.jp/about">
+<img src="http://i.yimg.jp/images/yjdn/yjdn_attbtn1_125_17.gif" title="Webサービス by Yahoo! JAPAN" alt="Web Services by Yahoo! JAPAN" width="125" height="17" border="0" style="margin:15px 15px 15px 15px"></a><!-- End Yahoo! JAPAN Web Services Attribution Snippet --></div>
+<div id="adright">
+<!-- Rakuten Web Services Attribution Snippet FROM HERE --><a href="http://webservice.rakuten.co.jp/" target="_blank"><img src="http://webservice.rakuten.co.jp/img/credit/200709/credit_22121.gif" border="0" alt="楽天ウェブサービスセンター" title="楽天ウェブサービスセンター" width="221" height="21"/></a>
+<!-- Rakuten Web Services Attribution Snippet TO HERE --></div>
+</div>
+</div><!-- /.wrapper -->
+
+
+<!-- Yahoo universal tag -->
+<script type="text/javascript">
+  (function () {
+    var tagjs = document.createElement("script");
+    var s = document.getElementsByTagName("script")[0];
+    tagjs.async = true;
+    tagjs.src = "//s.yjtag.jp/tag.js#site=qyKl9Qh";
+    s.parentNode.insertBefore(tagjs, s);
+  }());
+</script>
+<noscript>
+  <iframe src="//b.yjtag.jp/iframe?c=qyKl9Qh" width="1" height="1" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe>
+</noscript>
+
+
+<script type="text/javascript">
+//<![CDATA[
+var cvgHost = (("https:" == document.location.protocol) ? "https://ssl.cv-get.com:10443" : "http://cv-get.com");
+document.write(unescape("%3Cscript src='" + cvgHost + "/checker/tag?s=1723&k=650b98a748472762c7f6572c0eb592f8' type='text/javascript'%3E%3C/script%3E"));
+
+// V20130718
+jQuery('.x-cvglink').click(
+function(event){
+var slp = function(t){var d1=d2=new Date().getTime();while(d2<d1+t){d2=new Date().getTime()};return;};
+var $l=jQuery(this);var gid=$l.data('cvgGid');var cvgHost = (("https:" == document.location.protocol) ? "https://ssl.cv-get.com:10443" : "http://cv-get.com");
+var url = cvgHost + "/checker/logging?site_id=1723&key=650b98a748472762c7f6572c0eb592f8&url=" + encodeURIComponent(document.URL) + '&referrer=' + escape(document.referrer) + '&title=' + encodeURIComponent(document.title) + '&fg=1' + '&goal_id=' + gid;
+jQuery.ajax({type:'GET',url:url,dataType:'jsonp',crossDomain:true,cache:false,complete:function(data){}});slp(700);
+});
+
+//]]>
+</script>
+
+</body>
+</html>

@@ -37,7 +37,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'pwprice',
-#    'templatetag_handlebars'
+    'templatetag_handlebars'
 )
 
 MIDDLEWARE_CLASSES = (
@@ -95,7 +95,7 @@ YAHOO_S_URL = "http://shopping.yahooapis.jp/ShoppingWebService/V1/json/itemSearc
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
-SITE_DOMAIN = os.environ.get('', '127.0.0.1:8080')
+SITE_DOMAIN = os.environ.get('', '127.0.0.1:8000')
 
 STATIC_ROOT = os.path.join(os.path.dirname(__file__), 'static')
 

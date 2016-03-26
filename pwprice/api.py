@@ -47,8 +47,7 @@ class ApiUtill(object):
     def exchangeRakuten(datas):
         results = []
         locale.setlocale(locale.LC_NUMERIC, 'ja_JP')
-        af_url = "http://c.af.moshimo.com/af/c/click?a_id=465153&p_id=54&pc_id=54&pl_id=616&url="
-
+        af_url = "http://c.af.moshimo.com/af/c/click?a_id=563064&p_id=54&pc_id=54&pl_id=616&url="
         for data in datas:
             data = data['Item']
             res = {"itemName":data['itemName'][:30],
