@@ -1,7 +1,7 @@
 /* ===================================================================
 
  * スムーススクロール
- 
+
 =================================================================== */
 $(function(){
    // #で始まるアンカーをクリックした場合に処理
@@ -170,7 +170,7 @@ Handlebars.registerHelper('relationalCreate', function(relational) {
 
   var result = '';
   if(typeof relational == "object"){
-    result = '<a href="http://www.pw-price.com/?kwd='+ relational.Query +'">'+ relational.Query +'</a>';
+    result = '<a href="http://best-low-price.jp/?kwd='+ relational.Query +'">'+ relational.Query +'</a>';
   }else if(!relational){
     result = '-';
   }
@@ -195,7 +195,7 @@ function getdailyList(){
 
         var template = Handlebars.compile($('#daily').html());
 
-        $('.dailyList').append(template(data));
+        $('.daily_list').append(template(data));
       }
    });
 }

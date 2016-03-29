@@ -16,7 +16,16 @@
   <link rel="stylesheet" href="{%static "css/common.css"%}" type="text/css" />
   <link rel="stylesheet" href="./prettyPhoto.css" type="text/css" media="screen" title="prettyPhoto main stylesheet"
         charset="utf-8">
-<script type="text/javascript" src="./static/js/common.js"></script>
+    <script type="text/javascript" src="./static/js/jquery.js"></script>
+    <script type="text/javascript" src="./static/js/handlebars-v4.0.4.js"></script>
+    <script type="text/javascript" src="./static/js/dateformat.js"></script>
+    <script>
+    var jan = '{{jan}}';
+    var category = '{{category}}';
+    var is_crl = 0;
+    </script>
+
+  <script type="text/javascript" src="./static/js/common.js"></script>
   <link href="./css" rel="stylesheet" type="text/css">
 
   <style id="style-1-cropbar-clipper">/* Copyright 2014 Evernote Corporation. All rights reserved. */
@@ -60,7 +69,7 @@
       </div>
     </div>
   </div>
-<div class="wrapper">
+
   <!-- アイテム画像表示 -->
   <div align="center">
 
@@ -73,46 +82,6 @@
       <input id="searchPattern" type="search" name="kwd" class="searchtext" value="{{kwd}}" placeholder="キーワード">
       <input type="submit" value="検索">
     </form>
-
-    <div class="itemPriceBlock clrF">
-      <ul class="resultHeader">
-        <li>
-          <div class="logo"><a
-                  href=""
-            target="_blank" class="x-cvglink" data-cvg-gid="7292" ><img
-                    src="./static/images/block3/amazon30.gif" alt="amazon"/></a></div>
-        </li>
-        <li>
-          <div class="logo"><a
-                  href="" target="_blank"
-            class="x-cvglink" data-cvg-gid="7293"><img src="./static/images/block3/rakuten30.gif"
-                                                       alt="rakuten"/><a/></div>
-        </li>
-        <li>
-          <div class="logo"><a
-                  href="" target="_blank"
-            class="x-cvglink" data-cvg-gid="7290" ><img src="./static/images/block3/yahoo30.gif" alt="yahoo"/
-            class="x-cvglink" data-cvg-gid="7290"></a></div>
-        </li>
-        <li>
-          <div class="logo"><a
-                  href="" target="_blank" ><img
-                  src="./static/images/block3/ponpar30.gif" alt="ponpar"/></a></div>
-        </li>
-        <li>
-          <div class="logo"><a
-                  href="" target="_blank"
-            class="x-cvglink" data-cvg-gid="7291"><img src="./static/images/block3/yahooauc30.gif"
-                                                       alt="yahooauc"/></a></div>
-        </li>
-      </ul><!-- /.resultService -->
-      {% for i in "01234"%}
-
-      {{ i|getMatrix:results}}
-      {% endfor %}
-
-    </div>
-
 
     <div class="container">
     <div class="row">
@@ -127,64 +96,23 @@
             <th>価格</th>
             <th>ショップ</th>
           </tr>
+          {% for d in praice_results %}
           <tr>
-            <td class="rank">1位</td>
-            <td class="price">3000円</td>
-            <td class="shop">AAAAAショップ</td>
+            <td class="rank">{{forloop.counter}}位</td>
+            <td class="price"><a href="{{d.itemUrl}}" class="linkCol" target="_blank">¥{{d.itemPrice}}</a></td>
+            <td class="shop"><a href="{{d.itemUrl}}" class="linkCol" target="_blank">{{d.shopName}}</a></td>
           </tr>
-          <tr>
-            <td class="rank">2位</td>
-            <td class="price">3500円</td>
-            <td class="shop">BBBBBショップ</td>
-          </tr>
+          {% endfor %}
           </tbody>
         </table>
       </div>
-      <div class="col-md-4 project">
+      {% include "dairy.html" %}
 
-        <h3 class="similar-items">関連商品一覧</h3>
-        <table id="item">
-          <tbody>
-          <tr>
-            <td class="image">
-              <img src="./LOW Price 最安値検索_files/digitamin_zm86">
-            </td>
-            <td class="name">ルフィ フィギュアA
-                                                               <span class="ranking">&gt;最安値ランキングへ<span>
-                                              </span></span></td>
-
-          </tr>
-          <tr>
-          </tr>
-          <tr>
-            <td class="image">
-              <img src="./LOW Price 最安値検索_files/make-netshop_150-041">
-            </td>
-            <td class="name">ルフィ フィギュアB
-              <span class="ranking">&gt;最安値ランキングへ</span>
-            </td>
-
-          </tr>
-
-          </tbody>
-        </table>
-
-
-      </div>
-      <div class="col-md-4 project">
-
-        <h3 class="similar-words">関連キーワード</h3>
-        <p class="Similar">類似ワード　１</p>
-        <p class="Similar">類似ワード　２</p>
-
-        <div align="center">AD</div>
-
-
-      </div>
+      {% include "kwd.html" %}
     </div>
   </div>
-</div>
-  {% include "dairy.html" %}
+
+
   <div class="lineBlack">
     <div class="container">
       <div class="row downLine">

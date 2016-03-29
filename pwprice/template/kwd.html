@@ -1,31 +1,17 @@
-        <!-- keywordBlock -->
-        <div class="keywordBlock clrF">
-            <div class="blockTitle clrF">
-                <img src="./static/images/kwrank/title.gif" alt="title">
-                <p>当サイトで検索されたキーワードとその関連キーワードを表示しています。</p>
-            </div>
-            <table class="keywordTable">
-                <script id="keyword" type="text/x-handlebars-template">
-                    {% verbatim %}
-                    {{#each Result}}
-                    {{#if _attributes}}
-                    <tr>
-                        <td class="keywordRnkIcon">
-                            <img src="./static/images/kwrank/rank{{_attributes.rank}}.gif">
-                        </td>
-                        <td class="keywordArrow">
-                            <img src="./static/images/kwrank/{{_attributes.vector}}.gif">
-                        </td>
-                        <td class="keywordRnk1">
-                            <a href="/?kwd={{Query}}">{{Query}}</a>
-                        </td>
-                        {{#each Relational}}
-                            <td>{{{relationalCreate this}}}</td>
-                        {{/each}}
-                    </tr>
-                    {{/if}}
-                    {{/each}}
-                    {% endverbatim %}
-                    </script>
-            </table>
-        </div><!-- /.keywordBlock -->
+<!-- keywordBlock -->
+<div class="col-md-4 project">
+  <div class="keywordTable">
+    <h3 class="similar-words">関連キーワード</h3>
+    <script id="keyword" type="text/x-handlebars-template">
+      {% verbatim %}
+      {{#each Result}}
+      {{#if _attributes}}
+        <p class="Similar"><a href="/?kwd={{Query}}">{{Query}}</a></p>
+      {{/if}}
+      {{/each}}
+      {% endverbatim %}
+    </script>
+  </div>
+  <div align="center">AD</div>
+</div><!-- /.keywordBlock -->
+
