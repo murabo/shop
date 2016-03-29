@@ -4,6 +4,7 @@ import urllib
 #import settings
 import json
 
+from django.conf import settings
 from django.http.response import JsonResponse
 from django.views.generic import View
 from pwprice.api import ApiUtill
@@ -51,7 +52,7 @@ def _get_yahoo_reiew(jan, hits=20):
     param_dict = {
         'jan': jan,
 #        'appid': settings.YAHOO_S_ID,
-        'appid': 'dj0zaiZpPXQ4MjlYTUdRZzBOSyZzPWNvbnN1bWVyc2VjcmV0Jng9ZWM-',
+        'appid': settings.YAHOO_S_ID,
         'hits':hits,
     }
     param = urllib.urlencode(param_dict)
@@ -64,7 +65,7 @@ def _get_yahoo_keyword_ranking(hits=10):
     url = "http://shopping.yahooapis.jp/ShoppingWebService/V1/json/queryRanking?"
 
     param_dict = {
-        'appid': 'dj0zaiZpPXQ4MjlYTUdRZzBOSyZzPWNvbnN1bWVyc2VjcmV0Jng9ZWM-',
+        'appid': settings.YAHOO_S_ID,
         'hits': hits,
     }
     param = urllib.urlencode(param_dict)
@@ -83,7 +84,7 @@ def _get_yahoo_ranking(category=None, hits=10):
     url = "http://shopping.yahooapis.jp/ShoppingWebService/V1/categoryRanking?"
 
     param_dict = {
-        'appid': 'dj0zaiZpPXQ4MjlYTUdRZzBOSyZzPWNvbnN1bWVyc2VjcmV0Jng9ZWM-',
+        'appid': settings.YAHOO_S_ID,
         'hits': hits,
         'period': 'daily',
     }
