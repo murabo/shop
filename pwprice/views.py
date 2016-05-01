@@ -27,6 +27,9 @@ def home(request, kwd=u"アウトレット"):
     ctxt.update(csrf(request))
     cache_keys = []
 
+    if u'kwd' in request.GET:
+        kwd = request.GET[u'kwd']
+        return redirect("/"+urllib.quote(kwd.encode('utf-8')))
 
     # 検索処理
     if kwd:
