@@ -17,26 +17,20 @@ import urllib
 from models import NgFilter
 
 
+def direct_view(request, tmp_name):
+    return render_to_response("%s.html" % tmp_name )
+
 @csrf_protect
-def home(request):
+def home(request, kwd=u"アウトレット"):
 
     ctxt = {}
     ctxt.update(csrf(request))
+    cache_keys = []
 
-    if not "kwd" in request.GET:
-        request.GET = QueryDict("kwd=アウトレット&i=1")
-
-    if _check_crawler_ua(request):
-
-        ctxt.update({'kwd': request.GET[u"kwd"].encode('utf-8'),
-                     'init': 1 if "i" in request.GET and request.GET["i"] else 0,
-                    })
-        ctxt = RequestContext(request, ctxt)
-        return render_to_response("crawler_index.html",ctxt)
 
     # 検索処理
-    if "kwd" in request.GET and request.GET[u"kwd"]:
-        kwds = request.GET[u"kwd"].split()
+    if kwd:
+        kwds = kwd.encode('utf-8').split()
         ng_list1 = _get_redis("ng_1")
         try:
             ng_filter = NgFilter.objects.get(pk=1)
@@ -46,7 +40,7 @@ def home(request):
                 ng_list1 = ng_filter.ng_1.encode('utf-8').split('\r\n')
         except:
             ng_list1=[]
-        if _check_ng(request.GET[u"kwd"].encode('utf-8'), ng_list1):
+        if _check_ng(kwd.encode('utf-8'), ng_list1):
             request.GET = QueryDict("kwd=アウトレット&i=1")
 
         try:
@@ -58,9 +52,9 @@ def home(request):
         except:
             ng_list2 = []
         # キャッシュ用の処理
-        cache_keys = []
-        for kwd in kwds:
-            cache_keys.append(hashlib.sha224(kwd.encode('utf-8')).hexdigest())
+
+        for k in kwds:
+            cache_keys.append(hashlib.sha224(k).hexdigest())
 
         if "minPrice" in request.GET:
             ctxt.update({'minPrice': request.GET[u"minPrice"]})
@@ -77,7 +71,7 @@ def home(request):
 
         cache_keys.sort()
 
-        ctxt.update({'kwd': request.GET[u"kwd"].encode('utf-8'),
+        ctxt.update({'kwd': kwd.encode('utf-8'),
                      'cache_keys':cache_keys,
                      'sort': 1 if "sort" in request.GET and request.GET["sort"] else 0,
                      'jan': '' if not "rec" in request.GET else request.GET[u"rec"].encode('utf-8'),
@@ -86,7 +80,7 @@ def home(request):
                      'buynow': 1 if "buynow" in request.GET and request.GET["buynow"]  == u'1'else 0,
                      'shipping': 1 if "shipping" in request.GET and request.GET["shipping"] else 0,
                      'init': 1 if "i" in request.GET and request.GET["i"] else 0,
-                     'ng': _check_ng(request.GET[u"kwd"].encode('utf-8'), ng_list2),
+                     'ng': _check_ng(kwd.encode('utf-8'), ng_list2),
                     })
 
         ctxt.update({"results": BridgeApi.getAll(ctxt)})

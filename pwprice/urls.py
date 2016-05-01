@@ -5,6 +5,7 @@ from django.conf import settings
 admin.autodiscover()
 
 urlpatterns = patterns('',
+    url(r'^(?P<kwd>[^/]+(?u))/$', 'pwprice.views.home', name='home'),
     url(r'^$', 'pwprice.views.home', name='home'),
     url(r'^api/',include('pwprice.pp_api.urls')),
 )
