@@ -1,7 +1,6 @@
 # encoding:utf-8
 import redis
 import mojimoji
-import settings
 import hashlib
 from django.template import RequestContext
 from django.shortcuts import render_to_response
@@ -11,7 +10,7 @@ from django.http import QueryDict
 from django.core.context_processors import csrf
 from django.views.decorators.csrf import csrf_protect
 from django.shortcuts import redirect
-from api import BridgeApi, Cache
+from api import BridgeApi
 from constants import CRAWLER_USER_AGENT
 import urllib
 from models import NgFilter
@@ -29,7 +28,7 @@ def home(request, kwd=u"アウトレット"):
 
     if u'kwd' in request.GET:
         kwd = request.GET[u'kwd']
-        return redirect("/"+urllib.quote(kwd.encode('utf-8')))
+        return redirect("/"+urllib.quote(kwd.encode('utf-8').replace("/","%2f")))
 
     # 検索処理
     if kwd:
@@ -74,7 +73,7 @@ def home(request, kwd=u"アウトレット"):
 
         cache_keys.sort()
 
-        ctxt.update({'kwd': kwd.encode('utf-8'),
+        ctxt.update({'kwd': kwd.encode('utf-8').replace("%2f", "/"),
                      'cache_keys':cache_keys,
                      'sort': 1 if "sort" in request.GET and request.GET["sort"] else 0,
                      'jan': '' if not "rec" in request.GET else request.GET[u"rec"].encode('utf-8'),
