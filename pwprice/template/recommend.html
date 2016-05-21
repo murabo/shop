@@ -1,0 +1,21 @@
+<!-- recommendBlock -->
+<div class="col-md-4 project">
+  <h3 class="similar-items">オススメ商品一覧</h3>
+  <table class="daily_list">
+    <tbody>
+    {% for d in results.jandata %}
+    <tr>
+      <td class="image">
+        <a href="/?kwd={{d.jan.0}}"><img src="{{d.imageUrl}}"></a>
+      </td>
+      <td class="name">
+        <a href="/?kwd={{d.jan.0}}">{{name}}
+          <span class="ranking">{{d.itemName}}</span>
+        </a>
+      </td>
+    </tr>
+    {%endfor%}
+    </tbody>
+  </table>
+  </script>
+</div><!-- /.recommendBlock -->
