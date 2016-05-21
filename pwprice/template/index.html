@@ -4,13 +4,15 @@
 <html lang="ja">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <title>LOW Price 最安値検索</title>
+  <title>{{kwd}} 最安値検索</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="./static/css/reset.css" type="text/css" />
+  <meta name="keywords" content="{{kwd}}">
+   <link rel="stylesheet" href="http://ss-innovation.sakura.ne.jp/afili/css/custom.css" type="text/css" />
+  <link rel="stylesheet" href="/static/css/reset.css" type="text/css" />
   <link rel="stylesheet" type="text/css" href="{%static "css/style.css"%}">
   <link rel="stylesheet" type="text/css" href="{%static "css/bootstrap.css"%}">
-  <link rel="stylesheet" type="text/css" href="{%static "css/font-awesome.css"%}">
+  <link rel="stylesheet" type="text/css" href="{%static "css/font-awesome/css/font-awesome.min.css"%}">
   <link rel="stylesheet" id="camera-css" href="{%static "css/camera.css"%}" type="text/css" media="all">
   <link rel="stylesheet" type="text/css" href="{%static "css/slicknav.css"%}">
   <link rel="stylesheet" href="{%static "css/common.css"%}" type="text/css" />
@@ -42,6 +44,39 @@
     margin-left: 0px !important;
     }
   </style>
+<!-- Dot metrix -->
+<script type='text/javascript'>
+  (function(doc, dm) {
+    if (!dm.VERSION) {
+      window.dotmetrix = dm;
+
+      dm._queue = [];
+      dm.init = function(api_token, b, c) {
+        dm.API_TOKEN = api_token;
+        function f(dm, fname) { dm[fname] = function() { dm._queue.push([fname].concat([].slice.call(arguments, 0))); } }
+        var functions = 'track identify set'.split(' ');
+        for (var i = 0; i < functions.length; i++) f(dm, functions[i]);
+      };
+
+      s = doc.createElement("script"); s.type = "text/javascript"; s.async = !0; s.src = "https://api.dot-metrix.com/dot-metrix.p.js"; e = doc.getElementsByTagName("script")[0]; e.parentNode.insertBefore(s, e);
+    }
+  })(document, window.dotmetrix || {});
+  dotmetrix.init('acUyQqMYJXRiAqwBq5_2');
+</script>
+<!-- /Dot metrix -->
+
+<!-- analytics -->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-46662687-11', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
 </head>
 <body>
 
@@ -52,9 +87,9 @@
         <div class="row">
           <div class="logo col-md-4">
             <div>
-              <a href="http://ss-innovation.sakura.ne.jp/afili/#">
-                LOW Price - 最安値検索 -
-                <span class="subtitle">すべてのECサイトから最安値を探せるサイトです</span>
+              <a href="http://best-low-price.jp/">
+               <h1 style="font-size:18px;margin-top:5px;">Low Price 最安値検索 <i class="fa fa-search-plus" aria-hidden="true"></i></h1>
+                <span class="subtitle">すべてのECサイトから最安値を探せるサイト</span>
               </a>
             </div>
           </div>
@@ -80,7 +115,7 @@
 
     <form method="get" action="{% url 'home' %}">
       <input id="searchPattern" type="search" name="kwd" class="searchtext" value="{{kwd}}" placeholder="キーワード">
-      <input type="submit" value="検索">
+      <input type="submit" value="検索" id="submit">
     </form>
 
     <div class="container">
@@ -105,13 +140,32 @@
           {% endfor %}
           </tbody>
         </table>
+</br>
+{{kwd}}の最安値を各ショップで検索
+ <h4 class="ec-link"><a href="http://www.amazon.co.jp/gp/search?ie=UTF8&camp=247&creative=1211&index=aps&keywords={{kwd}}&linkCode=ur2&tag=lilyrx8-22" target="_brunk"><i class="fa fa-amazon" aria-hidden="true"></i> Amazonでチェック</a></h4>
+
+ <h4 class="ec-link"><a href="http://hb.afl.rakuten.co.jp/hgc/14497c3f.1000e3a5.14497c40.b392843f/?pc=http://search.rakuten.co.jp/search/mall?sitem={{kwd}}" target="_brunk">楽天でチェック</a></h4>
+
+ <!-- <h4 class="ec-link">YAHOOでチェック</h4>
+
+ <h4 class="ec-link">ポンパレでチェック</h4> -->
+
+ <div class="clear"></div>
+
       </div>
       {% include "dairy.html" %}
 
       {% include "kwd.html" %}
+
     </div>
   </div>
 
+<h3 class="card">▼ショッピングをお得にするマル秘テク▼</h3>
+
+<!-- 楽天カード -->
+<div class="rakuten-card">
+<a href="http://hb.afl.rakuten.co.jp/hsc/14edf19d.aee4ca6a.14edf19c.cce06396/" target="_blank"><img src="http://ss-innovation.sakura.ne.jp/afili/images/rakuten_card.png"></a>
+</div>
 
   <div class="lineBlack">
     <div class="container">
