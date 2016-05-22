@@ -107,4 +107,4 @@ TEMPLATE_DIRS = (
                  # Don't forget to use absolute paths, not relative paths.
                  'pwprice/template',
                  )
-TEMPLATE_CONTEXT_PROCESSORS = ('django.core.context_processors.request',)
+#TEMPLATE_CONTEXT_PROCESSORS = ('django.core.context_processors.request',)
