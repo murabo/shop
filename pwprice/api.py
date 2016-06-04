@@ -1,9 +1,11 @@
 # encoding:utf-8
+from bs4 import BeautifulSoup
 
 import settings
 import hashlib
 import urllib
 import json
+from bottlenose import api
 
 import redis
 import time
@@ -91,15 +93,17 @@ class ApiUtill(object):
     def exchangeAmazon(cls, datas):
         locale.setlocale(locale.LC_NUMERIC, 'ja_JP')
         results = []
+        soup = BeautifulSoup(str(datas))
+        datas = soup.findAll('item')
         for data in datas:
-
-            results.append({"itemName":data['title'][:30],
-                           "itemPrice":locale.format('%d', data['price'], True),
-                           "itemPriceP":data['price'],
-                           "itemUrl":data['link'],
-                           "imageUrl":data['imageFree']['url'],
+            price = data.find('price').find('amount').text if data.find('price') else ""
+            results.append({"itemName":data.find('title').text[:30],
+                           "itemPrice":"%s" % locale.format('%d', int(price), True) if price else "詳細はコチラ",
+                           "itemPriceP":int(price) if price else 0,
+                           "itemUrl":data.find('detailpageurl').text,
+                           "imageUrl":data.find('mediumimage').find('url').text if data.find('mediumimage') else "http://ec1.images-amazon.com/images/G/09/nav2/dp/no-image-no-ciu.gif",
                            "ec":"amazon",
-                           "shopName":data['subStoreName']}
+                           "shopName":'Amazon.co.jp'}
                        )
         return results
 
@@ -374,9 +378,41 @@ class BridgeApi(object):
     def getPonpare(cls, datas):
         return ApiUtill.exchangePonpare(datas)
 
+
     @classmethod
-    def getAmazon(cls, datas):
-        return ApiUtill.exchangeAmazon(datas)
+    def getAmazon(cls, ctxt, nocache=0, sort=''):
+
+        api_name = 'amazon'
+        AMAZON_ACCESS_KEY_ID="AKIAIF3J6MHVU4FEJXKA"
+        AMAZON_SECRET_KEY="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"
+        AMAZON_ASSOC_TAG="g05a-22"
+        SEARCH_INDEX = "All"
+
+        amazon = api.Amazon(AMAZON_ACCESS_KEY_ID, AMAZON_SECRET_KEY, AMAZON_ASSOC_TAG, Region="JP")
+        keys = ctxt['cache_keys']
+
+        keys.sort()
+        datas = Cache.getCacheData(api_name, keys, False)
+
+        if not datas or nocache:
+            kwd = ctxt['kwd'] if ctxt['kwd'] else ""
+            MaximumPrice = ctxt['maxPrice'] if 'maxPrice' in ctxt else "",
+            MinimumPrice = ctxt['minPrice'] if 'minPrice' in ctxt else ""
+            response = amazon.ItemSearch(SearchIndex=SEARCH_INDEX, Keywords=unicode(kwd,'utf-8',kwd), ItemPage=1, ResponseGroup="Large",
+                                         MaximumPrice=MaximumPrice, MinimumPrice=MinimumPrice)
+            soup = BeautifulSoup(response)
+            datas = soup.findAll('item')
+
+            if not nocache:
+                Cache.setCacheData(api_name, keys, datas, False)
+
+
+        datas = ApiUtill.exchangeAmazon(datas)
+
+        if ctxt['sort'] == 1:
+            datas = sorted(datas, key=lambda x:x['itemPriceP'])
+        return datas
+
 
 
     @classmethod
@@ -460,18 +496,23 @@ class Cache(object):
             return cls.getCacheData(name, keys)
 
     @classmethod
-    def setCacheData(cls, name, keys, data):
+    def setCacheData(cls, name, keys, data, is_json=True):
         # nameとkeyに、データをキャッシュ(24時間で解放)
         r = redis.StrictRedis(host='localhost', port=6379, db=0)
         str = ''
         for key in keys:
             str += key
-
-        result = r.setex('%s:%s' % (name, str), 36000, msgpack.packb(data))
+        try:
+            if is_json:
+                r.setex('%s:%s' % (name, str), 36000, msgpack.packb(data))
+            else:
+                r.setex('%s:%s' % (name, str), 36000, data)
+        except:
+            print "[Error] %s" % __name__
 
 
     @classmethod
-    def getCacheData(cls, name, keys):
+    def getCacheData(cls, name, keys, is_json=True):
         # nameとkeyに、キャッシュを読み込む
         r = redis.StrictRedis(host='localhost', port=6379, db=0)
         str = ''
@@ -479,5 +520,12 @@ class Cache(object):
             str += key
         result = r.get('%s:%s' % (name, str))
 
-        if result:
-            return msgpack.unpackb(result, encoding='utf-8')
+        try:
+            if result:
+                if is_json:
+                    return msgpack.unpackb(result, encoding='utf-8')
+                else:
+                    return result
+        except:
+            print "No result %s" % __name__
+            return ""
