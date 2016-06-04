@@ -15,6 +15,16 @@ from api import BridgeApi, Cache
 from constants import CRAWLER_USER_AGENT
 import urllib
 from models import NgFilter
+import csv
+
+
+
+#def make_csv():
+#    f = open('data.csv', 'ab')
+#    csvWriter = csv.writer(f)
+
+#    f.close()
+#    return
 
 
 @csrf_protect
