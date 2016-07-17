@@ -1,11 +1,11 @@
-# encoding:utf-8
-from bs4 import BeautifulSoup
+# -*- coding: utf-8 -*-
 
 import settings
 import hashlib
 import urllib
 import json
 from bottlenose import api
+from bs4 import BeautifulSoup
 
 import redis
 import time
@@ -96,15 +96,23 @@ class ApiUtill(object):
         soup = BeautifulSoup(str(datas))
         datas = soup.findAll('item')
         for data in datas:
+            #print data.find('title').text
+            #print data.find('title').text
+            url = data.find('detailpageurl').text
+            amazon_code = url.split("/dp/")[1].split("%3F")[0]
+            url = "http://ck.jp.ap.valuecommerce.com/servlet/referral?vs=3161331&vp=882991236&va=2294857&vc_url=http%3A%2F%2Fwww.amazon.jp%2Fdp%2F" + amazon_code
+
             price = data.find('price').find('amount').text if data.find('price') else ""
             results.append({"itemName":data.find('title').text[:30],
                            "itemPrice":"%s" % locale.format('%d', int(price), True) if price else "詳細はコチラ",
                            "itemPriceP":int(price) if price else 0,
-                           "itemUrl":data.find('detailpageurl').text,
+                           "itemUrl":url, #data.find('detailpageurl').text,
                            "imageUrl":data.find('mediumimage').find('url').text if data.find('mediumimage') else "http://ec1.images-amazon.com/images/G/09/nav2/dp/no-image-no-ciu.gif",
                            "ec":"amazon",
                            "shopName":'Amazon.co.jp'}
                        )
+
+        #print results
         return results
 
     @classmethod
@@ -159,12 +167,36 @@ class ApiUtill(object):
         return results
 
 
+    @staticmethod
+    def exchangeRakutenAuction(datas):
+        results = []
+        locale.setlocale(locale.LC_NUMERIC, 'ja_JP')
+        af_url = "http://c.af.moshimo.com/af/c/click?a_id=465153&p_id=54&pc_id=54&pl_id=616&url="
+
+
+        for data in datas:
+            data = data['Item']
+            res = {"itemName": data['itemName'][:30],
+                   #"itemPrice": locale.format('%d', data['itemPrice'], True),
+                   #"itemPriceP": data['itemPrice'],
+                   #"postageFlag": data['postageFlag'],
+                   "itemUrl": af_url + urllib.quote(data['itemUrl']),
+                   "shopName": "",
+                   "seller": data['shopName'],
+                   "ec": "rakuten",
+                   "imageUrl": data['mediumImageUrl'],
+                   "bids": data['bidCount']
+                   }
+            results.append(res)
+
+        return results
+
 
 class BridgeApi(object):
 
     EC_CODE_A = '038p6'
     EC_CODE_P = '0vbnk'
-    EC_CODE = '%s,%s' % (EC_CODE_A, EC_CODE_P)
+    EC_CODE = '%s' % (EC_CODE_P)
     SUGGEST = []
 
     YAHOO_DATA = []
@@ -226,6 +258,40 @@ class BridgeApi(object):
             return ApiUtill.exchangeRakuten(datas['Items'])
         return []
 
+
+    @classmethod
+    def getRaktenA(cls, ctxt, nocache=0, sort='standard', hits=20):
+        api_name = 'rakutenA'
+        param = {
+            'format': 'json',
+            'keyword': ctxt['kwd'] if not ctxt['jan'] else ctxt['jan'],
+            'applicationId': settings.RAKUTEN_APP_ID,
+            'imageFlag': '1',
+            'hits': hits,
+            'sort': sort if nocache or not ctxt['sort'] else "+itemPrice",
+            'postageFreeFlag': ctxt['shipping']}
+        if 'minPrice' in ctxt and ctxt['minPrice']:
+            param.update(minItemPrice = ctxt['minPrice'])
+        if 'maxPrice' in ctxt and ctxt['maxPrice']:
+            param.update(maxItemPrice=ctxt['maxPrice'])
+
+        param = urllib.urlencode(param)
+        keys = ctxt['cache_keys']
+        if ctxt['shipping']:
+            keys.append(hashlib.sha224("shipping").hexdigest())
+        keys.sort()
+        datas = Cache.getCacheData(api_name, keys)
+        if not datas or nocache:
+            datas = ApiUtill.callAPI(settings.RAKUTEN_A_API_URL, param)
+            datas = json.loads(datas)
+
+            if not nocache:
+                Cache.setCacheData(api_name, ctxt['cache_keys'], datas)
+
+        # 必要なデータだけに生成
+        if "Items" in datas:
+            return ApiUtill.exchangeRakutenAuction(datas['Items'])
+        return []
 
     @classmethod
     def getYahooS(cls, ctxt, nocache=0, sort='', hits=30):
@@ -383,12 +449,13 @@ class BridgeApi(object):
     def getAmazon(cls, ctxt, nocache=0, sort=''):
 
         api_name = 'amazon'
-        AMAZON_ACCESS_KEY_ID="AKIAIF3J6MHVU4FEJXKA"
-        AMAZON_SECRET_KEY="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"
-        AMAZON_ASSOC_TAG="g05a-22"
+        AMAZON_ACCESS_KEY_ID="AKIAIYQFSX7XIFKFTD4A"
+        AMAZON_SECRET_KEY="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"
+        AMAZON_ASSOC_TAG="fudousanouji-22"
         SEARCH_INDEX = "All"
 
         amazon = api.Amazon(AMAZON_ACCESS_KEY_ID, AMAZON_SECRET_KEY, AMAZON_ASSOC_TAG, Region="JP")
+
         keys = ctxt['cache_keys']
 
         keys.sort()
@@ -396,21 +463,22 @@ class BridgeApi(object):
 
         if not datas or nocache:
             kwd = ctxt['kwd'] if ctxt['kwd'] else ""
-            MaximumPrice = ctxt['maxPrice'] if 'maxPrice' in ctxt else "",
-            MinimumPrice = ctxt['minPrice'] if 'minPrice' in ctxt else ""
             response = amazon.ItemSearch(SearchIndex=SEARCH_INDEX, Keywords=unicode(kwd,'utf-8',kwd), ItemPage=1, ResponseGroup="Large",
-                                         MaximumPrice=MaximumPrice, MinimumPrice=MinimumPrice)
+                                         )
+            #print response
             soup = BeautifulSoup(response)
+            #print soup
             datas = soup.findAll('item')
-
+            #print datas
             if not nocache:
                 Cache.setCacheData(api_name, keys, datas, False)
 
 
         datas = ApiUtill.exchangeAmazon(datas)
+        #print "?",datas
 
-        if ctxt['sort'] == 1:
-            datas = sorted(datas, key=lambda x:x['itemPriceP'])
+        #if ctxt['sort'] == 1:
+        #    datas = sorted(datas, key=lambda x:x['itemPriceP'])
         return datas
 
 
@@ -418,11 +486,12 @@ class BridgeApi(object):
     @classmethod
     def getAll(cls, ctxt):
         amazon_data, ponpare_data = cls.createVC(ctxt)
-
+        #print "amazon ------", cls.getAmazon(ctxt)
         return {'rakuten': cls.getRakten(ctxt),
+                'rakuAuction': cls.getRaktenA(ctxt),
                 'yahoo_s': cls.getYahooS(ctxt),
                 'yahoo_a': cls.getYahooA(ctxt),
-                'amazon' : cls.getAmazon(amazon_data),
+                'amazon' : cls.getAmazon(ctxt),
                 'ponpare': cls.getPonpare(ponpare_data),
                 'jandata': cls.JAN_DATA
                 }
@@ -434,7 +503,7 @@ class BridgeApi(object):
         rakuten = cls.getRakten(ctxt, nocache=1, sort='+itemPrice', hits=10)
         yahoo_s = cls.getYahooS(ctxt, nocache=1, sort='+price', hits=10)
         #yahoo_a = cls.getYahooA(ctxt, nocache=1, sort='cbids')
-        amazon = cls.getAmazon(amazon_data)
+        amazon = cls.getAmazon(ctxt, nocache=1, )
         ponpare = cls.getPonpare(ponpare_data)
 
         datas = {'rakuten_p': rakuten,

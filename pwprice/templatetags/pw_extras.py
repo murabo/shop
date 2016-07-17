@@ -12,7 +12,7 @@ def getMatrix(num, args):
     rakuten = args['rakuten']
     yahoo_s = args['yahoo_s']
     ponpare = args['ponpare']
-    yahoo_a = args['yahoo_a']
+    yahoo_a = args['rakuAuction']
     if not len(amazon) and not len(rakuten) and not len(yahoo_a) and not len(yahoo_s) and not len(ponpare):
         return
     # Amazon 商品画像、商品名
