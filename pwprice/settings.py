@@ -59,8 +59,10 @@ WSGI_APPLICATION = 'pwprice.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+        'HOST': '127.0.0.1',
+        'NAME': 'pwprice',
+        'USER': 'root',
     }
 }
 
@@ -88,6 +90,7 @@ MOSHIMO_URL = "http://c.af.moshimo.com/af/c/click?a_id=%s&p_id=54&pc_id=54&pl_id
 
 VC_Y_A_URL = "http://ck.jp.ap.valuecommerce.com/servlet/referral?sid=3161331&pid=882992162&"
 RAKUTEN_API_URL = "https://app.rakuten.co.jp/services/api/IchibaItem/Search/20140222?"
+RAKUTEN_A_API_URL = "https://app.rakuten.co.jp/services/api/AuctionItem/Search/20130110?"
 VALUE_API_URL   = "http://webservice.valuecommerce.ne.jp/productdb/search?"
 YAHOO_S_URL = "http://shopping.yahooapis.jp/ShoppingWebService/V1/json/itemSearch?"
 YAHOO_A_URL = "http://auctions.yahooapis.jp/AuctionWebService/V2/search?"
